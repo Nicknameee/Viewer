@@ -19,13 +19,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapter
-{
+public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    ApplicationSecurityConfiguration(
-            @Qualifier("userDetailsImplementationService") UserDetailsService userDetailsService) {
+    ApplicationSecurityConfiguration
+            (@Qualifier("userDetailsImplementationService") UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
@@ -33,7 +32,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
     public void configure(WebSecurity web) {
         web
                 .ignoring()
-                .antMatchers("/resources/**", "/static/**" , "/scripts/**" , "/styles/**");
+                .antMatchers("/resources/**", "/static/**");
     }
 
     @Override
@@ -41,11 +40,16 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
         http
                 .csrf().disable()
                 .authorizeRequests()
+                /*
+                    Access to authentication part of application
+                 */
+                .antMatchers("/api/authentication/**").permitAll()
+                .antMatchers(HttpMethod.POST , "/api/mail/verification").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/LOGIN_URL").permitAll()
+                .loginPage("/api/authentication/login").permitAll()
                 .defaultSuccessUrl("/HOME_URL")
                 .and()
                 .logout()
@@ -57,8 +61,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
     }
 
     @Bean
-    protected PasswordEncoder passwordEncoder()
-    {
+    protected PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(6);
     }
 

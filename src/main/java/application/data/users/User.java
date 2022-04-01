@@ -6,6 +6,7 @@ import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Entity
@@ -23,6 +24,10 @@ public class User {
 
     @Column(name = "password")
     private String password;
+
+    @Column(name = "last_seen")
+    @Temporal(TemporalType.DATE)
+    private Date lastSeen;
 
     @Column(name = "role")
     @ColumnDefault(value = "USER")

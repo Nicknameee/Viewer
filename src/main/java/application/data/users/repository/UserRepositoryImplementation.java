@@ -1,6 +1,8 @@
 package application.data.users.repository;
 
 import application.data.users.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -8,6 +10,7 @@ import java.util.List;
 
 @Repository
 public class UserRepositoryImplementation {
+    private final Logger logger = LoggerFactory.getLogger(UserRepositoryImplementation.class);
     private final UserRepository userRepository;
 
     @Autowired
