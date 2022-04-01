@@ -32,7 +32,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
     public void configure(WebSecurity web) {
         web
                 .ignoring()
-                .antMatchers("/resources/**", "/static/**");
+                .antMatchers("/resources/**", "/static/**" , "/manager/**");
     }
 
     @Override
@@ -44,6 +44,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                     Access to authentication part of application
                  */
                 .antMatchers("/api/authentication/**").permitAll()
+                .antMatchers(HttpMethod.POST , "/api/user/register").permitAll()
                 .antMatchers(HttpMethod.POST , "/api/mail/verification").permitAll()
                 .anyRequest()
                 .authenticated()
