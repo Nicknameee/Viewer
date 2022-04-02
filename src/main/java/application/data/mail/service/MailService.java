@@ -21,6 +21,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -105,8 +106,7 @@ public class MailService {
         return true;
     }
 
-    private Boolean sendHtmlMessage(MailMessageDataCollector collector)
-            throws MessagingException {
+    private Boolean sendHtmlMessage(MailMessageDataCollector collector) {
         try {
             MimeMessage mimeMessage = mailSenderTool.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
@@ -126,12 +126,21 @@ public class MailService {
             (MailMessageDataCollector collector ,
              UserActionType userActionType)
             throws IOException {
+        VerificationData verificationDataRow =
+                verificationDataService.getVerificationDataByMail(collector.getRecipient());
         String verificationCode = CodeGenerator
                 .generateRandomVerificationUUIDCode().toString();
-        verificationDataService
-                .saveVerificationData(
-                        new VerificationData(0L, collector.getRecipient(), userActionType, verificationCode)
-                                     );
+        if (verificationDataRow != null) {
+            verificationDataRow.setCode(verificationCode);
+            verificationDataService
+                    .updateVerificationData(verificationDataRow);
+        }
+        else {
+            verificationDataService
+                    .saveVerificationData(
+                            new VerificationData(0L, collector.getRecipient(), userActionType, verificationCode)
+                    );
+        }
         Map<String , String> nameProperties =
                 CustomPropertySourceConverter.convertToKeyValueFormat
                         (CustomPropertyDataLoader.getResourceContent("classpath:naming/names.ps"));

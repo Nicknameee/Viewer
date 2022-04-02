@@ -33,8 +33,19 @@ public class VerificationDataService {
         return verificationDataRepository.getAllVerificationData();
     }
 
-    public VerificationData getVerificationDataByMailAndActionType(VerificationData verificationData) {
-        return verificationDataRepository.getVerificationDataByMailAndActionType(verificationData);
+    public VerificationData getVerificationDataByUUUID(VerificationData verificationData) {
+        return verificationDataRepository.getVerificationDataByUUUID(verificationData);
+    }
+
+    public VerificationData getVerificationDataByMail(String mail) {
+        return verificationDataRepository.getVerificationDataByMail(mail);
+    }
+
+    public VerificationData updateVerificationData(VerificationData verificationData) {
+        return verificationDataRepository.updateVerificationData(
+                verificationData.getCode() ,
+                verificationData.getMail()
+        );
     }
 
     public void deleteVerificationData(VerificationData verificationData) {
@@ -42,7 +53,7 @@ public class VerificationDataService {
     }
 
     public Boolean checkVerificationDataCoincidence(VerificationData verificationData) {
-        VerificationData data = getVerificationDataByMailAndActionType(verificationData);
+        VerificationData data = getVerificationDataByUUUID(verificationData);
         if (data != null) {
             return data.getCode().equals(verificationData.getCode());
         }

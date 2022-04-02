@@ -37,6 +37,10 @@ public class UserRepositoryImplementation {
         return userRepository.getUserByMail(mail);
     }
 
+    public User getUserByUsername(String username) {
+        return userRepository.getUserByUsername(username);
+    }
+
     public User updateUser(User user) {
         user.setPassword(UserCredentialsCryptTool.encodeCredentials(user.getPassword()));
         userRepository.updateUser(

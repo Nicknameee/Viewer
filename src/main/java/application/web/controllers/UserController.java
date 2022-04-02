@@ -53,7 +53,7 @@ public class UserController {
         Map<String , Object> response = new HashMap<>();
         try {
             if (!verificationService.checkVerificationDataCoincidence(verificationData)) {
-                response.put("success"  , false);
+                response.put("success"  , true);
                 response.put("error"    , "Verification code is incorrect");
                 return response;
             }

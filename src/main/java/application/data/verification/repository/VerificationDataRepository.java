@@ -12,6 +12,15 @@ public interface VerificationDataRepository extends JpaRepository<VerificationDa
     @Query("SELECT v FROM VerificationData v WHERE v.code=:code")
     VerificationData getVerificationDataByUUID(@Param("code") String code);
 
+    @Query("SELECT v FROM VerificationData v WHERE v.mail=:mail")
+    VerificationData getVerificationDataByMail(@Param("mail") String mail);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE VerificationData v SET v.code=:code WHERE v.mail=:mail")
+    void updateVerificationData(@Param("code") String code  ,
+                                            @Param("mail") String mail);
+
     @Modifying
     @Transactional
     @Query("DELETE FROM VerificationData v WHERE v.code=:code")

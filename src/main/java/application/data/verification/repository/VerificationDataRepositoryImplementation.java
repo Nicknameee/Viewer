@@ -31,8 +31,19 @@ public class VerificationDataRepositoryImplementation {
         return verificationDataRepository.findAll();
     }
 
-    public VerificationData getVerificationDataByMailAndActionType(VerificationData verificationData) {
+    public VerificationData getVerificationDataByUUUID(VerificationData verificationData) {
         return verificationDataRepository.getVerificationDataByUUID(verificationData.getCode());
+    }
+
+    public VerificationData getVerificationDataByMail(String mail) {
+        return verificationDataRepository.getVerificationDataByMail(mail);
+    }
+
+    public VerificationData updateVerificationData(String code  ,
+                                                   String mail)
+    {
+        verificationDataRepository.updateVerificationData(code , mail);
+        return verificationDataRepository.getVerificationDataByMail(mail);
     }
 
     public void deleteVerificationData(VerificationData verificationData) {
