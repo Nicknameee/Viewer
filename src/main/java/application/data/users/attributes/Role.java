@@ -11,6 +11,10 @@ public enum Role {
                     Permission.READ     ,
                     Permission.UPDATE   ,
                     Permission.DELETE)
+                )
+                                        ,
+    ROLE_USER(Set.of(
+                    Permission.READ)
                 );
 
     Set<Permission> access;

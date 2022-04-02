@@ -27,7 +27,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public Map<String , ?> register(@ModelAttribute("user") User user) {
+    public Map<String , ?> register(@ModelAttribute("userModel") User user) {
         logger.info("User: " + user);
         Map<String , Object> response = new HashMap<>();
         try {
