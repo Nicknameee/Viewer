@@ -38,12 +38,8 @@ public class MailController {
              @RequestParam("mailType")              MailType mailType                   ,
              @RequestParam("userActionType")        UserActionType userActionType) {
         MailMessageDataCollector collector = new MailMessageDataCollector(recipient , subject , text , resources);
-        logger.info("Recipient: " + recipient);
-        logger.info("Mail type: " + mailType.name());
-        logger.info("Goal type: " + userActionType.name());
         Map<String , Object> response = new HashMap<>();
         try {
-
             Runnable messageSendingTask = () -> {
                 try {
                     MailMessageDataCollector confirmationMessage =

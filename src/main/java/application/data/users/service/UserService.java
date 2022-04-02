@@ -32,8 +32,8 @@ public class UserService {
         return userRepository.getAllUsers();
     }
 
-    public User getUserByMail(String mail) {
-        return userRepository.getUserByMail(mail);
+    public User getUserByMail(User user) {
+        return userRepository.getUserByMail(user.getMail());
     }
 
     public User updateUser(User user) {

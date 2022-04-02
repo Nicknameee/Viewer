@@ -6,6 +6,8 @@ import application.data.users.models.UserActionType;
 import application.data.utils.converters.CustomPropertySourceConverter;
 import application.data.utils.generators.CodeGenerator;
 import application.data.utils.loaders.CustomPropertyDataLoader;
+import application.data.verification.VerificationData;
+import application.data.verification.service.VerificationDataService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ import java.util.Objects;
 public class MailService {
     private final Logger logger = LoggerFactory.getLogger(MailService.class);
 
+    private VerificationDataService verificationDataService;
+
     private JavaMailSender mailSenderTool;
 
     @Value("${spring.mail.username}")
@@ -35,6 +39,11 @@ public class MailService {
     public void setMailSender(JavaMailSender mailSender)
     {
         this.mailSenderTool = mailSender;
+    }
+
+    @Autowired
+    public void setVerificationDataService(VerificationDataService verificationDataService) {
+        this.verificationDataService = verificationDataService;
     }
 
     public synchronized Boolean sendMessage(MailMessageDataCollector collector   ,
@@ -117,6 +126,12 @@ public class MailService {
             (MailMessageDataCollector collector ,
              UserActionType userActionType)
             throws IOException {
+        String verificationCode = CodeGenerator
+                .generateRandomVerificationUUIDCode().toString();
+        verificationDataService
+                .saveVerificationData(
+                        new VerificationData(0L, collector.getRecipient(), userActionType, verificationCode)
+                                     );
         Map<String , String> nameProperties =
                 CustomPropertySourceConverter.convertToKeyValueFormat
                         (CustomPropertyDataLoader.getResourceContent("classpath:naming/names.ps"));
@@ -131,8 +146,7 @@ public class MailService {
                         CustomPropertyDataLoader
                         .getResourceContent("classpath:mail/templates/register_confirmation.html")
                         .replace("{name}" , nameProperties.get("web.name"))
-                        .replace("{code}" , CodeGenerator
-                                .generateRandomVerificationUUIDCode().toString());
+                        .replace("{code}" , verificationCode);
                 collector.setSubject(subject);
                 collector.setText(htmlTemplate);
                 break;

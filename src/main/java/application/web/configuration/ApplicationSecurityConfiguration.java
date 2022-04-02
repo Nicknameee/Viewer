@@ -45,6 +45,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                  */
                 .antMatchers("/api/authentication/**").permitAll()
                 .antMatchers(HttpMethod.POST , "/api/user/register").permitAll()
+                .antMatchers(HttpMethod.POST , "/api/user/register/confirm").permitAll()
                 .antMatchers(HttpMethod.POST , "/api/mail/verification").permitAll()
                 .anyRequest()
                 .authenticated()
