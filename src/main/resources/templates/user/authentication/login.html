@@ -7,7 +7,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!--===============================================================================================-->
-    <link rel="icon" type="image/png" href="/manager/media/images/icons/favicon.ico"/>
+    <link rel="icon" type="image/png" href="/manager/login/media/images/icons/person.ico"/>
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="/manager/modules/vendor/bootstrap/css/bootstrap.min.css">
     <!--===============================================================================================-->
@@ -19,8 +19,8 @@
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="/manager/modules/vendor/select2/select2.min.css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="/manager/styles/css/util.css">
-    <link rel="stylesheet" type="text/css" href="/manager/styles/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/manager/login/styles/util.css">
+    <link rel="stylesheet" type="text/css" href="/manager/login/styles/main.css">
     <!--===============================================================================================-->
 </head>
 <body>
@@ -29,10 +29,10 @@
     <div class="container-login100">
         <div class="wrap-login100">
             <div class="login100-pic js-tilt" data-tilt>
-                <img src="/manager/media/images/img-01.png" alt="IMG">
+                <img src="/manager/login/media/images/img-01.png" alt="IMG">
             </div>
 
-            <form class="login100-form validate-form" th:action="@{/api/authentication/login}" th:method="POST">
+            <form class="login100-form validate-form" id="form" th:action="@{/api/authentication/login}" th:method="POST">
 					<span class="login100-form-title">
 						Authorization
 					</span>
@@ -97,7 +97,7 @@
     })
 </script>
 <!--===============================================================================================-->
-<script src="/manager/scripts/js/main.js"></script>
-
+<script src="/manager/login/scripts/validate.js"></script>
+<script src="/manager/login/scripts/init.js"></script>
 </body>
 </html>

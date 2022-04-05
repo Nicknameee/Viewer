@@ -1,17 +1,14 @@
 package application.web.controllers;
 
 import application.data.users.User;
-import application.data.users.repository.UserRepositoryImplementation;
 import application.data.users.service.UserService;
 import application.data.verification.VerificationData;
 import application.data.verification.service.VerificationDataService;
+import application.web.responses.SimpleHttpResponseTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")
@@ -33,38 +30,32 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public Map<String , ?> register(@ModelAttribute("userModel") User user) {
-        Map<String , Object> response = new HashMap<>();
+    public SimpleHttpResponseTemplate register(@ModelAttribute("userModel") User user) {
+        SimpleHttpResponseTemplate response = new SimpleHttpResponseTemplate();
         try {
             userService.saveUser(user);
-            response.put("success" , true);
-            response.put("error" , null);
+            response.setSuccess(true);
+            response.setError(null);
         }
         catch (Exception e) {
-            response.put("success" , false);
-            response.put("error" , e.getMessage());
+            response.setSuccess(false);
+            response.setError(e.getMessage());
         }
         return response;
     }
 
-    @PostMapping("/register/confirm")
-    public Map<String , ?> confirmRegistering(@ModelAttribute("verificationData") VerificationData verificationData) {
+    @PostMapping("/confirm/register")
+    public SimpleHttpResponseTemplate confirmRegistering(@ModelAttribute("verificationData") VerificationData verificationData) {
         logger.info(String.valueOf(verificationData));
-        Map<String , Object> response = new HashMap<>();
         try {
             if (!verificationService.checkVerificationDataCoincidence(verificationData)) {
-                response.put("success"  , true);
-                response.put("error"    , "Verification code is incorrect");
-                return response;
+                return new SimpleHttpResponseTemplate(false , "Codes does not match");
             }
             verificationService.deleteVerificationData(verificationData);
-            response.put("success"  , true);
-            response.put("error"    , null);
+            return new SimpleHttpResponseTemplate(true , null);
         }
         catch (RuntimeException e) {
-            response.put("success"  , false);
-            response.put("error"    , e.getMessage());
+            return new SimpleHttpResponseTemplate(false , e.getMessage());
         }
-        return response;
     }
 }

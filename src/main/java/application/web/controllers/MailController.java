@@ -5,6 +5,7 @@ import application.data.mail.models.MailType;
 import application.data.mail.service.MailService;
 import application.data.users.models.UserActionType;
 import application.data.utils.threads.TaskDistributorTool;
+import application.web.responses.SimpleHttpResponseTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,15 +31,15 @@ public class MailController {
     }
 
     @PostMapping("/verification")
-    public Map<String , ?> verify
+    public SimpleHttpResponseTemplate verify
             (@RequestParam("recipient")             String recipient                    ,
-             @RequestParam("subject")               String subject                      ,
-             @RequestParam("text")                  String text                         ,
-             @RequestParam("resources")             List<Resource> resources            ,
+             @RequestParam(value = "subject" , required = false)               String subject                      ,
+             @RequestParam(value = "text" , required = false)                  String text                         ,
+             @RequestParam(value = "resources" , required = false)             List<Resource> resources            ,
              @RequestParam("mailType")              MailType mailType                   ,
              @RequestParam("userActionType")        UserActionType userActionType) {
+        SimpleHttpResponseTemplate response = new SimpleHttpResponseTemplate();
         MailMessageDataCollector collector = new MailMessageDataCollector(recipient , subject , text , resources);
-        Map<String , Object> response = new HashMap<>();
         try {
             Runnable messageSendingTask = () -> {
                 try {
@@ -51,12 +52,12 @@ public class MailController {
                 }
             };
             TaskDistributorTool.execute(messageSendingTask);
-            response.put("success"  , true);
-            response.put("error"    , null);
+            response.setSuccess(true);
+            response.setError(null);
         }
          catch (RuntimeException e) {
-            response.put("success"  , false);
-            response.put("error"    , e.getMessage());
+            response.setSuccess(false);
+            response.setError(e.getMessage());
          }
         return response;
     }

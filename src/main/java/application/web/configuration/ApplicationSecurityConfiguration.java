@@ -22,7 +22,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapter {
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
     @Autowired
     ApplicationSecurityConfiguration
@@ -34,7 +34,12 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
     public void configure(WebSecurity web) {
         web
                 .ignoring()
-                .antMatchers("/resources/**", "/static/**" , "/manager/**");
+                .antMatchers("/resources/**" ,
+                                        "/static/**" ,
+                                        "/modules/**" ,
+                                        "/fonts/**" ,
+                                        "/vendor/**" ,
+                                        "/manager/**");
     }
 
     @Override
@@ -42,27 +47,39 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
         http
                 .csrf().disable()
                 .authorizeRequests()
-                /*
-                    Access to authentication part of application
-                 */
-                .antMatchers("/api/authentication/**").permitAll()
+                //Access for getting an authentication pages
+                .antMatchers(HttpMethod.GET , "/api/authentication/**").permitAll()
+                //Access for sending an authorizing requests
+                .antMatchers(HttpMethod.POST , "/api/authentication/login").permitAll()
+                //Access for confirming a register by confirmation code
+                .antMatchers(HttpMethod.POST , "/api/user/confirm/register").permitAll()
+                //Access for registering a user model in system
                 .antMatchers(HttpMethod.POST , "/api/user/register").permitAll()
-                .antMatchers(HttpMethod.POST , "/api/user/register/confirm").permitAll()
+                //Access for sending a verification code
                 .antMatchers(HttpMethod.POST , "/api/mail/verification").permitAll()
+                //Access for checking credentials on repeats in system
                 .antMatchers(HttpMethod.GET , "/api/manager/users/exists").permitAll()
+                .antMatchers(HttpMethod.GET , "/test").hasAnyRole("ROLE_USER" , "ROLE_ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
                 .formLogin()
+                .successHandler(new SecuritySuccessHandlerEntity())
+                //URL for login page
+                .loginProcessingUrl("/api/authentication/login")
                 .loginPage("/api/authentication/login").permitAll()
+                //Redirect to [] if login is successful
                 .defaultSuccessUrl("/HOME_URL")
                 .and()
                 .logout()
+                //Way to logout
                 .logoutRequestMatcher(new AntPathRequestMatcher("/LOGOUT_URL", "POST"))
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
+                //Clearing cookie - vulnerability
                 .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/LOGIN_URL");
+                //Redirect to [] if logout successful
+                .logoutSuccessUrl("/api/authentication/login");
     }
 
     @Bean
