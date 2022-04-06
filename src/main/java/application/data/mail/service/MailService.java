@@ -131,6 +131,7 @@ public class MailService {
         String verificationCode = CodeGenerator
                 .generateRandomVerificationUUIDCode().toString();
         if (verificationDataRow != null) {
+            verificationDataRow.setActionType(userActionType);
             verificationDataRow.setCode(verificationCode);
             verificationDataService
                     .updateVerificationData(verificationDataRow);
@@ -153,7 +154,7 @@ public class MailService {
                         .replace("{name}" , nameProperties.get("web.name"));
                 String htmlTemplate =
                         CustomPropertyDataLoader
-                        .getResourceContent("classpath:mail/templates/register_confirmation.html")
+                        .getResourceContent("classpath:mail/templates/register_confirmation_with_bg.html")
                         .replace("{name}" , nameProperties.get("web.name"))
                         .replace("{code}" , verificationCode);
                 collector.setSubject(subject);
