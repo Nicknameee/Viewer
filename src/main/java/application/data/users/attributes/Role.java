@@ -7,14 +7,17 @@ import java.util.stream.Collectors;
 
 public enum Role {
     ROLE_ADMIN(Set.of(
-                    Permission.CREATE   ,
-                    Permission.READ     ,
-                    Permission.UPDATE   ,
-                    Permission.DELETE)
+                    Permission.CREATE_ADMIN   ,
+                    Permission.READ_ADMIN     ,
+                    Permission.UPDATE_ADMIN   ,
+                    Permission.DELETE_ADMIN)
                 )
                                         ,
     ROLE_USER(Set.of(
-                    Permission.READ)
+                    Permission.CREATE_USER   ,
+                    Permission.READ_USER     ,
+                    Permission.UPDATE_USER   ,
+                    Permission.DELETE_USER)
                 );
 
     Set<Permission> access;

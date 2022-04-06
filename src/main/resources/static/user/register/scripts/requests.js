@@ -81,7 +81,7 @@ $("#form").submit(function (event) {
     if (invalidInputCounter === 0 && !credentialsGood) {
         $.ajax(
             {
-                url: "/api/manager/users/exists",
+                url: "/api/manager/credentials/reserved",
                 type: "GET",
                 data: {
                     mail: $("#username").val() ,
@@ -158,7 +158,7 @@ $("#form").submit(function (event) {
             $(thisAlert).removeClass('alert-validate');
             $.ajax(
                 {
-                    url: "/api/user/confirm/register",
+                    url: "/api/user/confirm",
                     type: "POST",
                     data: {
                         id: 0 ,
@@ -189,7 +189,7 @@ $("#form").submit(function (event) {
                                                      */
                                                     setTimeout($.ajax(
                                                         {
-                                                            url: "/api/authentication/login",
+                                                            url: "/api/authentication/user/login",
                                                             type: "POST",
                                                             data: {
                                                                 username: $("#username").val() ,
@@ -198,13 +198,13 @@ $("#form").submit(function (event) {
                                                             success:
                                                                 function (data) {
                                                                     setTimeout(function () {
-                                                                        location.pathname = "/test"
+                                                                        location.pathname = "/api/user/personal"
                                                                     } , 1500)
                                                                 },
                                                             error:
                                                                 function (data) {
                                                                     setTimeout(function () {
-                                                                        location.pathname = "/test"
+                                                                        location.pathname = "/api/user/personal"
                                                                     } , 1500)
                                                                 }
                                                         }

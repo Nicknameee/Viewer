@@ -5,10 +5,14 @@ import lombok.Getter;
 @Getter
 public enum Permission
 {
-    CREATE  ("access:create")   ,
-    READ    ("access:read")     ,
-    UPDATE  ("access:update")   ,
-    DELETE  ("access:delete")   ;
+    CREATE_USER     ("access:user:create")    ,
+    READ_USER       ("access:user:read")      ,
+    UPDATE_USER     ("access:user:update")    ,
+    DELETE_USER     ("access:user:delete")    ,
+    CREATE_ADMIN    ("access:admin:create")   ,
+    READ_ADMIN      ("access:admin:read")     ,
+    UPDATE_ADMIN    ("access:admin:update")   ,
+    DELETE_ADMIN    ("access:admin:delete")   ;
 
     private final String permission;
 

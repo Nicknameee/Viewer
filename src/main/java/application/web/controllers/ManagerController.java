@@ -18,26 +18,37 @@ public class ManagerController {
         this.userService = userService;
     }
 
-    @GetMapping("/users/exists")
+    @GetMapping("/credentials/reserved")
     public SimpleHttpResponseTemplate checkUserExistingByUniqueCredentials(@RequestParam("mail") String mail ,
-                                                                           @RequestParam("username") String username)
+                                                                           @RequestParam(value = "username" , required = false) String username)
     {
         SimpleHttpResponseTemplate response = new SimpleHttpResponseTemplate();
         try {
-            if (userService.getUserByMail(mail) == null && userService.getUserByUsername(username) == null) {
-                response.setSuccess(true);
-                response.setError(null);
-                return response;
+            if (username != null) {
+                if (userService.getUserByMail(mail) == null && userService.getUserByUsername(username) == null) {
+                    response.setSuccess(true);
+                    response.setError(null);
+                    return response;
+                }
+                response.setSuccess(false);
+                if (userService.getUserByMail(mail) != null) {
+                    response.setError("mail");
+                }
+                if (userService.getUserByUsername(username) != null) {
+                    response.setError("username");
+                }
+                if (userService.getUserByMail(mail) != null && userService.getUserByUsername(username) != null) {
+                    response.setError("all");
+                }
             }
-            response.setSuccess(false);
-            if (userService.getUserByMail(mail) != null) {
+            else {
+                if (userService.getUserByMail(mail) == null) {
+                    response.setSuccess(true);
+                    response.setError(null);
+                    return response;
+                }
+                response.setSuccess(false);
                 response.setError("mail");
-            }
-            if (userService.getUserByUsername(username) != null) {
-                response.setError("username");
-            }
-            if (userService.getUserByMail(mail) != null && userService.getUserByUsername(username) != null) {
-                response.setError("all");
             }
         }
         catch (RuntimeException e) {

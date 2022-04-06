@@ -2,6 +2,7 @@ package application.data.mail.service;
 
 import application.data.mail.models.MailMessageDataCollector;
 import application.data.mail.models.MailType;
+import application.data.mail.utils.MessageRenderService;
 import application.data.users.models.UserActionType;
 import application.data.utils.converters.CustomPropertySourceConverter;
 import application.data.utils.generators.CodeGenerator;
@@ -129,7 +130,7 @@ public class MailService {
         VerificationData verificationDataRow =
                 verificationDataService.getVerificationDataByMail(collector.getRecipient());
         String verificationCode = CodeGenerator
-                .generateRandomVerificationUUIDCode().toString();
+                .generateRandomVerificationUUIDCode().toString().toUpperCase();
         if (verificationDataRow != null) {
             verificationDataRow.setActionType(userActionType);
             verificationDataRow.setCode(verificationCode);
@@ -142,27 +143,6 @@ public class MailService {
                             new VerificationData(0L, collector.getRecipient(), userActionType, verificationCode)
                     );
         }
-        Map<String , String> nameProperties =
-                CustomPropertySourceConverter.convertToKeyValueFormat
-                        (CustomPropertyDataLoader.getResourceContent("classpath:naming/names.ps"));
-        switch (userActionType) {
-            case RESTORE_PASSWORD:
-                break;
-            case CONFIRM_REGISTRATION:
-                String subject = CustomPropertyDataLoader
-                        .getResourceContent("classpath:mail/titles/register_confirmation.txt")
-                        .replace("{name}" , nameProperties.get("web.name"));
-                String htmlTemplate =
-                        CustomPropertyDataLoader
-                        .getResourceContent("classpath:mail/templates/register_confirmation_with_bg.html")
-                        .replace("{name}" , nameProperties.get("web.name"))
-                        .replace("{code}" , verificationCode);
-                collector.setSubject(subject);
-                collector.setText(htmlTemplate);
-                break;
-            case CONFIRM_AUTHORIZATION:
-                break;
-        }
-        return new MailMessageDataCollector(collector);
+        return MessageRenderService.renderCollectorData(collector , userActionType , verificationCode);
     }
 }

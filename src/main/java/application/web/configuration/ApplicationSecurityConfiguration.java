@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -34,12 +35,10 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
     public void configure(WebSecurity web) {
         web
                 .ignoring()
-                .antMatchers("/resources/**" ,
+                .antMatchers(
                                         "/static/**" ,
-                                        "/modules/**" ,
-                                        "/fonts/**" ,
-                                        "/vendor/**" ,
-                                        "/manager/**");
+
+                                        "/user/**");
     }
 
     @Override
@@ -50,36 +49,39 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 //Access for getting an authentication pages
                 .antMatchers(HttpMethod.GET , "/api/authentication/**").permitAll()
                 //Access for sending an authorizing requests
-                .antMatchers(HttpMethod.POST , "/api/authentication/login").permitAll()
+                .antMatchers(HttpMethod.POST , "/api/authentication/user/login").permitAll()
                 //Access for confirming a register by confirmation code
-                .antMatchers(HttpMethod.POST , "/api/user/confirm/register").permitAll()
+                .antMatchers(HttpMethod.POST , "/api/user/confirm").permitAll()
                 //Access for registering a user model in system
                 .antMatchers(HttpMethod.POST , "/api/user/register").permitAll()
                 //Access for sending a verification code
                 .antMatchers(HttpMethod.POST , "/api/mail/verification").permitAll()
                 //Access for checking credentials on repeats in system
-                .antMatchers(HttpMethod.GET , "/api/manager/users/exists").permitAll()
-                .antMatchers(HttpMethod.GET , "/test").hasAnyRole("ROLE_USER" , "ROLE_ADMIN")
+                .antMatchers(HttpMethod.GET , "/api/manager/credentials/reserved").permitAll()
+                //Access for restoring password
+                .antMatchers(HttpMethod.GET , "/api/authentication/user/restore/password").permitAll()
+                //Access for restoring password
+                .antMatchers(HttpMethod.PUT, "/api/user/update/password").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .formLogin()
                 .successHandler(new SecuritySuccessHandlerEntity())
                 //URL for login page
-                .loginProcessingUrl("/api/authentication/login")
-                .loginPage("/api/authentication/login").permitAll()
+                .loginProcessingUrl("/api/authentication/user/login")
+                .loginPage("/api/authentication/user/login").permitAll()
                 //Redirect to [] if login is successful
-                .defaultSuccessUrl("/HOME_URL")
+                .defaultSuccessUrl("/api/user/personal")
                 .and()
                 .logout()
                 //Way to logout
-                .logoutRequestMatcher(new AntPathRequestMatcher("/LOGOUT_URL", "POST"))
+                .logoutRequestMatcher(new AntPathRequestMatcher("/api/authentication/user/logout", "POST"))
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 //Clearing cookie - vulnerability
                 .deleteCookies("JSESSIONID")
                 //Redirect to [] if logout successful
-                .logoutSuccessUrl("/api/authentication/login");
+                .logoutSuccessUrl("/api/authentication/user/login");
     }
 
     @Bean

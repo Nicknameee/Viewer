@@ -10,13 +10,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/mail")
@@ -32,12 +33,12 @@ public class MailController {
 
     @PostMapping("/verification")
     public SimpleHttpResponseTemplate verify
-            (@RequestParam("recipient")             String recipient                    ,
+            (@RequestParam("recipient")                                        String recipient                    ,
              @RequestParam(value = "subject" , required = false)               String subject                      ,
              @RequestParam(value = "text" , required = false)                  String text                         ,
              @RequestParam(value = "resources" , required = false)             List<Resource> resources            ,
-             @RequestParam("mailType")              MailType mailType                   ,
-             @RequestParam("userActionType")        UserActionType userActionType) {
+             @RequestParam("mailType")                                         MailType mailType                   ,
+             @RequestParam("userActionType")                                   UserActionType userActionType) {
         SimpleHttpResponseTemplate response = new SimpleHttpResponseTemplate();
         MailMessageDataCollector collector = new MailMessageDataCollector(recipient , subject , text , resources);
         try {
@@ -55,10 +56,10 @@ public class MailController {
             response.setSuccess(true);
             response.setError(null);
         }
-         catch (RuntimeException e) {
+        catch (RuntimeException e) {
             response.setSuccess(false);
             response.setError(e.getMessage());
-         }
+        }
         return response;
     }
 }
