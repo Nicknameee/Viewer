@@ -1,4 +1,4 @@
-package application.data.security;
+package application.data.users.security;
 
 import application.data.users.User;
 import application.data.users.repository.UserRepositoryImplementation;

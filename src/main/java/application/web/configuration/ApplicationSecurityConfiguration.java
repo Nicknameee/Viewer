@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -35,10 +36,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
     public void configure(WebSecurity web) {
         web
                 .ignoring()
-                .antMatchers(
-                                        "/static/**" ,
-
-                                        "/user/**");
+                .antMatchers("/static/**" , "/user/**");
     }
 
     @Override
@@ -107,4 +105,9 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
     protected AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
     }
+    @Bean
+    public HttpSessionEventPublisher httpSessionEventPublisher() {
+        return new HttpSessionEventPublisher();
+    }
+
 }

@@ -5,13 +5,17 @@
     <title>Profile</title>
 </head>
 <body>
-<p th:text="${user.getUsername()}">Username</p>
+<p>Username: <p th:text="${user.getUsername()}">Username</p></p>
 <br>
-<p th:text="${user.getStatus()}">Status</p>
+<p>Status: <p th:text="${user.getStatus()}">Status</p></p>
 <br>
-<p th:text="${user.getRole()}">Role</p>
+<p>Role: <p th:text="${user.getRole()}">Role</p></p>
 <br>
-<p th:text="${user.getLastSeen()}">Last seen</p>
+<p>Last login time: <p th:text="${user.getLoginTime()}">Login Time</p></p>
+<br>
+<p th:if="${user.getLogoutTime() != null}">Last logout time:
+    <p th:if="${user.getLogoutTime() != null}" th:text="${user.getLogoutTime()}">Logout time</p>
+</p>
 <br>
 <form th:action="@{/api/authentication/user/logout}" th:method="POST">
     <input type="submit" value="Logout">

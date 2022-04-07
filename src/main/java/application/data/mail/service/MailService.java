@@ -4,9 +4,7 @@ import application.data.mail.models.MailMessageDataCollector;
 import application.data.mail.models.MailType;
 import application.data.mail.utils.MessageRenderService;
 import application.data.users.models.UserActionType;
-import application.data.utils.converters.CustomPropertySourceConverter;
 import application.data.utils.generators.CodeGenerator;
-import application.data.utils.loaders.CustomPropertyDataLoader;
 import application.data.verification.VerificationData;
 import application.data.verification.service.VerificationDataService;
 import org.slf4j.Logger;
@@ -22,8 +20,6 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 @Service

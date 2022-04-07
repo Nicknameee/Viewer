@@ -72,7 +72,7 @@ public class UserController {
         try {
             User user = userService.getUserByMail(mail);
             user.setPassword(password);
-            userService.updateUser(user);
+            userService.updateWholeUserData(user);
             response.setSuccess(true);
             response.setError(null);
         }

@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -23,7 +23,6 @@ public class UserService {
 
     public User saveUser(User user)
     {
-        user.setLastSeen(new Date());
         return userRepository.saveUser(user);
     }
 
@@ -40,11 +39,21 @@ public class UserService {
         return userRepository.getUserByUsername(username);
     }
 
-    public User updateUser(User user) {
-        return userRepository.updateUser(user);
+    public void updateWholeUserData(User user) {
+        userRepository.updateWholeUserDataById(user);
+    }
+
+    public void updateUserLoginTime(String mail) {
+        userRepository.updateUserLoginTime(mail);
+    }
+
+    public void updateUserLogoutTime(String mail) {
+        userRepository.updateUserLogoutTime(mail);
     }
 
     public void deleteUser(User user) {
         userRepository.deleteUser(user);
     }
+
+
 }
