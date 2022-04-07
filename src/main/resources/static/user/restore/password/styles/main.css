@@ -291,10 +291,10 @@ iframe {
   border-radius: 25px;
   bottom: 0;
   left: 0;
-  width: 100%;
+  width: fit-content;
   height: 100%;
   padding-left: 35px;
-  pointer-events: none;
+  pointer-events: auto;
   color: #666666;
 
   -webkit-transition: all 0.4s;

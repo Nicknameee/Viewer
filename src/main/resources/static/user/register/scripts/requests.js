@@ -23,6 +23,14 @@ function validate_password() {
     }
     return result
 }
+function validate_confirmation_password() {
+    drop()
+    if ($("#confirm-password").val() !== $("#password").val()) {
+        result.bool = false
+        result.error = "Passwords does not match"
+    }
+    return result
+}
 function validate_nickname() {
     drop()
     if ($("#nickname").val().match(/^[a-zA-Z0-9]{5,16}$/) == null) {
@@ -64,6 +72,17 @@ $("#form").submit(function (event) {
     }
     else {
         let thisAlert = $("#password").parent();
+        $(thisAlert).removeClass('alert-validate');
+    }
+
+    if (validate_confirmation_password().bool  === false) {
+        let thisAlert = $("#confirm-password").parent();
+        thisAlert.attr('data-validate', validate_confirmation_password().error);
+        $(thisAlert).addClass('alert-validate');
+        invalidInputCounter++;
+    }
+    else {
+        let thisAlert = $("#confirm-password").parent();
         $(thisAlert).removeClass('alert-validate');
     }
 
@@ -238,6 +257,7 @@ function prepareForm() {
         */
         $("#username-box").fadeOut(1250);
         $("#password-box").fadeOut(1250);
+        $("#confirm-password-box").fadeOut(1250);
         $("#nickname-box").fadeOut(1250);
         $("#submit-box").fadeOut(1250);
         $("#have-acc").fadeOut(1250);
