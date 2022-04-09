@@ -7,7 +7,6 @@ import lombok.Data;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.Date;
 
 @Data
 @Entity
