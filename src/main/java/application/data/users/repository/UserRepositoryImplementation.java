@@ -1,12 +1,14 @@
 package application.data.users.repository;
 
 import application.data.users.User;
+import application.data.users.attributes.Role;
 import application.data.users.security.UserCredentialsCryptTool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
@@ -46,7 +48,7 @@ public class UserRepositoryImplementation {
                 user.getMail()                                  ,
                 UserCredentialsCryptTool
                         .encodeCredentials(user.getPassword())  ,
-                user.getRole()                                  ,
+                user.getRole().name()                           ,
                 user.getStatus()                                ,
                 user.getId()
         );
@@ -58,6 +60,10 @@ public class UserRepositoryImplementation {
 
     public void updateUserLogoutTime(String mail) {
         userRepository.updateLogoutTime(mail);
+    }
+
+    public void updateUserRole(String mail , Role role) {
+        userRepository.updateUserRole(role.name() , mail);
     }
 
     public void deleteUser(User user) {

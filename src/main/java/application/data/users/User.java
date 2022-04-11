@@ -29,7 +29,7 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     private Timestamp loginTime = new Timestamp(Calendar.getInstance().getTime().getTime());
 
-    @Column(name = "logout_time" , nullable = true)
+    @Column(name = "logout_time")
     @Temporal(TemporalType.TIMESTAMP)
     private Timestamp logoutTime;
 

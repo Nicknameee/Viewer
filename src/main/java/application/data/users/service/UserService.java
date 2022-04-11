@@ -1,6 +1,7 @@
 package application.data.users.service;
 
 import application.data.users.User;
+import application.data.users.attributes.Role;
 import application.data.users.repository.UserRepositoryImplementation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,9 +52,11 @@ public class UserService {
         userRepository.updateUserLogoutTime(mail);
     }
 
+    public void updateUserRole(String mail , Role role) {
+        userRepository.updateUserRole(mail , role);
+    }
+
     public void deleteUser(User user) {
         userRepository.deleteUser(user);
     }
-
-
 }

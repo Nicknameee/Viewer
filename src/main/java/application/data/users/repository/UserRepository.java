@@ -23,7 +23,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
                              @Param("username") String username ,
                              @Param("mail")     String mail     ,
                              @Param("password") String password ,
-                             @Param("role")     Role role       ,
+                             @Param("role")     String role       ,
                              @Param("status")   Status status   ,
                              @Param("id")       Long id);
 
@@ -36,6 +36,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Transactional
     @Query("UPDATE User u SET u.logoutTime=current_timestamp WHERE u.mail=:mail")
     void updateLogoutTime(@Param("mail") String mail);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE User u SET u.role=:role WHERE u.mail=:mail")
+    void updateUserRole(@Param("role") String role , @Param("mail") String mail);
 
     @Modifying
     @Transactional

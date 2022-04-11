@@ -52,14 +52,14 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .antMatchers(HttpMethod.POST , "/api/user/confirm").permitAll()
                 //Access for registering a user model in system
                 .antMatchers(HttpMethod.POST , "/api/user/register").permitAll()
+                //Access for restoring password
+                .antMatchers(HttpMethod.PUT, "/api/user/update/password").permitAll()
                 //Access for sending a verification code
                 .antMatchers(HttpMethod.POST , "/api/mail/verification").permitAll()
                 //Access for checking credentials on repeats in system
                 .antMatchers(HttpMethod.GET , "/api/manager/credentials/reserved").permitAll()
-                //Access for restoring password
-                .antMatchers(HttpMethod.GET , "/api/authentication/user/restore/password").permitAll()
-                //Access for restoring password
-                .antMatchers(HttpMethod.PUT, "/api/user/update/password").permitAll()
+
+                .antMatchers("/api/manager/promo/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -109,5 +109,4 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
     public HttpSessionEventPublisher httpSessionEventPublisher() {
         return new HttpSessionEventPublisher();
     }
-
 }

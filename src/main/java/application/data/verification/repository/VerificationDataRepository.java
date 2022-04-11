@@ -1,6 +1,5 @@
 package application.data.verification.repository;
 
-import application.data.users.models.UserActionType;
 import application.data.verification.VerificationData;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -19,7 +18,7 @@ public interface VerificationDataRepository extends JpaRepository<VerificationDa
     @Transactional
     @Query("UPDATE VerificationData v SET v.code=:code WHERE v.mail=:mail")
     void updateVerificationData(@Param("code") String code  ,
-                                            @Param("mail") String mail);
+                                @Param("mail") String mail);
 
     @Modifying
     @Transactional

@@ -3,6 +3,7 @@ package application.web.controllers;
 import application.data.loadableResources.service.LoadableResourceService;
 import application.web.responses.SimpleHttpResponseTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ public class MediaController {
 
     @ResponseBody
     @PostMapping("/upload")
+    @PreAuthorize("hasAnyAuthority('access:user:write' , 'access:admin:write')")
     public SimpleHttpResponseTemplate uploadMediaForArticle(@RequestParam("media") MultipartFile[] files ,
                                                             @RequestParam("articleId") Integer articleId) {
         SimpleHttpResponseTemplate response = new SimpleHttpResponseTemplate();
