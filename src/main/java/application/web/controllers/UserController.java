@@ -71,10 +71,15 @@ public class UserController {
         SimpleHttpResponseTemplate response = new SimpleHttpResponseTemplate();
         try {
             User user = userService.getUserByMail(mail);
-            user.setPassword(password);
-            userService.updateWholeUserData(user);
-            response.setSuccess(true);
-            response.setError(null);
+            if (user != null) {
+                user.setPassword(password);
+                userService.updateWholeUserData(user);
+                response.setSuccess(true);
+                response.setError(null);
+                return response;
+            }
+            response.setSuccess(false);
+            response.setError("No registered users were found by these credentials");
         }
         catch (Exception e) {
             response.setSuccess(false);
@@ -84,10 +89,16 @@ public class UserController {
     }
 
     @GetMapping("/personal")
-    @PreAuthorize("hasAuthority('access:user:read')")
+    @PreAuthorize("hasAnyAuthority('access:user:read' , 'access:admin:read')")
     public String personalPage(Model model) {
         User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
         model.addAttribute("user" , user);
-        return "/user/personal/profile";
+        switch (user.getRole()) {
+            case ROLE_USER:
+                return "/user/personal/user";
+            case ROLE_ADMIN:
+                return "/user/personal/admin";
+        }
+        return "/user/authentication/login";
     }
 }

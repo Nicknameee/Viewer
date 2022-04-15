@@ -71,7 +71,7 @@ public class ManagerController {
     }
 
     @GetMapping("/personal")
-    @PreAuthorize("hasAuthority('access:admin:read')")
+    @PreAuthorize("hasAnyAuthority('access:user:read' , 'access:admin:read')")
     public String personalPage(Model model) {
         User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
         model.addAttribute("user" , user);
@@ -80,6 +80,7 @@ public class ManagerController {
 
     @PostMapping("/promo/create")
     @ResponseBody
+    @PreAuthorize("hasAuthority('access:admin:create')")
     public SimpleHttpResponseTemplate createPromo(@RequestParam("type") PromoType type) {
         SimpleHttpResponseTemplate response = new SimpleHttpResponseTemplate();
         try {
@@ -96,13 +97,19 @@ public class ManagerController {
 
     @PostMapping("/promo/use")
     @ResponseBody
+    @PreAuthorize("hasAnyAuthority('access:user:read' , 'access:admin:read')")
     public SimpleHttpResponseTemplate usePromo(@RequestParam("code") String code ,
                                                @RequestParam("mail") String mail) {
         SimpleHttpResponseTemplate response = new SimpleHttpResponseTemplate();
         try {
-            promoService.usePromo(code , mail);
-            response.setSuccess(true);
-            response.setError(null);
+            if (userService.getUserByMail(mail) != null) {
+                promoService.usePromo(code , mail);
+                response.setSuccess(true);
+                response.setError(null);
+                return response;
+            }
+            response.setSuccess(false);
+            response.setError("No registered users were found by these credentials");
         }
         catch (Exception e) {
             response.setSuccess(false);

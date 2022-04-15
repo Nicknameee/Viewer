@@ -21,9 +21,9 @@ public class MediaController {
         this.loadableResourceService = loadableResourceService;
     }
 
-    @ResponseBody
     @PostMapping("/upload")
-    @PreAuthorize("hasAnyAuthority('access:user:write' , 'access:admin:write')")
+    @ResponseBody
+    @PreAuthorize("hasAnyAuthority('access:admin:write')")
     public SimpleHttpResponseTemplate uploadMediaForArticle(@RequestParam("media") MultipartFile[] files ,
                                                             @RequestParam("articleId") Integer articleId) {
         SimpleHttpResponseTemplate response = new SimpleHttpResponseTemplate();

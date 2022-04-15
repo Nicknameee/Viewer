@@ -58,8 +58,6 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .antMatchers(HttpMethod.POST , "/api/mail/verification").permitAll()
                 //Access for checking credentials on repeats in system
                 .antMatchers(HttpMethod.GET , "/api/manager/credentials/reserved").permitAll()
-
-                .antMatchers("/api/manager/promo/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

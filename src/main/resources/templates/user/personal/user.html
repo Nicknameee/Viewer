@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/user/personal/user/basic.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.css">
+</head>
+<body>
+<div class="background"></div>
+<div class="overlap"></div>
+<section class="hero">
+  <section class="header">
+    <div class="group">
+      <p class="title">Welcome to Dobrovolets</p>
+    </div>
+    <div class="group">
+      <p class="status" about="ONLINE"><i class="fa fa-circle"  aria-hidden="true"></i></p>
+      <p class="logout" about="LOGOUT"><i class="fa fa-sign-out" aria-hidden="true"></i></p>
+      <p th:text="${user.getUsername()}" class="username">Username</p>
+    </div>
+  </section>
+  <section class="data">
+    <div class="group alert-validate" about="That`s an indicator of yours credentials actuality">
+      <p class="attr-name">Account status</p>
+      <p th:text="${user.getStatus()}" class="attr-value">Value</p>
+    </div>
+    <div class="group alert-validate" about="That`s email signed to your account">
+      <p class="attr-name">Email</p>
+      <p th:text="${user.getMail()}" class="attr-value">Value</p>
+    </div>
+    <div class="group  alert-validate" about="That`s your user role">
+      <p class="attr-name">Role</p>
+      <p th:text="${user.getRole()}" class="attr-value">Value</p>
+    </div>
+  </section>
+  <section class="content">
+    <div class="group title-box">
+      <p class="title">User functionality is not implemented yet</p>
+    </div>
+    <div class="group form-box">
+      <form id="form" class="form">
+        <p>You can use some promo code , maybe luck with you?)</p>
+        <input id="promo" type="text" class="input-validate" placeholder="Promo" required>
+        <input type="submit" value="Use promo">
+      </form>
+    </div>
+  </section>
+</section>
+</body>
+</html>
