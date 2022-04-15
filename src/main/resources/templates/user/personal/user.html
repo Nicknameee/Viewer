@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Profile</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="/user/personal/user/basic.css">
+  <link rel="stylesheet" href="/user/personal/user/styles/basic.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.css">
 </head>
@@ -18,7 +18,7 @@
     </div>
     <div class="group">
       <p class="status" about="ONLINE"><i class="fa fa-circle"  aria-hidden="true"></i></p>
-      <p class="logout" about="LOGOUT"><i class="fa fa-sign-out" aria-hidden="true"></i></p>
+      <p class="logout" about="LOGOUT"><i id="logout" class="fa fa-sign-out" aria-hidden="true"></i></p>
       <p th:text="${user.getUsername()}" class="username">Username</p>
     </div>
   </section>
@@ -43,11 +43,13 @@
     <div class="group form-box">
       <form id="form" class="form">
         <p>You can use some promo code , maybe luck with you?)</p>
-        <input id="promo" type="text" class="input-validate" placeholder="Promo" required>
+        <input id="promo" type="text" data-validate="Promo data validate" placeholder="Promo">
         <input type="submit" value="Use promo">
       </form>
     </div>
   </section>
 </section>
+<script src="/user/personal/user/scripts/logout.js"></script>
+<script src="/user/personal/user/scripts/init.js"></script>
 </body>
 </html>

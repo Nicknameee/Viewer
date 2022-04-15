@@ -338,6 +338,7 @@ body {
         text-align: center;
     }
     .form > input[type="text"] {
+        text-align: center;
         width: 95%;
         background: transparent;
         border: none;
@@ -698,6 +699,7 @@ body {
         text-align: center;
     }
     .form > input[type="text"] {
+        text-align: center;
         width: 95%;
         background: transparent;
         border: none;
@@ -1061,6 +1063,7 @@ body {
         text-align: center;
     }
     .form > input[type="text"] {
+        text-align: center;
         width: 95%;
         background: transparent;
         border: none;
@@ -1420,6 +1423,7 @@ body {
         text-align: center;
     }
     .form > input[type="text"] {
+        text-align: center;
         width: 95%;
         background: transparent;
         border: none;
@@ -1785,6 +1789,7 @@ body {
         text-align: center;
     }
     .form > input[type="text"] {
+        text-align: center;
         width: 95%;
         background: transparent;
         border: none;
@@ -1835,4 +1840,61 @@ body {
     .form > input[type="submit"]:hover {
         background: #a3e3ff;
     }
+}
+/*******/
+.input-validate {
+    position: relative;
+}
+.input-validate::before {
+    content: attr(data-validate);
+    position: absolute;
+    max-width: 90%;
+    width: fit-content;
+    background-color: white;
+    border: 1px solid #c80000;
+    border-radius: 13px;
+    padding: 4px 25px 4px 10px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+    right: 8px;
+    pointer-events: none;
+
+    font-family: Poppins-Medium;
+    color: #c80000;
+    font-size: 18px;
+    line-height: 1.8;
+    text-align: left;
+
+    visibility: hidden;
+    opacity: 0;
+
+    -webkit-transition: opacity 0.4s;
+    -o-transition: opacity 0.4s;
+    -moz-transition: opacity 0.4s;
+    transition: opacity 0.4s;
+}
+
+.input-validate::after {
+    content: "\f06a";
+    font-family: FontAwesome;
+    display: block;
+    position: absolute;
+    color: #c80000;
+    font-size: 18px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+    right: 13px;
+}
+
+.input-validate:hover:before {
+    visibility: visible;
+    opacity: 1;
 }

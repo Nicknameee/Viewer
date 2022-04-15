@@ -52,6 +52,10 @@ public class VerificationDataService {
         verificationDataRepository.deleteVerificationData(verificationData);
     }
 
+    public void deleteVerificationDataByCode(String code) {
+        verificationDataRepository.deleteVerificationDataByCode(code);
+    }
+
     public Boolean checkVerificationDataCoincidence(VerificationData verificationData) {
         VerificationData data = getVerificationDataByUUUID(verificationData);
         if (data != null) {

@@ -160,7 +160,8 @@ $("#form").submit(function (event) {
                                         type: "PUT",
                                         data: {
                                             mail: $("#username").val() ,
-                                            newPassword: $("#password").val()
+                                            newPassword: $("#password").val() ,
+                                            code: $("#code").val()
                                         },
                                         success:
                                             function(response) {

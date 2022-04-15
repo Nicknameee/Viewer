@@ -70,14 +70,6 @@ public class ManagerController {
         return response;
     }
 
-    @GetMapping("/personal")
-    @PreAuthorize("hasAnyAuthority('access:user:read' , 'access:admin:read')")
-    public String personalPage(Model model) {
-        User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
-        model.addAttribute("user" , user);
-        return "/user/personal/profile";
-    }
-
     @PostMapping("/promo/create")
     @ResponseBody
     @PreAuthorize("hasAuthority('access:admin:create')")
@@ -98,14 +90,19 @@ public class ManagerController {
     @PostMapping("/promo/use")
     @ResponseBody
     @PreAuthorize("hasAnyAuthority('access:user:read' , 'access:admin:read')")
-    public SimpleHttpResponseTemplate usePromo(@RequestParam("code") String code ,
-                                               @RequestParam("mail") String mail) {
+    public SimpleHttpResponseTemplate usePromo(@RequestParam("code") String code) {
         SimpleHttpResponseTemplate response = new SimpleHttpResponseTemplate();
         try {
+            String mail = SecurityContextHolder.getContext().getAuthentication().getName();
             if (userService.getUserByMail(mail) != null) {
-                promoService.usePromo(code , mail);
-                response.setSuccess(true);
-                response.setError(null);
+                if (promoService.getPromoByCode(code) != null) {
+                    promoService.usePromo(code , mail);
+                    response.setSuccess(true);
+                    response.setError(null);
+                    return response;
+                }
+                response.setSuccess(false);
+                response.setError("No such promo were found");
                 return response;
             }
             response.setSuccess(false);

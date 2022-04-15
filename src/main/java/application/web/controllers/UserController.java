@@ -35,9 +35,22 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/register")
-    public SimpleHttpResponseTemplate register(@ModelAttribute("userModel") User user) {
+    public SimpleHttpResponseTemplate register(@ModelAttribute("userModel") User user , @RequestParam("code") String code) {
         SimpleHttpResponseTemplate response = new SimpleHttpResponseTemplate();
         try {
+            VerificationData verificationData = verificationService
+                    .getVerificationDataByMail(user.getMail());
+            if (verificationData == null) {
+                response.setSuccess(false);
+                response.setError("Confirmation error , please try again");
+                return response;
+            }
+            if (!verificationData.getCode().equals(code)) {
+                response.setSuccess(false);
+                response.setError("Confirmation error , please try again");
+                return response;
+            }
+            verificationService.deleteVerificationDataByCode(code);
             userService.saveUser(user);
             response.setSuccess(true);
             response.setError(null);
@@ -56,7 +69,6 @@ public class UserController {
             if (!verificationService.checkVerificationDataCoincidence(verificationData)) {
                 return new SimpleHttpResponseTemplate(false , "Codes does not match");
             }
-            verificationService.deleteVerificationData(verificationData);
             return new SimpleHttpResponseTemplate(true , null);
         }
         catch (RuntimeException e) {
@@ -67,13 +79,27 @@ public class UserController {
     @ResponseBody
     @PutMapping("/update/password")
     public SimpleHttpResponseTemplate updateUser(@RequestParam("mail") String mail ,
-                                                 @RequestParam("newPassword") String password) {
+                                                 @RequestParam("newPassword") String password ,
+                                                 @RequestParam("code") String code) {
         SimpleHttpResponseTemplate response = new SimpleHttpResponseTemplate();
         try {
+            VerificationData verificationData = verificationService
+                    .getVerificationDataByMail(mail);
+            if (verificationData == null) {
+                response.setSuccess(false);
+                response.setError("Confirmation error , please try again");
+                return response;
+            }
+            if (!verificationData.getCode().equals(code)) {
+                response.setSuccess(false);
+                response.setError("Confirmation error , please try again");
+                return response;
+            }
+            verificationService.deleteVerificationDataByCode(code);
             User user = userService.getUserByMail(mail);
             if (user != null) {
                 user.setPassword(password);
-                userService.updateWholeUserData(user);
+                userService.updatePassword(user);
                 response.setSuccess(true);
                 response.setError(null);
                 return response;

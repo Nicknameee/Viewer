@@ -49,4 +49,8 @@ public class VerificationDataRepositoryImplementation {
     public void deleteVerificationData(VerificationData verificationData) {
         verificationDataRepository.deleteVerificationData(verificationData.getCode());
     }
+
+    public void deleteVerificationDataByCode(String code) {
+        verificationDataRepository.deleteVerificationData(code);
+    }
 }

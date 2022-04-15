@@ -42,16 +42,8 @@ public class UserRepositoryImplementation {
         return userRepository.getUserByUsername(username);
     }
 
-    public void updateWholeUserDataById(User user) {
-        userRepository.updateWholeUserDataById(
-                user.getUsername()                              ,
-                user.getMail()                                  ,
-                UserCredentialsCryptTool
-                        .encodeCredentials(user.getPassword())  ,
-                user.getRole().name()                           ,
-                user.getStatus()                                ,
-                user.getId()
-        );
+    public void updatePassword(User user) {
+        userRepository.updatePassword(UserCredentialsCryptTool.encodeCredentials(user.getPassword()) , user.getMail());
     }
 
     public void updateUserLoginTime(String mail) {

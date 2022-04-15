@@ -197,7 +197,8 @@ $("#form").submit(function (event) {
                                         data: {
                                             mail: $("#username").val() ,
                                             password: $("#password").val() ,
-                                            username: $("#nickname").val()
+                                            username: $("#nickname").val() ,
+                                            code: $("#code").val()
                                         },
                                         success:
                                             function(response) {

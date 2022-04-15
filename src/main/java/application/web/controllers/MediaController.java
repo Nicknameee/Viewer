@@ -23,7 +23,7 @@ public class MediaController {
 
     @PostMapping("/upload")
     @ResponseBody
-    @PreAuthorize("hasAnyAuthority('access:admin:write')")
+    @PreAuthorize("hasAnyAuthority('access:admin:create')")
     public SimpleHttpResponseTemplate uploadMediaForArticle(@RequestParam("media") MultipartFile[] files ,
                                                             @RequestParam("articleId") Integer articleId) {
         SimpleHttpResponseTemplate response = new SimpleHttpResponseTemplate();

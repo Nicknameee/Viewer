@@ -40,8 +40,8 @@ public class UserService {
         return userRepository.getUserByUsername(username);
     }
 
-    public void updateWholeUserData(User user) {
-        userRepository.updateWholeUserDataById(user);
+    public void updatePassword(User user) {
+        userRepository.updatePassword(user);
     }
 
     public void updateUserLoginTime(String mail) {
