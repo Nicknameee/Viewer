@@ -1,5 +1,6 @@
 package application.data.loadableResources.service;
 
+import application.data.articles.Article;
 import application.data.loadableResources.LoadableResource;
 import application.data.loadableResources.models.ResourceType;
 import application.data.loadableResources.repository.LoadableResourceRepositoryImplementation;
@@ -24,10 +25,8 @@ public class LoadableResourceService {
         return loadableResourceRepository.getAllLoadableResources();
     }
 
-    public LoadableResource getLoadableResourceByFilename(LoadableResource loadableResource) {
-        return loadableResourceRepository.getLoadableResourceByFilename(
-                loadableResource.getFilename()
-        );
+    public LoadableResource getLoadableResourceByFilename(String filename) {
+        return loadableResourceRepository.getLoadableResourceByFilename(filename);
     }
 
     public synchronized LoadableResource saveLoadableResource(LoadableResource loadableResource) {
@@ -39,10 +38,10 @@ public class LoadableResourceService {
     }
 
     public void deleteLoadableResource(LoadableResource loadableResource) {
-        loadableResourceRepository.deleteLoadableResource(loadableResource.getId());
+        loadableResourceRepository.deleteLoadableResource(loadableResource.getFilename());
     }
 
-    public void processResourcesForArticle(MultipartFile[] files , Integer articleId) {
+    public void processResourcesForArticle(MultipartFile[] files , Article article) {
         for (MultipartFile file : files) {
             if (!file.isEmpty()) {
                 Runnable savingMediaFileTask = () -> {
@@ -50,7 +49,7 @@ public class LoadableResourceService {
                         String uniqueFileName = FileProcessingUtility.uploadFile(file);
                         ResourceType type = file.getContentType().contains("image")
                                 ? ResourceType.IMAGE : ResourceType.VIDEO;
-                        saveLoadableResource(new LoadableResource(0L , articleId , uniqueFileName , type , file.getSize()));
+                        saveLoadableResource(new LoadableResource(uniqueFileName , type , file.getSize() , article));
                     }
                     catch (Exception e) {
                         e.printStackTrace();

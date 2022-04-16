@@ -89,9 +89,9 @@ public class MailService {
                     .filter(Objects::nonNull)
                     .forEach(resource -> {
                         try {
-                            helper.addAttachment("Resource" , resource);
+                            helper.addAttachment("Resource" , resource.getFile());
                         }
-                        catch (MessagingException e) {
+                        catch (MessagingException | IOException e) {
                             e.printStackTrace();
                         }
                     });

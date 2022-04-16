@@ -1,8 +1,6 @@
 package application.data.verification.service;
 
-import application.data.users.models.UserActionType;
 import application.data.verification.VerificationData;
-import application.data.verification.repository.VerificationDataRepository;
 import application.data.verification.repository.VerificationDataRepositoryImplementation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

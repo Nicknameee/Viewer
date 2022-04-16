@@ -13,16 +13,14 @@ public interface LoadableResourceRepository extends JpaRepository<LoadableResour
 
     @Modifying
     @Transactional
-    @Query("UPDATE LoadableResource r SET r.articleId=:articleId , r.filename=:filename , r.filetype=:filetype ," +
-            "r.size=:size WHERE r.id=:id")
-    void updateLoadableResource(@Param("articleId")     Integer articleId ,
-                                @Param("filename")      String filename   ,
+    @Query("UPDATE LoadableResource r SET r.filetype=:filetype ," +
+            "r.size=:size WHERE r.filename=:filename")
+    void updateLoadableResource(@Param("filename")      String filename   ,
                                 @Param("filetype")      String filetype   ,
-                                @Param("size")          Long size         ,
-                                @Param("id")            Long id);
+                                @Param("size")          Long size);
 
     @Modifying
     @Transactional
-    @Query("DELETE FROM LoadableResource r WHERE r.id=:id")
-    void deleteLoadableResource(@Param("id") Long id);
+    @Query("DELETE FROM LoadableResource r WHERE r.filename=:filename")
+    void deleteLoadableResource(@Param("filename") String filename);
 }

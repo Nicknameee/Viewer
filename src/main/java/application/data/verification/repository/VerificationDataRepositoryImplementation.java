@@ -1,6 +1,5 @@
 package application.data.verification.repository;
 
-import application.data.users.models.UserActionType;
 import application.data.verification.VerificationData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,8 +38,7 @@ public class VerificationDataRepositoryImplementation {
         return verificationDataRepository.getVerificationDataByMail(mail);
     }
 
-    public VerificationData updateVerificationData(String code  ,
-                                                   String mail)
+    public VerificationData updateVerificationData(String code  , String mail)
     {
         verificationDataRepository.updateVerificationData(code , mail);
         return verificationDataRepository.getVerificationDataByMail(mail);

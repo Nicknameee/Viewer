@@ -29,16 +29,14 @@ public class LoadableResourceRepositoryImplementation {
 
     public LoadableResource updateLoadableResource(LoadableResource loadableResource) {
         loadableResourceRepository.updateLoadableResource(
-                loadableResource.getArticleId() ,
                 loadableResource.getFilename()  ,
                 loadableResource.getFilename()  ,
-                loadableResource.getSize()      ,
-                loadableResource.getId()
+                loadableResource.getSize()
         );
         return getLoadableResourceByFilename(loadableResource.getFilename());
     }
 
-    public void deleteLoadableResource(Long id) {
-        loadableResourceRepository.deleteLoadableResource(id);
+    public void deleteLoadableResource(String filename) {
+        loadableResourceRepository.deleteLoadableResource(filename);
     }
 }

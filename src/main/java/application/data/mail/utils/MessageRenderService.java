@@ -13,7 +13,7 @@ public class MessageRenderService {
                                                                 String verificationCode             ) {
         Map<String , String> nameProperties =
                 CustomPropertySourceConverter.convertToKeyValueFormat
-                        (CustomPropertyDataLoader.getResourceContent("classpath:naming/names.ps"));
+                        (CustomPropertyDataLoader.getResourceContent("classpath:naming/names.properties"));
         String subject;
         String htmlTemplate;
         switch (userActionType) {

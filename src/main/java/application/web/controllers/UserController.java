@@ -78,9 +78,9 @@ public class UserController {
 
     @ResponseBody
     @PutMapping("/update/password")
-    public SimpleHttpResponseTemplate updateUser(@RequestParam("mail") String mail ,
+    public SimpleHttpResponseTemplate updateUser(@RequestParam("mail")        String mail     ,
                                                  @RequestParam("newPassword") String password ,
-                                                 @RequestParam("code") String code) {
+                                                 @RequestParam("code")        String code) {
         SimpleHttpResponseTemplate response = new SimpleHttpResponseTemplate();
         try {
             VerificationData verificationData = verificationService
