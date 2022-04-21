@@ -36,14 +36,11 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
     public void configure(WebSecurity web) {
         web
                 .ignoring()
-                .antMatchers("/static/**" , "/user/**" , "/uploads/**");
+                .antMatchers("/static/**" , "/user/**" , "/uploads/**" , "/favicon.ico" , "/error" , "/resources/**");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
         http
                 .csrf().disable();
         http
@@ -71,7 +68,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .loginProcessingUrl("/api/authentication/user/login")
                 .loginPage("/api/authentication/user/login").permitAll()
                 //Redirect to [] if login is successful
-                .defaultSuccessUrl("/api/user/personal")
+                .defaultSuccessUrl("/api/user/personal" , true)
                 .and()
                 .logout()
                 //Way to logout
