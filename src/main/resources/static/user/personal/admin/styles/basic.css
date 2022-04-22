@@ -1,0 +1,37 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+html {
+    overflow: hidden;
+}
+body {
+    height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
+    background: #9f9f9f
+}
+.menu-points {
+    width: 100%;
+    height: 100%;
+    font-size: 1.75em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.4s ease-in-out;
+}
+.table-dark {
+    --bs-table-hover-bg: #939090;
+}
+td {
+    transition: all 0.4s ease-in-out;
+}
+.table > tbody > tr:hover > * {
+    transition: all 0.4s ease-in-out;
+}
+.table > tbody > tr:hover > td > * {
+    color: #000000;
+}

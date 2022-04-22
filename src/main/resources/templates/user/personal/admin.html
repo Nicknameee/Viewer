@@ -1,10 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="/user/modules/css/bootstrap.css">
+    <link rel="stylesheet" href="/user/modules/css/bootstrap.rtl.css">
+    <link rel="stylesheet" href="/user/modules/css/bootstrap-grid.css">
+    <link rel="stylesheet" href="/user/modules/css/bootstrap-grid.rtl.css">
+    <link rel="stylesheet" href="/user/modules/css/bootstrap-reboot.css">
+    <link rel="stylesheet" href="/user/modules/css/bootstrap-reboot.rtl.css">
+    <link rel="stylesheet" href="/user/modules/css/bootstrap-utilities.css">
+    <link rel="stylesheet" href="/user/modules/css/bootstrap-utilities.rtl.css">
+    <!--Custom-->
+    <link rel="stylesheet" href="/user/personal/admin/styles/basic.css">
 </head>
 <body>
-
+<div class="container-fluid px-0">
+    <div class="row min-vh-100">
+        <div class="col-xl-3 min-vh-100" id="menu">
+            <table class="table table-dark table-hover table-bordered h-100">
+                <tr>
+                    <td><p class="menu-points">Find article</p></td>
+                </tr>
+                <tr>
+                    <td><p class="menu-points">Add article</p></td>
+                </tr>
+                <tr>
+                    <td><p class="menu-points">Edit article</p></td>
+                </tr>
+                <tr>
+                    <td><p class="menu-points">Delete article</p></td>
+                </tr>
+                <tr>
+                    <td><p class="menu-points">Users</p></td>
+                </tr>
+                <tr>
+                    <td><p class="menu-points">Promo</p></td>
+                </tr>
+                <tr>
+                    <td><p class="menu-points">Global settings</p></td>
+                </tr>
+                <tr id="logout">
+                    <td><p class="menu-points">Logout</p></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-xl-9 min-vh-100">
+            <div class="container h-100 d-flex align-content-center flex-column justify-content-center">
+                <form class="d-flex flex-column align-content-center justify-content-around py-2">
+                    <div class="col-auto my-5">
+                        <input type="text" class="form-control" id="title" placeholder="Title of article">
+                    </div>
+                    <div class="col-auto my-2">
+                        <textarea class="form-control" id="exampleFormControlTextarea1" maxlength="5000" rows="9" placeholder="Text of article"></textarea>
+                    </div>
+                    <div class="mb-3 col-auto my-5">
+                        <!--                        <label for="formFileMultiple" class="form-label">Multiple files input example</label>-->
+                        <input class="form-control" type="file" id="formFileMultiple" multiple>
+                    </div>
+                    <div class="col-auto my-5 d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary mb-5 w-50">Publish!</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Bootstrap-->
+<script src="/user/modules/js/bootstrap.bundle.js"></script>
+<script src="/user/modules/js/bootstrap.esm.js"></script>
+<script src="/user/modules/js/bootstrap.js"></script>
+<script src="/user/personal/admin/scripts/logout.js"></script>
 </body>
 </html>

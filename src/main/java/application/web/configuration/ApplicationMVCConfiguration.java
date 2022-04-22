@@ -11,5 +11,8 @@ public class ApplicationMVCConfiguration implements WebMvcConfigurer {
         registry
                 .addResourceHandler("/uploads/**")
                 .addResourceLocations("classpath:/uploads/");
+        registry
+                .addResourceHandler("/user/**")
+                .addResourceLocations("classpath:/static/user/");
     }
 }
