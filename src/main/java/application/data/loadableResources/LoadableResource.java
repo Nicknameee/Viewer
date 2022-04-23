@@ -2,6 +2,8 @@ package application.data.loadableResources;
 
 import application.data.articles.Article;
 import application.data.loadableResources.models.ResourceType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,6 +28,8 @@ public class LoadableResource {
     @Column(name = "size" , nullable = false)
     private Long size;
 
+    @JsonIgnoreProperties("resources")
+    @JsonProperty("article")
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "article_name")
     private Article article;

@@ -25,7 +25,6 @@ function showValidate(input) {
     thisAlert.attr('data-validate' , result.error);
     $(thisAlert).addClass('input-validate');
 }
-
 function hideValidate(input) {
     let thisAlert = $(input).parent();
     $(thisAlert).removeClass('input-validate');

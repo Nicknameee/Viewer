@@ -41,7 +41,7 @@
                     <td><p class="menu-points">Promo</p></td>
                 </tr>
                 <tr>
-                    <td><p class="menu-points">Global settings</p></td>
+                    <td><p class="menu-points">Profile</p></td>
                 </tr>
                 <tr id="logout">
                     <td><p class="menu-points">Logout</p></td>
@@ -50,16 +50,19 @@
         </div>
         <div class="col-xl-9 min-vh-100">
             <div class="container h-100 d-flex align-content-center flex-column justify-content-center">
-                <form class="d-flex flex-column align-content-center justify-content-around py-2">
-                    <div class="col-auto my-5">
-                        <input type="text" class="form-control" id="title" placeholder="Title of article">
+                <form id="create-article-form" class="d-flex flex-column align-content-center justify-content-around py-2">
+                    <div class="col-auto" id="response-box">
+                        <span class="response w-100 d-flex justify-content-center" id="response">Status</span>
                     </div>
-                    <div class="col-auto my-2">
-                        <textarea class="form-control" id="exampleFormControlTextarea1" maxlength="5000" rows="9" placeholder="Text of article"></textarea>
+                    <div class="col-auto my-5 input-group valid" about="Validate">
+                        <input name="title" type="text" class="form-control" id="title" placeholder="Title of article" required>
                     </div>
-                    <div class="mb-3 col-auto my-5">
-                        <!--                        <label for="formFileMultiple" class="form-label">Multiple files input example</label>-->
-                        <input class="form-control" type="file" id="formFileMultiple" multiple>
+                    <div class="col-auto my-2 valid" about="Validate">
+                        <textarea name="content" class="form-control resize"
+                                  id="content" maxlength="5000" rows="9" placeholder="Text of article" required></textarea>
+                    </div>
+                    <div class="mb-3 col-auto my-5 valid" about="Validate">
+                        <input name="media" class="form-control" type="file" id="media" multiple>
                     </div>
                     <div class="col-auto my-5 d-flex justify-content-center">
                         <button type="submit" class="btn btn-primary mb-5 w-50">Publish!</button>
@@ -74,5 +77,7 @@
 <script src="/user/modules/js/bootstrap.esm.js"></script>
 <script src="/user/modules/js/bootstrap.js"></script>
 <script src="/user/personal/admin/scripts/logout.js"></script>
+<script src="/manager/scripts/article/validate.js"></script>
+<script src="/manager/scripts/article/createArticle.js"></script>
 </body>
 </html>

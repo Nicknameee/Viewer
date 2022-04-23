@@ -4,7 +4,8 @@ import application.data.users.User;
 import application.data.users.service.UserService;
 import application.data.verification.VerificationData;
 import application.data.verification.service.VerificationDataService;
-import application.web.responses.SimpleHttpResponseTemplate;
+import application.web.responses.ApplicationWebResponse;
+import application.web.responses.user.UserResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +36,8 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/register")
-    public SimpleHttpResponseTemplate register(@ModelAttribute("userModel") User user , @RequestParam("code") String code) {
-        SimpleHttpResponseTemplate response = new SimpleHttpResponseTemplate();
+    public UserResponse register(@ModelAttribute("userModel") User user , @RequestParam("code") String code) {
+        UserResponse response = new UserResponse();
         try {
             VerificationData verificationData = verificationService
                     .getVerificationDataByMail(user.getMail());
@@ -64,24 +65,24 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/confirm")
-    public SimpleHttpResponseTemplate confirmVerification(@ModelAttribute("verificationData") VerificationData verificationData) {
+    public UserResponse confirmVerification(@ModelAttribute("verificationData") VerificationData verificationData) {
         try {
             if (!verificationService.checkVerificationDataCoincidence(verificationData)) {
-                return new SimpleHttpResponseTemplate(false , "Codes does not match");
+                return new UserResponse(false , "Codes does not match");
             }
-            return new SimpleHttpResponseTemplate(true , null);
+            return new UserResponse(true , null);
         }
         catch (RuntimeException e) {
-            return new SimpleHttpResponseTemplate(false , e.getMessage());
+            return new UserResponse(false , e.getMessage());
         }
     }
 
     @ResponseBody
     @PutMapping("/update/password")
-    public SimpleHttpResponseTemplate updateUser(@RequestParam("mail")        String mail     ,
+    public UserResponse updateUser(@RequestParam("mail")        String mail     ,
                                                  @RequestParam("newPassword") String password ,
                                                  @RequestParam("code")        String code) {
-        SimpleHttpResponseTemplate response = new SimpleHttpResponseTemplate();
+        UserResponse response = new UserResponse();
         try {
             VerificationData verificationData = verificationService
                     .getVerificationDataByMail(mail);
@@ -123,7 +124,7 @@ public class UserController {
             case ROLE_USER:
                 return "/user/personal/user";
             case ROLE_ADMIN:
-                return "/user/personal/admin";
+                return "/manager/personal/admin";
         }
         return "/user/authentication/login";
     }

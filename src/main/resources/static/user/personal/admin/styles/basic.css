@@ -35,3 +35,59 @@ td {
 .table > tbody > tr:hover > td > * {
     color: #000000;
 }
+.resize {
+    resize: none;
+}
+.valid {
+    position: relative;
+}
+.signal {
+    text-decoration: red underline;
+}
+.alert-validate::before {
+    content: attr(about);
+    font-weight: 400;
+    position: absolute;
+    max-width: fit-content;
+    height: fit-content;
+    padding: 4px 10px;
+    border-radius: 13px;
+    top: 100%;
+    pointer-events: none;
+    font-size: 22px;
+
+    color: #000000;
+    line-height: 1.4;
+    text-align: center;
+
+    visibility: hidden;
+    opacity: 0;
+
+    -webkit-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+.alert-validate::after {
+    display: block;
+    position: absolute;
+    color: #b2b2b2;
+    font-size: 14px;
+    top: 50%;
+}
+
+.alert-validate:hover:before {
+    visibility: visible;
+    opacity: 1;
+}
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+#response-box {
+    display: none;
+}
+.response {
+    font-size: 24px;
+    letter-spacing: normal;
+    font-family: 'Quicksand', sans-serif;
+    text-transform: uppercase;
+}

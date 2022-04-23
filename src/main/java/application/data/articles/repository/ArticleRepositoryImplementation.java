@@ -17,7 +17,7 @@ public class ArticleRepositoryImplementation {
         return articleRepository.getArticleByName(name);
     }
 
-    public void saveArticle(Article article) {
-        articleRepository.save(article);
+    public Article saveArticle(Article article) {
+        return articleRepository.save(article);
     }
 }

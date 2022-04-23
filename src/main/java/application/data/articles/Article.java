@@ -1,6 +1,8 @@
 package application.data.articles;
 
 import application.data.loadableResources.LoadableResource;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +25,8 @@ public class Article {
     @Column(name = "text")
     private String text;
 
+    @JsonIgnoreProperties("article")
+    @JsonProperty("resources")
     @OneToMany(fetch = FetchType.EAGER , mappedBy = "article" , cascade = CascadeType.ALL , orphanRemoval = true)
     private List<LoadableResource> resources;
 }

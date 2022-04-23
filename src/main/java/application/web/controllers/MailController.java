@@ -5,7 +5,8 @@ import application.data.mail.models.MailType;
 import application.data.mail.service.MailService;
 import application.data.users.models.UserActionType;
 import application.data.utils.threads.TaskDistributorTool;
-import application.web.responses.SimpleHttpResponseTemplate;
+import application.web.responses.ApplicationWebResponse;
+import application.web.responses.mail.MailMessageSendingResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,14 +33,14 @@ public class MailController {
     }
 
     @PostMapping("/verification")
-    public SimpleHttpResponseTemplate verify
+    public ApplicationWebResponse verify
             (@RequestParam("recipient")                                        String recipient                    ,
              @RequestParam(value = "subject" , required = false)               String subject                      ,
              @RequestParam(value = "text" , required = false)                  String text                         ,
              @RequestParam(value = "resources" , required = false)             List<Resource> resources            ,
              @RequestParam("mailType")                                         MailType mailType                   ,
              @RequestParam("userActionType")                                   UserActionType userActionType) {
-        SimpleHttpResponseTemplate response = new SimpleHttpResponseTemplate();
+        MailMessageSendingResponse response = new MailMessageSendingResponse();
         MailMessageDataCollector collector = new MailMessageDataCollector(recipient , subject , text , resources);
         try {
             Runnable messageSendingTask = () -> {
@@ -55,10 +56,12 @@ public class MailController {
             TaskDistributorTool.execute(messageSendingTask);
             response.setSuccess(true);
             response.setError(null);
+            response.setCollector(collector);
         }
         catch (RuntimeException e) {
             response.setSuccess(false);
             response.setError(e.getMessage());
+            response.setCollector(collector);
         }
         return response;
     }
