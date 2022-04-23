@@ -82,7 +82,7 @@ td {
     opacity: 1;
 }
 @import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
-#response-box {
+#add-response-box , #find-response-box , #edit-response-box , #delete-response-box {
     display: none;
 }
 .response {
@@ -90,4 +90,36 @@ td {
     letter-spacing: normal;
     font-family: 'Quicksand', sans-serif;
     text-transform: uppercase;
+}
+.hide {
+    display: none;
+}
+.link {
+    text-decoration: none;
+    color: black;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 20px;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+}
+.link:hover {
+    color: #ff8181;
+}
+.link:after
+{
+    bottom: -5px;
+    content: "";
+    display: block;
+    height: 3px;
+    left: 50%;
+    position: absolute;
+    background: #000000;
+    transition: width 0.3s ease-in-out 0s , left 0.3s ease-in-out 0s;
+    width: 0;
+}
+.link:hover:after
+{
+    width: 40%;
+    left: 30%;
+    background: #ff8181;
 }

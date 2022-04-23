@@ -20,4 +20,8 @@ public class ArticleRepositoryImplementation {
     public Article saveArticle(Article article) {
         return articleRepository.save(article);
     }
+
+    public void removeArticleByTitle(String title) {
+        articleRepository.removeArticleByTitle(title);
+    }
 }

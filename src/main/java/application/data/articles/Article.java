@@ -27,6 +27,6 @@ public class Article {
 
     @JsonIgnoreProperties("article")
     @JsonProperty("resources")
-    @OneToMany(fetch = FetchType.EAGER , mappedBy = "article" , cascade = CascadeType.ALL , orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER , mappedBy = "article" , orphanRemoval = true , cascade = CascadeType.ALL)
     private List<LoadableResource> resources;
 }

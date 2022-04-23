@@ -22,25 +22,25 @@
     <div class="row min-vh-100">
         <div class="col-xl-3 min-vh-100" id="menu">
             <table class="table table-dark table-hover table-bordered h-100">
-                <tr>
+                <tr id="find-article">
                     <td><p class="menu-points">Find article</p></td>
                 </tr>
-                <tr>
+                <tr id="add-article">
                     <td><p class="menu-points">Add article</p></td>
                 </tr>
-                <tr>
+                <tr id="edit-article">
                     <td><p class="menu-points">Edit article</p></td>
                 </tr>
-                <tr>
+                <tr id="delete-article">
                     <td><p class="menu-points">Delete article</p></td>
                 </tr>
-                <tr>
+                <tr id="user-management">
                     <td><p class="menu-points">Users</p></td>
                 </tr>
-                <tr>
+                <tr id="promo-management">
                     <td><p class="menu-points">Promo</p></td>
                 </tr>
-                <tr>
+                <tr id="profile">
                     <td><p class="menu-points">Profile</p></td>
                 </tr>
                 <tr id="logout">
@@ -48,26 +48,103 @@
                 </tr>
             </table>
         </div>
-        <div class="col-xl-9 min-vh-100">
+        <div class="col-xl-9 min-vh-100" id="find-article-menu">
             <div class="container h-100 d-flex align-content-center flex-column justify-content-center">
-                <form id="create-article-form" class="d-flex flex-column align-content-center justify-content-around py-2">
-                    <div class="col-auto" id="response-box">
-                        <span class="response w-100 d-flex justify-content-center" id="response">Status</span>
+                <h2 class="w-100 d-flex justify-content-center h-auto my-0">Find an article</h2>
+                <form class="d-flex flex-column align-content-center justify-content-around py-2" id="find-form">
+                    <div class="col-auto" id="find-response-box">
+                        <span class="response w-100 d-flex justify-content-center" id="find-response">Status</span>
                     </div>
                     <div class="col-auto my-5 input-group valid" about="Validate">
-                        <input name="title" type="text" class="form-control" id="title" placeholder="Title of article" required>
+                        <input type="text" class="form-control" id="find-title" placeholder="Title of article" required>
+                    </div>
+                    <div class="col-auto my-5 d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary mb-5 w-50">Find article!</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-xl-9 min-vh-100 hide" id="add-article-menu">
+            <div class="container h-100 d-flex align-content-center flex-column justify-content-around">
+                <h2 class="w-100 d-flex justify-content-center h-auto my-0">Add an article</h2>
+                <form class="d-flex flex-column align-content-center justify-content-around py-2" id="add-form">
+                    <div class="col-auto" id="add-response-box">
+                        <span class="response w-100 d-flex justify-content-center" id="add-response">Status</span>
+                    </div>
+                    <div class="col-auto my-5 input-group valid" about="Validate">
+                        <input name="title" type="text" class="form-control" id="add-title" placeholder="Title of article" required>
                     </div>
                     <div class="col-auto my-2 valid" about="Validate">
                         <textarea name="content" class="form-control resize"
-                                  id="content" maxlength="5000" rows="9" placeholder="Text of article" required></textarea>
+                                  id="add-content" maxlength="5000" rows="9" placeholder="Text of article" required></textarea>
                     </div>
                     <div class="mb-3 col-auto my-5 valid" about="Validate">
-                        <input name="media" class="form-control" type="file" id="media" multiple>
+                        <input name="media" class="form-control" type="file" id="add-media" multiple>
                     </div>
                     <div class="col-auto my-5 d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary mb-5 w-50">Publish!</button>
+                        <button type="submit" class="btn btn-primary mb-5 w-50">Add article!</button>
                     </div>
                 </form>
+            </div>
+        </div>
+        <div class="col-xl-9 min-vh-100 hide" id="edit-article-menu">
+            <div class="container h-100 d-flex align-content-center flex-column justify-content-around">
+                <h2 class="w-100 d-flex justify-content-center h-auto my-0">Edit an article</h2>
+                <form class="d-flex flex-column align-content-center justify-content-around py-2" id="edit-form">
+                    <div class="col-auto" id="edit-response-box">
+                        <span class="response w-100 d-flex justify-content-center" id="edit-response">Status</span>
+                    </div>
+                    <div class="col-auto my-5 input-group valid" about="Validate">
+                        <input type="text" class="form-control" id="edit-title" placeholder="Title of article" required>
+                    </div>
+                    <div class="col-auto my-2 valid" about="Validate">
+                        <textarea class="form-control resize"
+                                  id="edit-content" maxlength="5000" rows="9" placeholder="Text of article" required></textarea>
+                    </div>
+                    <div class="mb-3 col-auto my-5 valid" about="Validate">
+                        <input class="form-control" type="file" id="edit-media" multiple>
+                    </div>
+                    <div class="col-auto my-5 d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary mb-5 w-50">Edit article!</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-xl-9 min-vh-100 hide" id="delete-article-menu">
+            <div class="container h-100 d-flex align-content-center flex-column justify-content-center">
+                <h2 class="w-100 d-flex justify-content-center h-auto my-0">Delete an article</h2>
+                <form class="d-flex flex-column align-content-center justify-content-around py-2" id="delete-form">
+                    <div class="col-auto" id="delete-response-box">
+                        <span class="response w-100 d-flex justify-content-center" id="delete-response">Status</span>
+                    </div>
+                    <div class="col-auto my-5 input-group valid" about="Validate">
+                        <input type="text" class="form-control" id="delete-title" placeholder="Title of article" required>
+                    </div>
+                    <div class="col-auto my-5 d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary mb-5 w-50">Delete article!</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-xl-9 min-vh-100 hide" id="profile-menu">
+            <div class="container h-100 d-flex align-content-center flex-column justify-content-center">
+                <h2 class="w-100 d-flex justify-content-center h-auto mt-5">Personal data</h2>
+                <div class="d-flex w-100 h-100 align-content-center justify-content-around mt-5">
+                    <ul class="list-group w-50 mx-1">
+                        <li class="list-group-item text-center">Username</li>
+                        <li class="list-group-item text-center">Mail</li>
+                        <li class="list-group-item text-center">Password</li>
+                        <li class="list-group-item text-center">Role</li>
+                        <li class="list-group-item text-center">Status</li>
+                    </ul>
+                    <ul class="list-group w-50 mx-1">
+                        <li th:text="${user.getUsername()}" class="list-group-item text-center">TEXT</li>
+                        <li th:text="${user.getMail()}"     class="list-group-item text-center">TEXT</li>
+                        <li th:text="${user.getPassword()}" class="list-group-item text-center text-truncate">TEXT</li>
+                        <li th:text="${user.getRole()}"     class="list-group-item text-center">TEXT</li>
+                        <li th:text="${user.getStatus()}"   class="list-group-item text-center">TEXT</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -77,7 +154,12 @@
 <script src="/user/modules/js/bootstrap.esm.js"></script>
 <script src="/user/modules/js/bootstrap.js"></script>
 <script src="/user/personal/admin/scripts/logout.js"></script>
-<script src="/manager/scripts/article/validate.js"></script>
-<script src="/manager/scripts/article/createArticle.js"></script>
+<script src="/manager/scripts/workplace/switcher.js"></script>
+<script src="/manager/scripts/workplace/validate.js"></script>
+<script src="/manager/scripts/workplace/perform.js"></script>
+<script src="/manager/scripts/workplace/findArticle.js"></script>
+<script src="/manager/scripts/workplace/addArticle.js"></script>
+<script src="/manager/scripts/workplace/editArticle.js"></script>
+<script src="/manager/scripts/workplace/deleteArticle.js"></script>
 </body>
 </html>

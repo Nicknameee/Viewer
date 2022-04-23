@@ -21,4 +21,12 @@ public class ArticleService {
     public Article saveArticle(Article article) {
         return articleRepository.saveArticle(article);
     }
+
+    public void removeArticleByTitle(String title) {
+        Article article = getArticleByName(title);
+        if (article != null) {
+            article.getResources().clear();
+        }
+        articleRepository.removeArticleByTitle(title);
+    }
 }

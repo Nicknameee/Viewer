@@ -1,21 +1,10 @@
-function performReload(status) {
-    drop()
-    $("#title").val('')
-    $("#content").val('')
-    $("#media").val('')
-    $("#response").text(status)
-    $("#response-box").fadeIn(600)
-    setTimeout(function() {
-        $("#response-box").fadeOut(600)
-    } , 5000)
-}
 $(document).ready(function () {
-    $("#create-article-form").submit(function (event)
+    $("#add-form").submit(function (event)
     {
         event.preventDefault();
-        if (validate().bool === true)
+        if (validate("add").success === true)
         {
-            let form = $("#create-article-form")[0]
+            let form = $("#add-form")[0]
             let dataFromForm = new FormData(form)
             $.ajax(
                 {
@@ -28,16 +17,16 @@ $(document).ready(function () {
                     success:
                         function(response) {
                             if (response.success) {
-                                performReload("Article created successfully")
+                                performReload("Article created successfully" , "add")
                             }
                             else {
-                                performReload("Error occurs during creating an article")
+                                performReload("Error occurs during creating an article" , "add")
                                 console.log(response.error)
                             }
                         },
                     error:
                         function(response) {
-                            performReload("Error occurs during creating an article")
+                            performReload("Error occurs during creating an article" , "add")
                             console.log(response.error)
                         }
                 }

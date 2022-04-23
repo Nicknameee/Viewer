@@ -148,6 +148,25 @@ public class ManagerController {
         return response;
     }
 
+
+    @GetMapping("article/read")
+    @ResponseBody
+    @PreAuthorize("hasAnyAuthority('access:user:read' , 'access:admin:read')")
+    public ApplicationWebResponse readArticle(@RequestParam("title") String title) {
+        ArticleResponse response = new ArticleResponse();
+        try {
+            response.setArticle(articleService.getArticleByName(title));
+            response.setSuccess(true);
+            response.setError(null);
+        }
+        catch (RuntimeException e) {
+            response.setArticle(null);
+            response.setSuccess(false);
+            response.setError(e.getMessage());
+        }
+        return response;
+    }
+
     @PostMapping("/article/create")
     @ResponseBody
     @PreAuthorize("hasAuthority('access:admin:create')")
@@ -168,6 +187,56 @@ public class ManagerController {
             }
             article.setResources(resourceList);
             response.setArticle(articleService.saveArticle(article));
+            response.setSuccess(true);
+            response.setError(null);
+        }
+        catch (RuntimeException e) {
+            response.setArticle(null);
+            response.setSuccess(false);
+            response.setError(e.getMessage());
+        }
+        return response;
+    }
+
+    @PostMapping("/article/update")
+    @ResponseBody
+    @PreAuthorize("hasAuthority('access:admin:update')")
+    public ApplicationWebResponse updateArticle(@RequestParam("title")   String title,
+                                                @RequestParam("content") String content,
+                                                @RequestParam("media")   MultipartFile[] files) {
+        ArticleResponse response = new ArticleResponse();
+        Article article = new Article(title , content , null);
+        try {
+            List<LoadableResource> resourceList = new LinkedList<>();
+            if (files != null && files.length > 0) {
+                for (MultipartFile file : files) {
+                    String name = FileProcessingUtility.uploadFile(file);
+                    ResourceType type = file.getContentType().contains("image")
+                            ? ResourceType.IMAGE : ResourceType.VIDEO;
+                    resourceList.add(new LoadableResource(name , type , file.getSize() , article));
+                }
+            }
+            article.setResources(resourceList);
+            response.setArticle(articleService.saveArticle(article));
+            response.setSuccess(true);
+            response.setError(null);
+        }
+        catch (RuntimeException e) {
+            response.setArticle(null);
+            response.setSuccess(false);
+            response.setError(e.getMessage());
+        }
+        return response;
+    }
+
+    @DeleteMapping("/article/delete")
+    @ResponseBody
+    @PreAuthorize("hasAuthority('access:admin:delete')")
+    public ApplicationWebResponse deleteArticle(@RequestParam("title") String title) {
+        ArticleResponse response = new ArticleResponse();
+        try {
+            articleService.removeArticleByTitle(title);
+            response.setArticle(null);
             response.setSuccess(true);
             response.setError(null);
         }
