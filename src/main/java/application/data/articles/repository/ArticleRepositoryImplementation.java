@@ -4,6 +4,8 @@ import application.data.articles.Article;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class ArticleRepositoryImplementation {
     private ArticleRepository articleRepository;
@@ -11,6 +13,10 @@ public class ArticleRepositoryImplementation {
     @Autowired
     public void setArticleRepository(ArticleRepository articleRepository) {
         this.articleRepository = articleRepository;
+    }
+
+    public List<Article> getAll() {
+        return articleRepository.findAll();
     }
 
     public Article getArticleByName(String name) {

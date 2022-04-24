@@ -38,7 +38,8 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .ignoring()
                 .antMatchers("/static/**" , "/user/**" ,
                         "/uploads/**" , "/favicon.ico" , "/error" , "/resources/**" ,
-                        "/js/**" , "/css/**" , "/fonts/**" , "/personal/**" , "/manager/**");
+                        "/js/**" , "/css/**" , "/fonts/**" , "/personal/**" , "/manager/**" ,
+                        "/all/**");
     }
 
     @Override
@@ -47,6 +48,8 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .csrf().disable();
         http
                 .authorizeRequests()
+                //Access for public pages
+                .antMatchers("/api/all/**").permitAll()
                 //Access for getting an authentication pages
                 .antMatchers(HttpMethod.GET , "/api/authentication/**").permitAll()
                 //Access for sending an authorizing requests
