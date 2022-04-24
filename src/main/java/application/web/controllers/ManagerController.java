@@ -33,6 +33,13 @@ public class ManagerController {
 
     private ArticleService articleService;
 
+    private LoadableResourceService loadableResourceService;
+
+    @Autowired
+    public void setLoadableResourceService(LoadableResourceService loadableResourceService) {
+        this.loadableResourceService = loadableResourceService;
+    }
+
     @Autowired
     public void setPromoService(PromoService promoService) {
         this.promoService = promoService;
@@ -176,16 +183,7 @@ public class ManagerController {
         ArticleResponse response = new ArticleResponse();
         Article article = new Article(title , content , null , null);
         try {
-            List<LoadableResource> resourceList = new LinkedList<>();
-            if (files != null && files.length > 0) {
-                for (MultipartFile file : files) {
-                    String name = FileProcessingUtility.uploadFile(file);
-                    ResourceType type = file.getContentType().contains("image")
-                            ? ResourceType.IMAGE : ResourceType.VIDEO;
-                    resourceList.add(new LoadableResource(name , type , file.getSize() , article));
-                }
-            }
-            article.setResources(resourceList);
+            article.setResources(loadableResourceService.processResourcesForArticle(files , article));
             response.setArticle(articleService.saveArticle(article));
             response.setSuccess(true);
             response.setError(null);

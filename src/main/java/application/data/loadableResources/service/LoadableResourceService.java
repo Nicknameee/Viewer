@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -41,22 +42,16 @@ public class LoadableResourceService {
         loadableResourceRepository.deleteLoadableResource(loadableResource.getFilename());
     }
 
-    public void processResourcesForArticle(MultipartFile[] files , Article article) {
-        for (MultipartFile file : files) {
-            if (!file.isEmpty()) {
-                Runnable savingMediaFileTask = () -> {
-                    try {
-                        String uniqueFileName = FileProcessingUtility.uploadFile(file);
-                        ResourceType type = file.getContentType().contains("image")
-                                ? ResourceType.IMAGE : ResourceType.VIDEO;
-                        saveLoadableResource(new LoadableResource(uniqueFileName , type , file.getSize() , article));
-                    }
-                    catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                };
-                TaskDistributorTool.execute(savingMediaFileTask);
+    public List<LoadableResource> processResourcesForArticle(MultipartFile[] files , Article article) {
+        List<LoadableResource> resourceList = new LinkedList<>();
+        if (files != null && files.length > 0) {
+            for (MultipartFile file : files) {
+                String name = FileProcessingUtility.uploadFile(file);
+                ResourceType type = file.getContentType().contains("image")
+                        ? ResourceType.IMAGE : ResourceType.VIDEO;
+                resourceList.add(new LoadableResource(name , type , file.getSize() , article));
             }
         }
+        return resourceList;
     }
 }
