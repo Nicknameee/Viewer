@@ -174,7 +174,7 @@ public class ManagerController {
                                                 @RequestParam("content") String content,
                                                 @RequestParam("media")   MultipartFile[] files) {
         ArticleResponse response = new ArticleResponse();
-        Article article = new Article(title , content , null);
+        Article article = new Article(title , content , null , null);
         try {
             List<LoadableResource> resourceList = new LinkedList<>();
             if (files != null && files.length > 0) {
@@ -205,7 +205,7 @@ public class ManagerController {
                                                 @RequestParam("content") String content,
                                                 @RequestParam("media")   MultipartFile[] files) {
         ArticleResponse response = new ArticleResponse();
-        Article article = new Article(title , content , null);
+        Article article = new Article(title , content , null , null);
         try {
             List<LoadableResource> resourceList = new LinkedList<>();
             if (files != null && files.length > 0) {

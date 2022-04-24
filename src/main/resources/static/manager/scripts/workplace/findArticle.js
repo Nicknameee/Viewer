@@ -12,12 +12,12 @@ $(document).ready(function () {
                     },
                     success:
                         function(response) {
-                            if (response.success && response.article !== null) {
+                            if (response.success && response.article !== null && response.article.secret !== null) {
                                 performReload("Article found", "find")
                                 let link = document.createElement('a');
                                 link.id = "article-link"
                                 link.className = "w-100 d-flex justify-content-center link"
-                                link.setAttribute('href' , 'ARTICLE_LOC_UUID')
+                                link.setAttribute('href' , '/api/all/article/' + response.article.secret)
                                 link.innerHTML = "Here is this article..."
                                 document.getElementById("find-response-box").insertAdjacentElement("afterend" , link)
                             }

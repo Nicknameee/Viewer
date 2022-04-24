@@ -23,6 +23,10 @@ body {
     align-items: center;
     transition: all 0.4s ease-in-out;
 }
+.menu-link {
+    text-decoration: none;
+    text-underline: none;
+}
 .table-dark {
     --bs-table-hover-bg: #939090;
 }

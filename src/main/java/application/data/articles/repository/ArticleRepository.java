@@ -11,6 +11,9 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Query("SELECT a FROM Article a WHERE a.name=:name")
     Article getArticleByName(@Param("name") String name);
 
+    @Query("SELECT a FROM Article a WHERE a.secret=:secret")
+    Article getArticleBySecret(@Param("secret") String secret);
+
     @Modifying
     @Transactional
     @Query("DELETE FROM Article a WHERE a.name=:title")

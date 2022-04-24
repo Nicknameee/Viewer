@@ -25,6 +25,9 @@ public class Article {
     @Column(name = "text")
     private String text;
 
+    @Column(name = "secret")
+    private String secret;
+
     @JsonIgnoreProperties("article")
     @JsonProperty("resources")
     @OneToMany(fetch = FetchType.EAGER , mappedBy = "article" , orphanRemoval = true , cascade = CascadeType.ALL)

@@ -32,6 +32,7 @@
                 <li class="nav-item hover-item"><a class="nav-link" href="#about">About</a></li>
                 <li class="nav-item hover-item"><a class="nav-link" href="#contact">Contact</a></li>
                 <li th:if="${authenticated == true}" class="nav-item hover-item"><a class="nav-link" th:href="@{/api/user/personal}">Profile</a></li>
+                <li th:if="${authenticated == false}" class="nav-item hover-item"><a class="nav-link" th:href="@{/api/authentication/user/login}">Login</a></li>
             </ul>
         </div>
     </div>
@@ -43,35 +44,29 @@
         <a class="btn btn-light btn-xl text-uppercase my-5 hover-btn" href="#contact">Tell Me More</a>
     </div>
 </header>
-<!-- Portfolio Grid-->
+<!-- Article Grid-->
 <section class="page-section bg-dark" id="portfolio">
     <div class="container">
         <div class="text-center">
             <h2 class="section-heading text-uppercase text-light">Articles</h2>
         </div>
-        <div th:if="${articles.size() > 0}" th:each="article : ${articles}" class="row d-flex justify-content-center">
-            <div class="col-lg-4 col-sm-6 mb-4">
-                <!-- Portfolio item 1-->
+        <div class="row d-flex justify-content-center">
+            <div th:if="${articles.size() > 0}" th:each="article : ${articles}" class="col-lg-4 col-sm-6 mb-4">
+                <!-- Article item template-->
                 <div class="portfolio-item">
-                    <a class="portfolio-link" data-bs-toggle="modal"
-                       th:href="@{'/api/all/article/' + ${article.getName()}}">
+                    <a class="portfolio-link" target="_blank"
+                       th:href="@{'/api/all/article/' + ${article.getSecret()}}">
                         <div class="portfolio-hover">
                             <div class="portfolio-hover-content">View</div>
                         </div>
-                        <img th:if="${article.getResources().size() >= 0}"
-                             class="img-fluid" src="/all/media/assets/img/portfolio/qu.jpg" alt="..." />
-<!--                        <img th:if="${article.getResources().size() > 0}"-->
-<!--                             class="img-fluid"-->
-<!--                             th:src="@{'/uploads/' + ${article.getResources().get(0).getFilename()}}" alt="Media was not found" />-->
+                        <img class="img-fluid" src="/all/media/assets/img/portfolio/card.png" alt="Card" />
                     </a>
                     <div class="portfolio-caption">
                         <div th:text="${article.getName()}" class="portfolio-caption-heading text-truncate"></div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div th:if="${articles.size() == 0}" class="row d-flex justify-content-center">
-            <div class="col-lg-4 col-sm-6 mb-4">
+            <div th:if="${articles.size() == 0}" class="col-lg-4 col-sm-6 mb-4">
                 <div class="msg-default text-light my-5">No articles were added yet</div>
             </div>
         </div>
@@ -86,6 +81,15 @@
         <ul class="timeline">
             <li>
                 <div class="timeline-image"><img class="rounded-circle img-fluid" src="/all/media/assets/img/about/gerb.jpg" alt="..." /></div>
+                <div class="timeline-panel">
+                    <div class="timeline-heading">
+                        <h4 class="subheading">History</h4>
+                    </div>
+                    <div class="timeline-body"><p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p></div>
+                </div>
+            </li>
+            <li class="timeline-inverted">
+                <div class="timeline-image"><img class="rounded-circle img-fluid" src="/all/media/assets/img/about/bz_sof.png" alt="..." /></div>
                 <div class="timeline-panel">
                     <div class="timeline-heading">
                         <h4 class="subheading">History</h4>
@@ -153,13 +157,19 @@
         <div class="row align-items-center">
             <div class="col-lg-4 text-lg-start">Copyright &copy; Dobrovolets 2022</div>
             <div class="col-lg-4 my-3 my-lg-0">
-                <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Twitter"><i class="fab fa-instagram"></i></a>
-                <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="LinkedIn"><i class="fab fa-telegram"></i></a>
+                <a class="btn btn-dark btn-social mx-2"
+                   href="https://www.facebook.com/groups/306989136137441/"
+                   aria-label="Facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a class="btn btn-dark btn-social mx-2"
+                   href="https://www.instagram.com/obo.dobrovolets"
+                   aria-label="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a class="btn btn-dark btn-social mx-2"
+                   href="https://www.facebook.com/profile.php?id=100078448167470"
+                   aria-label="Facebook Personal" target="_blank"><i class="fab fa-facebook"></i></a>
             </div>
             <div class="col-lg-4 text-lg-end">
                 <!--                        <a class="link-dark text-decoration-none me-3" href="#!">Privacy Policy</a>-->
-                <!--                        <a class="link-dark text-decoration-none" href="#!">Terms of Use</a>-->
+                <a class="link-dark text-decoration-none" href="">Support us</a>
             </div>
         </div>
     </div>

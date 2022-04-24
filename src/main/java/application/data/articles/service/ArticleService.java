@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ArticleService {
@@ -19,11 +20,17 @@ public class ArticleService {
     public List<Article> getAll() {
         return articleRepository.getAll();
     }
+
     public Article getArticleByName(String name) {
         return articleRepository.getArticleByName(name);
     }
 
+    public Article getArticleBySecret(String secret) {
+        return articleRepository.getArticleBySecret(secret);
+    }
+
     public Article saveArticle(Article article) {
+        article.setSecret(UUID.randomUUID().toString());
         return articleRepository.saveArticle(article);
     }
 

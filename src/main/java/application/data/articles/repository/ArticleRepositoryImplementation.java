@@ -23,6 +23,10 @@ public class ArticleRepositoryImplementation {
         return articleRepository.getArticleByName(name);
     }
 
+    public Article getArticleBySecret(String secret) {
+        return articleRepository.getArticleBySecret(secret);
+    }
+
     public Article saveArticle(Article article) {
         return articleRepository.save(article);
     }

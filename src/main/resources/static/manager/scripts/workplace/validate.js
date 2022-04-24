@@ -54,8 +54,6 @@ document.getElementById("add-content").addEventListener("change" , function () {
 document.getElementById("add-media").addEventListener("change" , function () {
     const maxSize = 10 * 1024 * 1024;
     let files = document.getElementById("add-media").files
-    alert(files.length)
-    alert(files.item(0).size)
     for (let i = 0; i < files.length; i++) {
         if (files.item(i).size > maxSize) {
             $("#add-media").addClass('signal')
@@ -101,8 +99,6 @@ document.getElementById("edit-content").addEventListener("change" , function () 
 document.getElementById("edit-media").addEventListener("change" , function () {
     const maxSize = 10 * 1024 * 1024;
     let files = document.getElementById("edit-media").files
-    alert(files.length)
-    alert(files.item(0).size)
     for (let i = 0; i < files.length; i++) {
         if (files.item(i).size > maxSize) {
             $("#edit-media").addClass('signal')
