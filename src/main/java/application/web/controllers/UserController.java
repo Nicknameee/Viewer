@@ -15,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.stream.Collectors;
+
 @Controller
 @RequestMapping("/api/user")
 public class UserController {
@@ -124,6 +126,10 @@ public class UserController {
             case ROLE_USER:
                 return "/user/personal/user";
             case ROLE_ADMIN:
+                model.addAttribute("users" , userService.getAllUsers()
+                        .stream()
+                        .filter(username -> !username.equals(SecurityContextHolder.getContext().getAuthentication().getName()))
+                        .collect(Collectors.toList()));
                 return "/manager/personal/admin";
         }
         return "/user/authentication/login";

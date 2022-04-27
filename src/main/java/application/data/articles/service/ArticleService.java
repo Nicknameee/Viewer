@@ -47,7 +47,10 @@ public class ArticleService {
     }
 
     public Boolean removeArticleResources(List<LoadableResource> resources) {
-        List<String> files = resources.stream().map(LoadableResource::getFilename).collect(Collectors.toList());
-        return FileProcessingUtility.deleteFiles(files);
+        if (resources != null && resources.size() > 0) {
+            List<String> files = resources.stream().map(LoadableResource::getFilename).collect(Collectors.toList());
+            return FileProcessingUtility.deleteFiles(files);
+        }
+        return true;
     }
 }

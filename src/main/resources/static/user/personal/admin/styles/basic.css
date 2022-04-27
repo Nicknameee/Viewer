@@ -127,3 +127,8 @@ td {
     left: 30%;
     background: #ff8181;
 }
+@media all and (max-width: 768px) {
+    .hide-768 {
+        display: none;
+    }
+}

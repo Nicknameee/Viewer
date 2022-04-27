@@ -31,7 +31,7 @@ public class User {
 
     @Column(name = "logout_time")
     @Temporal(TemporalType.TIMESTAMP)
-    private Timestamp logoutTime;
+    private Timestamp logoutTime = new Timestamp(Calendar.getInstance().getTime().getTime());
 
     @Column(name = "role" , nullable = false)
     @Enumerated(EnumType.STRING)

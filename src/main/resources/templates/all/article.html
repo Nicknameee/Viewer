@@ -111,11 +111,11 @@
                         <div th:if="${resource.getFiletype().name()} eq 'IMAGE'" class="portfolio-hover" onclick="lightshot(this)">
                             <div class="portfolio-hover-content">View</div>
                         </div>
-                        <img th:if="${resource.getFiletype().name()} eq 'IMAGE'" onclick="openLightbox();toSlide(1)"
+                        <img th:if="${resource.getFiletype().name()} eq 'IMAGE'"
                              class="img-fluid" th:src="@{'/uploads/' + ${resource.getFilename()}}" alt="Card" />
                         <iframe allowfullscreen th:autoplay="false"
                                 th:if="${resource.getFiletype().name()} eq 'VIDEO'"
-                                class="video" th:src="@{'/uploads/' + ${resource.getFilename()}}"></iframe>
+                                class="video" th:src="@{'/uploads/' + ${resource.getFilename()}}" sandbox></iframe>
                     </a>
                     <div class="portfolio-caption flex-grow-1">
                         <div class="portfolio-caption-heading text-truncate"></div>
