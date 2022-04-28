@@ -37,6 +37,10 @@ public class ArticleService {
         return articleRepository.saveArticle(article);
     }
 
+    public void updateArticle(Article article) {
+        articleRepository.updateArticle(article);
+    }
+
     public void removeArticleByTitle(String title) {
         Article article = getArticleByName(title);
         if (article != null) {

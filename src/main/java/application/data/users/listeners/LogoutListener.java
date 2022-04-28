@@ -22,6 +22,8 @@ public class LogoutListener implements ApplicationListener<SessionDestroyedEvent
 
     @Override
     public void onApplicationEvent(SessionDestroyedEvent event) {
-        userService.updateUserLogoutTime(event.getSecurityContexts().get(0).getAuthentication().getName());
+        if (event.getSecurityContexts().size() > 0) {
+            userService.updateUserLogoutTime(event.getSecurityContexts().get(0).getAuthentication().getName());
+        }
     }
 }

@@ -31,6 +31,10 @@ public class ArticleRepositoryImplementation {
         return articleRepository.save(article);
     }
 
+    public void updateArticle(Article article) {
+        articleRepository.updateArticle(article.getName() , article.getText() , article.getId());
+    }
+
     public void removeArticleByTitle(String title) {
         articleRepository.removeArticleByTitle(title);
     }

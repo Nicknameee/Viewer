@@ -38,7 +38,7 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/register")
-    public UserResponse register(@ModelAttribute("userModel") User user , @RequestParam("code") String code) {
+    public ApplicationWebResponse register(@ModelAttribute("userModel") User user , @RequestParam("code") String code) {
         UserResponse response = new UserResponse();
         try {
             VerificationData verificationData = verificationService
@@ -67,7 +67,7 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/confirm")
-    public UserResponse confirmVerification(@ModelAttribute("verificationData") VerificationData verificationData) {
+    public ApplicationWebResponse confirmVerification(@ModelAttribute("verificationData") VerificationData verificationData) {
         try {
             if (!verificationService.checkVerificationDataCoincidence(verificationData)) {
                 return new UserResponse(false , "Codes does not match");
@@ -81,7 +81,7 @@ public class UserController {
 
     @ResponseBody
     @PutMapping("/update/password")
-    public UserResponse updateUser(@RequestParam("mail")        String mail     ,
+    public ApplicationWebResponse updatePassword(@RequestParam("mail")        String mail     ,
                                                  @RequestParam("newPassword") String password ,
                                                  @RequestParam("code")        String code) {
         UserResponse response = new UserResponse();

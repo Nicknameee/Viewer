@@ -17,6 +17,10 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoadableResource {
+    @Column(name = "id" , unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Id
     @Column(name = "filename" , nullable = false , unique = true)
     private String filename;

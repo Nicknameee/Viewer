@@ -32,10 +32,10 @@
             </div>
 
             <form class="login100-form validate-form" id="form" th:action="@{/api/authentication/user/login}" th:method="POST">
-					<span class="login100-form-title">
-						Authorization
-					</span>
-
+                <span class="login100-form-title">
+                    Authorization
+                </span>
+                <p th:if="${message != null}" th:text="${message}" class="w-100 text-center text-danger mb-2"></p>
                 <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
                     <input class="input100" type="text" id="username" name="username" placeholder="Username" required>
                     <span class="focus-input100"></span>

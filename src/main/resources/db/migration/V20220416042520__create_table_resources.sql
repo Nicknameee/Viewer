@@ -1,4 +1,5 @@
 create table if not exists resources(
+    id serial,
     filename varchar(255) primary key,
     filetype varchar,
     size int,

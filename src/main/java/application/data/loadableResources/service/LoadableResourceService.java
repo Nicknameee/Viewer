@@ -49,7 +49,7 @@ public class LoadableResourceService {
                 String name = FileProcessingUtility.uploadFile(file);
                 ResourceType type = file.getContentType().contains("image")
                         ? ResourceType.IMAGE : ResourceType.VIDEO;
-                resourceList.add(new LoadableResource(name , type , file.getSize() , article));
+                resourceList.add(new LoadableResource(0L , name , type , file.getSize() , article));
             }
         }
         return resourceList;

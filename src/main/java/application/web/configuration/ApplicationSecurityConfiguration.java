@@ -71,6 +71,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .successHandler(new SecuritySuccessHandlerEntity())
                 //URL for login page
                 .loginProcessingUrl("/api/authentication/user/login")
+                .failureUrl("/api/authentication/user/login?error")
                 .loginPage("/api/authentication/user/login").permitAll()
                 //Redirect to [] if login is successful
                 .defaultSuccessUrl("/api/user/personal" , true)

@@ -3,7 +3,6 @@ package application.web.controllers;
 import application.data.articles.Article;
 import application.data.articles.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -33,7 +32,7 @@ public class AnyAuthorityController {
     public Object article(@PathVariable("secret") String secret , Model model) {
         Article article = articleService.getArticleBySecret(secret);
         if (article == null) {
-            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
         model.addAttribute("article" , article);
         model.addAttribute("authenticated" , !SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser"));

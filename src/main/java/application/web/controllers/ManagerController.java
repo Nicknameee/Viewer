@@ -181,7 +181,7 @@ public class ManagerController {
                                                 @RequestParam("content") String content,
                                                 @RequestParam("media")   MultipartFile[] files) {
         ArticleResponse response = new ArticleResponse();
-        Article article = new Article(title , content , null , null);
+        Article article = new Article(0L , title , content , null , null);
         try {
             article.setResources(loadableResourceService.processResourcesForArticle(files , article));
             response.setArticle(articleService.saveArticle(article));
@@ -203,7 +203,7 @@ public class ManagerController {
                                                 @RequestParam("content") String content,
                                                 @RequestParam("media")   MultipartFile[] files) {
         ArticleResponse response = new ArticleResponse();
-        Article article = new Article(title , content , null , null);
+        Article article = new Article(0L , title , content , null , null);
         try {
             List<LoadableResource> resourceList = new LinkedList<>();
             if (files != null && files.length > 0) {
@@ -211,7 +211,7 @@ public class ManagerController {
                     String name = FileProcessingUtility.uploadFile(file);
                     ResourceType type = file.getContentType().contains("image")
                             ? ResourceType.IMAGE : ResourceType.VIDEO;
-                    resourceList.add(new LoadableResource(name , type , file.getSize() , article));
+                    resourceList.add(new LoadableResource(0L , name , type , file.getSize() , article));
                 }
             }
             article.setResources(resourceList);

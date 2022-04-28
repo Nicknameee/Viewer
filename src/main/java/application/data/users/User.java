@@ -3,6 +3,7 @@ package application.data.users;
 import application.data.users.attributes.Role;
 import application.data.users.attributes.Status;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -11,6 +12,7 @@ import java.util.Calendar;
 @Data
 @Entity
 @Table(name = "users")
+@ToString
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +33,7 @@ public class User {
 
     @Column(name = "logout_time")
     @Temporal(TemporalType.TIMESTAMP)
-    private Timestamp logoutTime = new Timestamp(Calendar.getInstance().getTime().getTime());
+    private Timestamp logoutTime = new Timestamp(0);
 
     @Column(name = "role" , nullable = false)
     @Enumerated(EnumType.STRING)
