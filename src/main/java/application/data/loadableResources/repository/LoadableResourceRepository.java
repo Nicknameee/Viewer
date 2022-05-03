@@ -22,5 +22,5 @@ public interface LoadableResourceRepository extends JpaRepository<LoadableResour
     @Modifying
     @Transactional
     @Query("DELETE FROM LoadableResource r WHERE r.filename=:filename")
-    void deleteLoadableResource(@Param("filename") String filename);
+    void deleteLoadableResourceByName(@Param("filename") String filename);
 }

@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -179,7 +180,7 @@ public class ManagerController {
     @PreAuthorize("hasAuthority('access:admin:create')")
     public ApplicationWebResponse createArticle(@RequestParam("title")   String title,
                                                 @RequestParam("content") String content,
-                                                @RequestParam("media")   MultipartFile[] files) {
+                                                @RequestParam(value = "media" , required = false)   MultipartFile[] files) {
         ArticleResponse response = new ArticleResponse();
         Article article = new Article(0L , title , content , null , null);
         try {
@@ -196,25 +197,20 @@ public class ManagerController {
         return response;
     }
 
-    @PostMapping("/article/update")
+    @PutMapping("/article/update")
     @ResponseBody
     @PreAuthorize("hasAuthority('access:admin:update')")
-    public ApplicationWebResponse updateArticle(@RequestParam("title")   String title,
-                                                @RequestParam("content") String content,
-                                                @RequestParam("media")   MultipartFile[] files) {
+    public ApplicationWebResponse updateArticle(@RequestParam("title")                              String title,
+                                                @RequestParam("content")                            String content,
+                                                @RequestParam(value = "media" , required = false)   MultipartFile[] files,
+                                                @RequestParam("id")                                 Long id) {
         ArticleResponse response = new ArticleResponse();
-        Article article = new Article(0L , title , content , null , null);
+        Article article = articleService.getArticleById(id);
         try {
-            List<LoadableResource> resourceList = new LinkedList<>();
-            if (files != null && files.length > 0) {
-                for (MultipartFile file : files) {
-                    String name = FileProcessingUtility.uploadFile(file);
-                    ResourceType type = file.getContentType().contains("image")
-                            ? ResourceType.IMAGE : ResourceType.VIDEO;
-                    resourceList.add(new LoadableResource(0L , name , type , file.getSize() , article));
-                }
-            }
-            article.setResources(resourceList);
+            List<LoadableResource> addedResources = loadableResourceService.processResourcesForArticle(files , article);
+            article.getResources().addAll(addedResources);
+            article.setName(title);
+            article.setText(content);
             response.setArticle(articleService.saveArticle(article));
             response.setSuccess(true);
             response.setError(null);
@@ -230,13 +226,37 @@ public class ManagerController {
     @DeleteMapping("/article/delete")
     @ResponseBody
     @PreAuthorize("hasAuthority('access:admin:delete')")
-    public ApplicationWebResponse deleteArticle(@RequestParam("title") String title) {
+    public ApplicationWebResponse deleteArticle(@RequestParam("id") Long id) {
         ArticleResponse response = new ArticleResponse();
         try {
-            articleService.removeArticleByTitle(title);
+            articleService.removeArticleById(id);
             response.setArticle(null);
             response.setSuccess(true);
             response.setError(null);
+        }
+        catch (RuntimeException e) {
+            response.setArticle(null);
+            response.setSuccess(false);
+            response.setError(e.getMessage());
+        }
+        return response;
+    }
+
+    @DeleteMapping("/article/resource")
+    @ResponseBody
+    @PreAuthorize("hasAuthority('access:admin:delete')")
+    public ApplicationWebResponse deleteResourceFromArticle(@RequestParam("filename") String filename,
+                                                            @RequestParam("id")       String articleId) {
+        ArticleResponse response = new ArticleResponse();
+        try {
+            Article article = articleService.getArticleById(Long.valueOf(articleId));
+            response.setSuccess(false);
+            response.setArticle(null);
+            response.setError(null);
+            if (article != null) {
+                loadableResourceService.deleteLoadableResourceByName(filename);
+                response.setSuccess(true);
+            }
         }
         catch (RuntimeException e) {
             response.setArticle(null);

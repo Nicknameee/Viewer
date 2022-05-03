@@ -17,24 +17,24 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoadableResource {
+    @Id
     @Column(name = "id" , unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Id
-    @Column(name = "filename" , nullable = false , unique = true)
+    @Column(name = "filename" , unique = true)
     private String filename;
 
-    @Column(name = "filetype" , nullable = false)
+    @Column(name = "filetype")
     @Enumerated(EnumType.STRING)
     private ResourceType filetype;
 
-    @Column(name = "size" , nullable = false)
+    @Column(name = "size")
     private Long size;
 
     @JsonIgnoreProperties("resources")
     @JsonProperty("article")
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "article_name")
+    @JoinColumn(name = "article_id")
     private Article article;
 }

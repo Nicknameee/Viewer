@@ -1,5 +1,6 @@
 package application.web.controllers;
 
+import application.data.articles.service.ArticleService;
 import application.data.users.User;
 import application.data.users.service.UserService;
 import application.data.verification.VerificationData;
@@ -25,6 +26,13 @@ public class UserController {
     private UserService userService;
 
     private VerificationDataService verificationService;
+
+    private ArticleService articleService;
+
+    @Autowired
+    public void setArticleService(ArticleService articleService) {
+        this.articleService = articleService;
+    }
 
     @Autowired
     public void setUserService(UserService userService) {
@@ -128,8 +136,9 @@ public class UserController {
             case ROLE_ADMIN:
                 model.addAttribute("users" , userService.getAllUsers()
                         .stream()
-                        .filter(username -> !username.equals(SecurityContextHolder.getContext().getAuthentication().getName()))
+                        .filter(u -> !u.getMail().equals(SecurityContextHolder.getContext().getAuthentication().getName()))
                         .collect(Collectors.toList()));
+                model.addAttribute("articles" , articleService.getAll());
                 return "/manager/personal/admin";
         }
         return "/user/authentication/login";

@@ -23,6 +23,10 @@ public class ArticleRepositoryImplementation {
         return articleRepository.getArticleByName(name);
     }
 
+    public Article getArticleById(Long id) {
+        return articleRepository.getArticleById(id);
+    }
+
     public Article getArticleBySecret(String secret) {
         return articleRepository.getArticleBySecret(secret);
     }
@@ -35,7 +39,7 @@ public class ArticleRepositoryImplementation {
         articleRepository.updateArticle(article.getName() , article.getText() , article.getId());
     }
 
-    public void removeArticleByTitle(String title) {
-        articleRepository.removeArticleByTitle(title);
+    public void removeArticleById(Long id) {
+        articleRepository.deleteArticleById(id);
     }
 }

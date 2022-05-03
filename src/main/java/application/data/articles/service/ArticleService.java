@@ -28,6 +28,10 @@ public class ArticleService {
         return articleRepository.getArticleByName(name);
     }
 
+    public Article getArticleById(Long id) {
+        return articleRepository.getArticleById(id);
+    }
+
     public Article getArticleBySecret(String secret) {
         return articleRepository.getArticleBySecret(secret);
     }
@@ -41,13 +45,13 @@ public class ArticleService {
         articleRepository.updateArticle(article);
     }
 
-    public void removeArticleByTitle(String title) {
-        Article article = getArticleByName(title);
+    public void removeArticleById(Long id) {
+        Article article = getArticleById(id);
         if (article != null) {
             removeArticleResources(article.getResources());
             article.getResources().clear();
         }
-        articleRepository.removeArticleByTitle(title);
+        articleRepository.removeArticleById(id);
     }
 
     public Boolean removeArticleResources(List<LoadableResource> resources) {

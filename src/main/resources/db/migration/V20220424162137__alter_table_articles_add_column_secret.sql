@@ -1,1 +1,0 @@
-ALTER TABLE viewer.public.articles ADD COLUMN secret varchar unique;

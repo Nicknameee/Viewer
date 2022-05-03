@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class LoadableResourceService {
@@ -38,10 +39,6 @@ public class LoadableResourceService {
         return loadableResourceRepository.updateLoadableResource(loadableResource);
     }
 
-    public void deleteLoadableResource(LoadableResource loadableResource) {
-        loadableResourceRepository.deleteLoadableResource(loadableResource.getFilename());
-    }
-
     public List<LoadableResource> processResourcesForArticle(MultipartFile[] files , Article article) {
         List<LoadableResource> resourceList = new LinkedList<>();
         if (files != null && files.length > 0) {
@@ -53,5 +50,9 @@ public class LoadableResourceService {
             }
         }
         return resourceList;
+    }
+
+    public void deleteLoadableResourceByName(String filename) {
+        loadableResourceRepository.deleteLoadableResourceByName(filename);
     }
 }

@@ -1,7 +1,7 @@
 create table if not exists resources(
-    id serial,
-    filename varchar(255) primary key,
+    id serial primary key,
+    filename varchar(255) unique,
     filetype varchar,
     size int,
-    article_name varchar references articles(name)
+    article_id int references articles(id)
 )

@@ -36,7 +36,7 @@ public class LoadableResourceRepositoryImplementation {
         return getLoadableResourceByFilename(loadableResource.getFilename());
     }
 
-    public void deleteLoadableResource(String filename) {
-        loadableResourceRepository.deleteLoadableResource(filename);
+    public void deleteLoadableResourceByName(String filename) {
+        loadableResourceRepository.deleteLoadableResourceByName(filename);
     }
 }

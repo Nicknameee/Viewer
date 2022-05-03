@@ -16,11 +16,11 @@ import java.util.List;
 @Entity
 @Table(name = "articles")
 public class Article {
+    @Id
     @Column(name = "id" , unique = true , nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Id
     @Column(name = "name" , unique = true , nullable = false)
     private String name;
 

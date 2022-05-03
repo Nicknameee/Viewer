@@ -39,7 +39,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .antMatchers("/static/**" , "/user/**" ,
                         "/uploads/**" , "/favicon.ico" , "/error" , "/resources/**" ,
                         "/js/**" , "/css/**" , "/fonts/**" , "/personal/**" , "/manager/**" ,
-                        "/all/**");
+                        "/all/**" , "**.png" , "**.jpeg" , "**.mp4");
     }
 
     @Override
@@ -71,6 +71,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .successHandler(new SecuritySuccessHandlerEntity())
                 //URL for login page
                 .loginProcessingUrl("/api/authentication/user/login")
+                //Redirect to [] if login is failed
                 .failureUrl("/api/authentication/user/login?error")
                 .loginPage("/api/authentication/user/login").permitAll()
                 //Redirect to [] if login is successful

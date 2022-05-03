@@ -1,5 +1,6 @@
 create table if not exists articles(
-    id serial,
-    name varchar unique primary key,
-    text varchar(5000)
+    id serial primary key,
+    name varchar unique,
+    text varchar(5000),
+    secret varchar
 )
