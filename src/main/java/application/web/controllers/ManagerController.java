@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -264,5 +265,13 @@ public class ManagerController {
             response.setError(e.getMessage());
         }
         return response;
+    }
+
+    @GetMapping("/resource/{filename}")
+    @PreAuthorize("hasAuthority('access:admin:delete')")
+    public String getResource(@PathVariable("filename") String filename , Model model) {
+        LoadableResource loadableResource = loadableResourceService.getLoadableResourceByFilename(filename);
+        model.addAttribute("file" , loadableResource);
+        return "/all/resource";
     }
 }

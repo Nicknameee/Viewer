@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface LoadableResourceRepository extends JpaRepository<LoadableResource , Long> {
     @Query("SELECT r FROM LoadableResource r WHERE r.filename=:filename")
-    LoadableResource getLoadableResourceByFilename(String filename);
+    LoadableResource getLoadableResourceByFilename(@Param("filename") String filename);
 
     @Modifying
     @Transactional

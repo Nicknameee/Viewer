@@ -106,7 +106,7 @@ function dropFile(element) {
     )
 }
 function previewFile(element) {
-    window.open('/api/resource/' + $(element).val() , '_blank')
+    window.open('/api/manager/resource/' + $(element).val() , '_blank')
 }
 function submitAdd(element) {
     let form = $(element).parent().parent()[0]
