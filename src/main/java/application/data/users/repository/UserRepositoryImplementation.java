@@ -2,6 +2,7 @@ package application.data.users.repository;
 
 import application.data.users.User;
 import application.data.users.attributes.Role;
+import application.data.users.attributes.Status;
 import application.data.users.security.UserCredentialsCryptTool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,6 +57,10 @@ public class UserRepositoryImplementation {
 
     public void updateUserRole(String mail , Role role) {
         userRepository.updateUserRole(role.name() , mail);
+    }
+
+    public void updateUserStatus(String mail, Status status) {
+        userRepository.updateUserStatus(status.name() , mail);
     }
 
     public void deleteUser(User user) {

@@ -2,6 +2,7 @@ package application.data.users.service;
 
 import application.data.users.User;
 import application.data.users.attributes.Role;
+import application.data.users.attributes.Status;
 import application.data.users.repository.UserRepositoryImplementation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,13 +60,18 @@ public class UserService {
         userRepository.updateUserLogoutTime(mail);
     }
 
-    public void updateUserRole(String mail , Role role) {
+    public void updateUserRoleForCurrentUser(String mail , Role role) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         List<GrantedAuthority> authorities = new LinkedList<>(new ArrayList<>(role.getAuthorities()));
         Authentication newAuthentication = new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), authorities);
         SecurityContextHolder.getContext().setAuthentication(newAuthentication);
 
         userRepository.updateUserRole(mail , role);
+    }
+
+    public void updateUserRoleAndStatus(String mail , Role role , Status status) {
+        userRepository.updateUserRole(mail , role);
+        userRepository.updateUserStatus(mail , status);
     }
 
     public void deleteUser(User user) {

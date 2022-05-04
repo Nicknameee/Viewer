@@ -60,10 +60,10 @@ public class PromoService {
         Promo promo = getPromoByCode(code);
         switch (promo.getType()) {
             case CHANGE_ROLE_TO_USER:
-                userService.updateUserRole(mail , Role.ROLE_USER);
+                userService.updateUserRoleForCurrentUser(mail , Role.ROLE_USER);
                 break;
             case CHANGE_ROLE_TO_ADMIN:
-                userService.updateUserRole(mail , Role.ROLE_ADMIN);
+                userService.updateUserRoleForCurrentUser(mail , Role.ROLE_ADMIN);
                 break;
         }
     }

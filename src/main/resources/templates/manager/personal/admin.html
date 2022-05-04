@@ -162,12 +162,12 @@
                     </thead>
                     <tbody th:if="${users.size() > 0}" id="user-data" class="bg-dark">
                         <tr th:each="user : ${users}">
-                            <td class="colspan" onclick="showData(this)">
-                                <p class="d-flex align-content-center text-light cut-v colspan" about="data-row" th:text="${user.getUsername()}"></p></td>
-                            <td class="hide-768 text-light colspan" th:text="${user.getMail()}">mail@gmail.com</td>
-                            <td class="hide-768 text-light colspan">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-light" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${user.getRole()}">
+                            <td class="colspan USER_TD" onclick="showData(this)">
+                                <p class="d-flex align-content-center text-light cut-v colspan USERNAME" about="data-row" th:text="${user.getUsername()}"></p></td>
+                            <td class="hide-768 text-light colspan MAIL" th:text="${user.getMail()}">mail@gmail.com</td>
+                            <td class="hide-768 text-light colspan ROLE_TD">
+                                <div class="btn-group ROLE_BOX">
+                                    <button type="button" class="btn btn-light ROLE" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${user.getRole()}">
                                         ROLE_USER
                                     </button>
                                     <div class="dropdown-menu text-center">
@@ -176,9 +176,9 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="hide-768 text-light colspan">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-light" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${user.getStatus()}">
+                            <td class="hide-768 text-light colspan STATUS_TD">
+                                <div class="btn-group STATUS_BOX">
+                                    <button type="button" class="btn btn-light STATUS" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${user.getStatus()}">
                                         ENABLE
                                     </button>
                                     <div class="dropdown-menu text-center">
@@ -189,7 +189,7 @@
                             </td>
                             <td class="hide-768 text-light colspan" th:if="${user.getLoginTime().after(user.getLogoutTime())}">IN</td>
                             <td class="hide-768 text-light colspan" th:if="${user.getLoginTime().before(user.getLogoutTime())}">OUT</td>
-                            <td class="hide-768 colspan"><button class="btn btn-primary disabled">Confirm!</button></td>
+                            <td class="hide-768 colspan"><button class="btn btn-primary disabled" onclick="userEditConfirm(this)">Confirm!</button></td>
                         </tr>
                     </tbody>
                     <tbody th:if="${users.size() == 0}" class="bg-dark" id="user-data">

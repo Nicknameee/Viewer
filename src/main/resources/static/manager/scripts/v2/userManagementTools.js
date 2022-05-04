@@ -28,9 +28,37 @@ function change(element) {
      */
     $(value).text($(element).text())
 }
-
 function showData(element) {
     for (let i = 1; i < $(element).parent().children().length; i++) {
         $(element).parent().children().eq(i).toggleClass('hide-768')
+    }
+}
+function userEditConfirm(element) {
+    let row = $(element).parent().parent()
+    let mail = $(row).children('.MAIL')
+    let role = $(row).children('.ROLE_TD').children('.ROLE_BOX').children('.ROLE')
+    let status = $(row).children('.STATUS_TD').children('.STATUS_BOX').children('.STATUS')
+    let conf = confirm("Are you sure about this changes?")
+    if (conf) {
+        $.ajax(
+            {
+                url: "/api/manager/user/update",
+                type: "PUT",
+                data: {
+                    mail: $(mail).text(),
+                    role: $(role).text(),
+                    status: $(status).text()
+                },
+                success:
+                    function(response) {
+                        if (response.success) {
+                            $(element).addClass('disabled')
+                        }
+                    },
+                error:
+                    function(response) {
+                    }
+            }
+        )
     }
 }

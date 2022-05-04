@@ -1,8 +1,6 @@
 package application.data.users.repository;
 
 import application.data.users.User;
-import application.data.users.attributes.Role;
-import application.data.users.attributes.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -36,6 +34,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Transactional
     @Query("UPDATE User u SET u.role=:role WHERE u.mail=:mail")
     void updateUserRole(@Param("role") String role , @Param("mail") String mail);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE User u SET u.status=:status WHERE u.mail=:mail")
+    void updateUserStatus(@Param("status") String status , @Param("mail") String mail);
 
     @Modifying
     @Transactional

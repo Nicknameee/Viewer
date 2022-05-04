@@ -9,11 +9,15 @@ import application.data.loadableResources.utils.FileProcessingUtility;
 import application.data.promo.Promo;
 import application.data.promo.models.PromoType;
 import application.data.promo.service.PromoService;
+import application.data.users.attributes.Role;
+import application.data.users.attributes.Status;
 import application.data.users.service.UserService;
 import application.web.responses.ApplicationWebResponse;
 import application.web.responses.manager.ArticleResponse;
 import application.web.responses.manager.CredentialsUniqueCheckingResponse;
 import application.web.responses.manager.PromoResponse;
+import application.web.responses.manager.UserChangesResponse;
+import application.web.responses.user.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -261,6 +265,25 @@ public class ManagerController {
         }
         catch (RuntimeException e) {
             response.setArticle(null);
+            response.setSuccess(false);
+            response.setError(e.getMessage());
+        }
+        return response;
+    }
+
+    @PutMapping("/user/update")
+    @ResponseBody
+    @PreAuthorize("hasAuthority('access:admin:update')")
+    public ApplicationWebResponse updateUserRoleAndStatus(@RequestParam("mail")      String mail ,
+                                                          @RequestParam("role")      Role role   ,
+                                                          @RequestParam("status")    Status status) {
+        UserChangesResponse response = new UserChangesResponse();
+        try {
+            userService.updateUserRoleAndStatus(mail , role , status);
+            response.setSuccess(true);
+            response.setError(null);
+        }
+        catch (RuntimeException e) {
             response.setSuccess(false);
             response.setError(e.getMessage());
         }
