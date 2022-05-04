@@ -118,7 +118,7 @@ td {
     color: #e82850;
 }
 .valid-dec {
-    text-decoration: underline red 2px;
+    text-decoration: underline #ff0000 2px;
 }
 .status::after {
     z-index: 100 !important;
@@ -208,4 +208,26 @@ td {
     -o-transition: opacity 0.4s;
     -moz-transition: opacity 0.4s;
     transition: opacity 0.4s;
+}
+.light-bg {
+    z-index: 10000000000 !important;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.81);
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.pretty-img {
+    max-width: 70%;
+    height: auto;
+}
+.video {
+    width: 80%;
+    height: 80%;
 }

@@ -106,7 +106,38 @@ function dropFile(element) {
     )
 }
 function previewFile(element) {
-    window.open('/api/manager/resource/' + $(element).val() , '_blank')
+    let resourceType = $(element).attr('content')
+    let overlap = document.createElement('div')
+    $(overlap).attr('onclick' , 'closePreview(this)')
+    $(overlap).attr('class' , 'light-bg')
+    $(overlap).attr('id' , 'overlap')
+    if (resourceType === 'IMAGE') {
+        let image = document.createElement('img')
+        $(image).attr('class' , 'pretty-img img-fluid')
+        $(image).attr('src' , '/uploads/' + $(element).val())
+        $(overlap).append(image)
+    }
+    else if (resourceType === 'VIDEO') {
+        let frame = document.createElement('iframe')
+        $(frame).attr('allowfullscreen' , 'true')
+        $(frame).attr('frameborder' , '0')
+        $(frame).attr('sandbox' , 'allow-scripts')
+        $(frame).attr('autoplay' , false)
+        $(frame).attr('class' , 'video')
+        $(frame).attr('src' , '/uploads/' + $(element).val())
+        $(overlap).append(frame)
+    }
+    if (document.getElementById("overlap") === null) {
+        $('body').append(overlap)
+        $(overlap).animate(
+            {
+                opacity: 1
+            }
+            , 200 , function () {})
+    }
+}
+function closePreview(element) {
+    $(element).remove()
 }
 function submitAdd(element) {
     let form = $(element).parent().parent()[0]
@@ -140,7 +171,7 @@ function submitAdd(element) {
                     function(response) {
                         if (response.success) {
                             $(element).parent().parent().parent().children().eq(0).attr('about' , 'Article created successfully')
-                            setTimeout(function () {$(element).parent().parent().parent().children().eq(0).attr('about' , ''); location.reload()} , 3000)
+                            setTimeout(function () {$(element).parent().parent().parent().children().eq(0).attr('about' , ''); location.reload()} , 2000)
                         }
                         else {
                             $(element).parent().parent().parent().children().eq(0).attr('about' , 'Error occurs while creating article , see logs')
@@ -191,7 +222,7 @@ function submitEdit(element) {
                     function(response) {
                         if (response.success) {
                             $(element).parent().parent().parent().children().eq(0).attr('about' , 'Article updated successfully')
-                            setTimeout(function () {$(element).parent().parent().parent().children().eq(0).attr('about' , ''); location.reload()} , 3000)
+                            setTimeout(function () {$(element).parent().parent().parent().children().eq(0).attr('about' , ''); location.reload()} , 2000)
                         }
                         else {
                             $(element).parent().parent().parent().children().eq(0).attr('about' , 'Error occurs while updating article , see logs')

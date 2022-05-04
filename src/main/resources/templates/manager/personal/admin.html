@@ -122,7 +122,8 @@
                                         </div>
                                         <div th:if="${article.getResources().size() > 0}" th:each="resource : ${article.getResources()}" class="input-group my-1 w-75">
                                             <input type="text" class="form-control text-dark"
-                                                   th:value="${resource.getFilename()}" aria-describedby="basic-addon2" readonly onclick="previewFile(this)">
+                                                   th:value="${resource.getFilename()}" th:content="${resource.getFiletype().name()}"
+                                                   aria-describedby="basic-addon2" readonly onclick="previewFile(this)">
                                             <span class="input-group-text" onclick="dropFile(this)">✖</span>
                                         </div>
                                         <div class="col-auto d-flex justify-content-center my-3">

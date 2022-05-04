@@ -266,12 +266,4 @@ public class ManagerController {
         }
         return response;
     }
-
-    @GetMapping("/resource/{filename}")
-    @PreAuthorize("hasAuthority('access:admin:delete')")
-    public String getResource(@PathVariable("filename") String filename , Model model) {
-        LoadableResource loadableResource = loadableResourceService.getLoadableResourceByFilename(filename);
-        model.addAttribute("file" , loadableResource);
-        return "/all/resource";
-    }
 }
