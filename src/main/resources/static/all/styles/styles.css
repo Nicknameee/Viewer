@@ -11413,7 +11413,6 @@ header.masthead {
   padding-bottom: 6rem;
   text-align: center;
   color: #fff;
-  /*background-image: url("../assets/img/header-bg.jpg");*/
   background-image: url("../media/assets/img/header-bg-dark.png");
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -11694,9 +11693,9 @@ header.masthead .masthead-heading {
     padding: 0 20px 20px 100px;
   }
   .timeline > li .timeline-image {
-    width: 170px;
-    height: 170px;
-    margin-left: -85px;
+    width: 200px;
+    height: 200px;
+    margin-left: -100px;
   }
   .timeline > li .timeline-image h4, .timeline > li .timeline-image .h4 {
     margin-top: 40px;
@@ -11725,7 +11724,6 @@ header.masthead .masthead-heading {
 
 section#contact {
   background-color: #000000;
-  /*background-image: url("../assets/img/map-image.png");*/
   background-repeat: no-repeat;
   background-position: center;
 }

@@ -80,32 +80,80 @@
         </div>
         <ul class="timeline">
             <li>
-                <div class="timeline-image"><img class="rounded-circle img-fluid" src="/all/media/assets/img/about/gerb.jpg" alt="..." /></div>
-                <div class="timeline-panel">
-                    <div class="timeline-heading">
-                        <h4 class="subheading">History</h4>
-                    </div>
-                    <div class="timeline-body"><p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p></div>
+                <div class="timeline-image">
+                    <img class="rounded-circle img-fluid" src="/all/media/assets/img/about/v1.png" alt="..." />
                 </div>
-            </li>
-            <li class="timeline-inverted">
-                <div class="timeline-image"><img class="rounded-circle img-fluid" src="/all/media/assets/img/about/bz_sof.png" alt="..." /></div>
                 <div class="timeline-panel">
                     <div class="timeline-heading">
-                        <h4 class="subheading">History</h4>
+                        <h4 class="subheading">DOBROVOLETS</h4>
                     </div>
-                    <div class="timeline-body"><p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p></div>
+                    <div class="timeline-body">
+                        <p class="">
+                            Ми 8 років знали, що війна з московією обов'язково прийде зі сходу.
+                            Ми її не чекали і не готувались зустрічати з хлібом-сіллю... І хоч усі ми реально оцінювали невідворотність повномасштабного вторгнення русні - новину "вставай" о 5 ранку 24го числа ми зустріли дещо розгубленими.
+                            Втім, прошивка в нас надійна, тому ми вирішили залишити паніку тим, хто досі війну не бачив чи хто очєнь устал, і почали займатися справами.
+                        </p>
+                    </div>
                 </div>
             </li>
             <li class="timeline-inverted">
                 <div class="timeline-image">
-                    <h4>
-                        Be Part
-                        <br />
-                        Of Our
-                        <br />
-                        Story!
-                    </h4>
+                    <img class="rounded-circle img-fluid" src="/all/media/assets/img/about/v2.png" alt="..." />
+                </div>
+                <div class="timeline-panel">
+                    <div class="timeline-heading">
+                        <h4 class="subheading"></h4>
+                    </div>
+                    <div class="timeline-body">
+                        <p class="">
+                            Отож....
+                            <br>
+                            Окремий батальйон оборони "Доброволець" наразі виконує свою задачу: стоїть на захисті своєї Кролевеччини і наближає Перемогу.
+                            Ми гуртуємось, ми організовуємось, ми працюємо.
+                            Війна вчить швидко розставляти пріоритети. Тому від початку повномасштабного вторгнення русні кожен з нас зробив свій вибір - битись.
+                            Нам важко. Та ми воюємо за речі, які, хоч і не мажуться на хліб, але без яких не уявляємо свого життя і не бачимо майбутнього. Це Незалежність, Воля, Гідність, Пам'ять...
+                        </p>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="timeline-image">
+                    <img class="rounded-circle img-fluid" src="/all/media/assets/img/about/v3.png" alt="..." />
+                </div>
+                <div class="timeline-panel">
+                    <div class="timeline-heading">
+                        <h4 class="subheading"></h4>
+                    </div>
+                    <div class="timeline-body">
+                        <p class="">
+                            Ми переможемо, рідненькі! Обов'язково переможемо!
+                            Бо ми разом!
+                            Ми сильні, ми вмотивовані, ми не здамося. А ще ми добровольці. А це значить, що 🇺🇦 назавжди тут ❤
+                            Так було, є і так буде!!!
+                            Читайте ці рядки, коли буде важко.
+                        </p>
+                    </div>
+                </div>
+            </li>
+            <li class="timeline-inverted">
+                <div class="timeline-image">
+                    <img class="rounded-circle img-fluid" src="/all/media/assets/img/about/v4.png" alt="..." />
+                </div>
+                <div class="timeline-panel">
+                    <div class="timeline-heading">
+                        <h4>
+                            Ми
+                            <br />
+                            Обов'язково
+                            <br />
+                            Переможемо!
+                        </h4>
+                    </div>
+                    <div class="timeline-body">
+                        <p class="">
+                            Просили передати вам від всього бату обіймашки і звісточку: мордор здохне, він сів не в той корабль 🙃
+                        </p>
+                    </div>
                 </div>
             </li>
         </ul>
@@ -113,13 +161,13 @@
 </section>
 <!--Payment-->
 <section class="page-section bg-dark" id="contact">
-    <div class="container">
-        <div class="text-center">
+    <div class="container my-5">
+        <div class="text-center my-5">
             <h2 class="section-heading text-uppercase">Payment Support</h2>
             <h2 class="section-heading text-uppercase invisible">-</h2>
         </div>
-        <form id="contactForm">
-            <div class="row align-items-stretch mb-5 justify-content-center">
+        <form id="contactForm" class="my-5">
+            <div class="row align-items-stretch my-5 justify-content-center">
                 <div th:if="${payments.size() > 0}" th:each="payment : ${payments}" class="col-md-6">
                     <h3 class="w-100 text-light text-left" th:text="${payment.getBank().getNaming()}">PrivatBank</h3>
                     <p class="w-100 text-light text-uppercase text-left" th:if="${payment.getIban() != null}">IBAN:
@@ -132,7 +180,7 @@
                         <strong th:text="${payment.getReceiver()}">1234 5678 9123 4567</strong>
                     </p>
                 </div>
-                <div th:if="${payments.size() == 0}" class="col-md-6">
+                <div th:if="${payments.size() == 0}" class="col-md-6 my-5">
                     <h3 class="w-100 text-light text-center">We have not added payment data yet</h3>
                 </div>
             </div>
