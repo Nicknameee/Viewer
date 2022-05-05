@@ -25,7 +25,7 @@
 <body>
 <div class="container-fluid px-0">
     <div class="row min-vh-100">
-        <div class="col-xl-3 min-vh-100 max-vh-100" id="menu">
+        <div class="col-xl-3 min-vh-100 max-vh-100 z-top" id="menu">
             <table class="table table-dark table-hover table-bordered h-100">
                 <tr id="dropdown">
                     <td><p class="menu-points">Menu</p></td>
@@ -212,14 +212,12 @@
                     <ul class="list-group w-50 mx-1">
                         <li class="list-group-item text-center">Username</li>
                         <li class="list-group-item text-center">Mail</li>
-                        <li class="list-group-item text-center">Password</li>
                         <li class="list-group-item text-center">Role</li>
                         <li class="list-group-item text-center">Status</li>
                     </ul>
                     <ul class="list-group w-50 mx-1">
                         <li class="list-group-item text-center" th:text="${user.getUsername()}">TEXT</li>
                         <li class="list-group-item text-center" th:text="${user.getMail()}">TEXT</li>
-                        <li class="list-group-item text-center" th:text="${user.getPassword()}">TEXT</li>
                         <li class="list-group-item text-center" th:text="${user.getRole()}">TEXT</li>
                         <li class="list-group-item text-center" th:text="${user.getStatus()}">TEXT</li>
                     </ul>
@@ -230,89 +228,110 @@
             <div id="payment-management-box" class="container h-100 d-flex align-content-center justify-content-around">
                 <table class="table table-striped table-dark table-responsive mt-3 mx-1" id="settings-table">
                     <thead class="thead-dark align-content-center position-sticky top-0">
-                    <tr>
-                        <th class="text-center" scope="col">
-                            <button class="btn btn-primary" id="add-payment">Add payment</button>
-                        </th>
-                        <th class="text-center" scope="col">
-                            <button class="btn btn-primary" id="payment-mod">Payment list</button>
-                        </th>
-                        <th class="text-center" scope="col">
-                            <button class="btn btn-primary" id="home-mod">Description</button>
-                        </th>
-                    </tr>
+                        <tr>
+                            <th class="text-center" scope="col">
+                                <button class="btn btn-primary" id="add-payment">Add payment</button>
+                            </th>
+                            <th class="text-center" scope="col">
+                                <button class="btn btn-primary" id="payment-mod">Payment list</button>
+                            </th>
+                            <th class="text-center" scope="col">
+                                <button class="btn btn-primary" id="home-mod">Description</button>
+                            </th>
+                        </tr>
                     </thead>
                     <tbody id="payment-body">
-                    <tr>
-                        <td><p class="d-flex align-content-center text-light cut" about="data-row">BANK</p></td>
-                        <td class="w-50">
-                            <button onclick="editPayment(this)" class="btn btn-primary">Edit</button>
-                        </td>
-                        <td>
-                            <button class="btn btn-primary" onclick="deletePayment(this)">Delete</button>
-                        </td>
-                    </tr>
-                    <tr class="d-none">
-                        <td class="w-100" colspan="3">
-                            <h2 class="position-relative w-100 status"></h2>
-                            <form class="d-flex flex-column align-content-center justify-content-around mt-3">
-                                <div class="col-auto my-3 input-group valid">
-                                    <input name="title" type="text" class="form-control"
-                                           placeholder="Bank name" onchange="processBank(this , 'edit' , 'change')" required>
-                                </div>
-                                <div class="col-auto my-3 input-group valid">
-                                    <input name="title" type="text" class="form-control"
-                                           placeholder="Card" onchange="processCard(this , 'edit' , 'change')" required>
-                                </div>
-                                <div class="col-auto my-3 input-group valid">
-                                    <input name="title" type="text" class="form-control" onchange="processIBAN(this , 'edit' , 'change')" placeholder="IBAN">
-                                </div>
-                                <div class="col-auto d-flex justify-content-center mt-5">
-                                    <button type="button" class="btn btn-primary mb-5 w-50" onclick="confirmEdit(this)">Confirm!</button>
-                                </div>
-                            </form>
-                        </td>
-                    </tr>
+                        <tag th:if="${payments.size() > 0}" th:each="payment : ${payments}">
+                            <tr>
+                                <td><p class="d-flex align-content-center text-light cut" about="data-row" th:text="${payment.getBank().getNaming()}">BANK</p></td>
+                                <td class="w-50">
+                                    <button onclick="editPayment(this)" class="btn btn-primary">Edit</button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary" th:value="${payment.getId()}" onclick="deletePayment(this)">Delete</button>
+                                </td>
+                            </tr>
+                            <tr class="d-none">
+                                <td class="w-100" colspan="3">
+                                    <h2 class="position-relative w-100 status"></h2>
+                                    <form class="d-flex flex-column align-content-center justify-content-around mt-3" content="multipart/form-data">
+                                        <div class="col-auto my-3 input-group valid">
+                                            <input name="bank" type="text" class="form-control"
+                                                   th:value="${payment.getBank().getNaming()}" readonly>
+                                        </div>
+                                        <div class="col-auto my-3 input-group valid">
+                                            <input name="card" type="text" class="form-control" th:value="${payment.getCard()}"
+                                                   placeholder="Card" onchange="processCard(this , 'edit' , 'change')" required>
+                                        </div>
+                                        <div class="col-auto my-3 input-group valid">
+                                            <input name="iban" type="text" class="form-control" th:value="${payment.getIban()}"
+                                                   onchange="processIBAN(this , 'edit' , 'change')" placeholder="IBAN">
+                                        </div>
+                                        <div class="col-auto my-3 input-group valid">
+                                            <input name="receiver" type="text" class="form-control" th:value="${payment.getReceiver()}"
+                                                   onchange="processReceiver(this , 'edit' , 'change')" placeholder="Receiver">
+                                        </div>
+                                        <div class="col-auto d-flex justify-content-center mt-5">
+                                            <button type="button" class="btn btn-primary mb-5 w-50" onclick="confirmEdit(this)">Confirm!</button>
+                                        </div>
+                                        <input name="id" type="text" th:value="${payment.getId()}" hidden>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tag>
+                        <tag th:if="${payments.size() == 0}">
+                            <tr>
+                                <td>NULL</td>
+                                <td class="w-50">NULL</td>
+                                <td>NULL</td>
+                            </tr>
+                        </tag>
                     </tbody>
                     <tbody id="adding-payment-body" class="d-none">
-                    <tr>
-                        <td colspan="3">
-                            <h2 class="position-relative w-100 status"></h2>
-                            <form class="d-flex flex-column align-content-center justify-content-around">
-                                <div class="col-auto my-3 input-group valid">
-                                    <input name="title" type="text" class="form-control"
-                                           placeholder="Bank name" onchange="processBank(this , 'add' , 'change')" required>
-                                </div>
-                                <div class="col-auto my-3 input-group valid">
-                                    <input name="title" type="text" class="form-control"
-                                           placeholder="Card" onchange="processCard(this , 'add' , 'change')" required>
-                                </div>
-                                <div class="col-auto my-3 input-group valid">
-                                    <input name="title" type="text" class="form-control"
-                                           placeholder="IBAN" onchange="processIBAN(this , 'add' , 'change')">
-                                </div>
-                                <div class="col-auto d-flex justify-content-center mt-5">
-                                    <button type="button" class="btn btn-primary mb-5 w-50" onclick="confirmAdd(this)">Confirm!</button>
-                                </div>
-                            </form>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td colspan="3">
+                                <h2 class="position-relative w-100 status" id="add-payment-sec-title"></h2>
+                                <form class="d-flex flex-column align-content-center justify-content-around mt-3" content="multipart/form-data">
+                                    <div class="col-auto my-3 input-group valid BANK_BOX">
+                                        <select class="form-select" onchange="processBank(this , 'change')">
+                                            <option selected disabled>Choose bank</option>
+                                            <option th:each="bank : ${banks}" th:value="${bank.name()}" th:text="${bank.getNaming()}"></option>
+                                        </select>
+                                    </div>
+                                    <div class="col-auto my-3 input-group valid">
+                                        <input name="card" type="text" class="form-control"
+                                               placeholder="Card" onchange="processCard(this , 'add' , 'change')" required>
+                                    </div>
+                                    <div class="col-auto my-3 input-group valid">
+                                        <input name="iban" type="text" class="form-control"
+                                               placeholder="IBAN" onchange="processIBAN(this , 'add' , 'change')">
+                                    </div>
+                                    <div class="col-auto my-3 input-group valid">
+                                        <input name="receiver" type="text" class="form-control"
+                                               onchange="processReceiver(this , 'edit' , 'change')" placeholder="Receiver">
+                                    </div>
+                                    <div class="col-auto d-flex justify-content-center mt-5">
+                                        <button type="button" class="btn btn-primary mb-5 w-50" onclick="confirmAdd(this)">Confirm!</button>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
                     </tbody>
                     <tbody id="history-body" class="d-none">
-                    <tr>
-                        <td colspan="3">
-                            <h2 class="position-relative w-100 status mb-3"></h2>
-                            <form class="d-flex flex-column align-content-center justify-content-around">
-                                <div class="col-auto my-3 input-group valid">
-                                            <textarea name="content" class="form-control resize" maxlength="10000" rows="20"
-                                                      placeholder="Home page text" onchange="processDescription(this , 'edit' , 'change')" required></textarea>
-                                </div>
-                                <div class="col-auto d-flex justify-content-center">
-                                    <button type="button" class="btn btn-primary mb-5 w-50" onclick="submitHomePageText(this)">Confirm!</button>
-                                </div>
-                            </form>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td colspan="3">
+                                <h2 class="position-relative w-100 status"></h2>
+                                <form class="d-flex flex-column align-content-center justify-content-around mt-3">
+                                    <div class="col-auto my-3 input-group valid">
+                                                <textarea name="content" class="form-control resize" maxlength="10000" rows="20"
+                                                          placeholder="Home page text" onchange="processDescription(this , 'edit' , 'change')" required></textarea>
+                                    </div>
+                                    <div class="col-auto d-flex justify-content-center">
+                                        <button type="button" class="btn btn-primary mb-5 w-50" onclick="submitHomePageText(this)">Confirm!</button>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

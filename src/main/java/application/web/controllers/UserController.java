@@ -1,6 +1,8 @@
 package application.web.controllers;
 
 import application.data.articles.service.ArticleService;
+import application.data.payment.models.Bank;
+import application.data.payment.service.PaymentService;
 import application.data.users.User;
 import application.data.users.service.UserService;
 import application.data.verification.VerificationData;
@@ -16,8 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.stream.Collectors;
-
 @Controller
 @RequestMapping("/api/user")
 public class UserController {
@@ -28,6 +28,13 @@ public class UserController {
     private VerificationDataService verificationService;
 
     private ArticleService articleService;
+
+    private PaymentService paymentService;
+
+    @Autowired
+    public void setPaymentService(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
 
     @Autowired
     public void setArticleService(ArticleService articleService) {
@@ -134,11 +141,14 @@ public class UserController {
             case ROLE_USER:
                 return "/user/personal/user";
             case ROLE_ADMIN:
-                model.addAttribute("users" , userService.getAllUsers()
+                /*model.addAttribute("users" , userService.getAllUsers()
                         .stream()
                         .filter(u -> !u.getMail().equals(SecurityContextHolder.getContext().getAuthentication().getName()))
-                        .collect(Collectors.toList()));
+                        .collect(Collectors.toList()));*/
+                model.addAttribute("users" , userService.getAllUsersExceptCurrent());
                 model.addAttribute("articles" , articleService.getAll());
+                model.addAttribute("banks" , Bank.values());
+                model.addAttribute("payments" , paymentService.getAll());
                 return "/manager/personal/admin";
         }
         return "/user/authentication/login";

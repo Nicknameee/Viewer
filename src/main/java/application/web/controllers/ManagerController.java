@@ -3,9 +3,10 @@ package application.web.controllers;
 import application.data.articles.Article;
 import application.data.articles.service.ArticleService;
 import application.data.loadableResources.LoadableResource;
-import application.data.loadableResources.models.ResourceType;
 import application.data.loadableResources.service.LoadableResourceService;
-import application.data.loadableResources.utils.FileProcessingUtility;
+import application.data.payment.PaymentModel;
+import application.data.payment.models.Bank;
+import application.data.payment.service.PaymentService;
 import application.data.promo.Promo;
 import application.data.promo.models.PromoType;
 import application.data.promo.service.PromoService;
@@ -13,21 +14,14 @@ import application.data.users.attributes.Role;
 import application.data.users.attributes.Status;
 import application.data.users.service.UserService;
 import application.web.responses.ApplicationWebResponse;
-import application.web.responses.manager.ArticleResponse;
-import application.web.responses.manager.CredentialsUniqueCheckingResponse;
-import application.web.responses.manager.PromoResponse;
-import application.web.responses.manager.UserChangesResponse;
-import application.web.responses.user.UserResponse;
+import application.web.responses.manager.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -40,6 +34,13 @@ public class ManagerController {
     private ArticleService articleService;
 
     private LoadableResourceService loadableResourceService;
+
+    private PaymentService paymentService;
+
+    @Autowired
+    public void setPaymentService(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
 
     @Autowired
     public void setLoadableResourceService(LoadableResourceService loadableResourceService) {
@@ -183,8 +184,8 @@ public class ManagerController {
     @PostMapping("/article/create")
     @ResponseBody
     @PreAuthorize("hasAuthority('access:admin:create')")
-    public ApplicationWebResponse createArticle(@RequestParam("title")   String title,
-                                                @RequestParam("content") String content,
+    public ApplicationWebResponse createArticle(@RequestParam("title")                              String title,
+                                                @RequestParam("content")                            String content,
                                                 @RequestParam(value = "media" , required = false)   MultipartFile[] files) {
         ArticleResponse response = new ArticleResponse();
         Article article = new Article(0L , title , content , null , null);
@@ -284,6 +285,68 @@ public class ManagerController {
             response.setError(null);
         }
         catch (RuntimeException e) {
+            response.setSuccess(false);
+            response.setError(e.getMessage());
+        }
+        return response;
+    }
+
+    @PostMapping("/payment/create")
+    @ResponseBody
+    @PreAuthorize("hasAuthority('access:admin:create')")
+    public ApplicationWebResponse addPaymentModel(@RequestParam("card")                            String card,
+                                                  @RequestParam(value = "iban" , required = false) String IBAN,
+                                                  @RequestParam("bank")                            Bank bank,
+                                                  @RequestParam("receiver")                        String receiver) {
+        PaymentResponse response = new PaymentResponse();
+        try {
+            response.setPayment(paymentService.savePaymentModel(new PaymentModel(0L , card , IBAN , bank , receiver)));
+            response.setSuccess(true);
+            response.setError(null);
+        }
+        catch (RuntimeException e) {
+            response.setPayment(null);
+            response.setSuccess(false);
+            response.setError(e.getMessage());
+        }
+        return response;
+    }
+
+    @PutMapping("/payment/update")
+    @ResponseBody
+    @PreAuthorize("hasAuthority('access:admin:update')")
+    public ApplicationWebResponse updatePaymentModel(@RequestParam("card")                            String card,
+                                                     @RequestParam(value = "iban" , required = false) String IBAN,
+                                                     @RequestParam("receiver")                        String receiver,
+                                                     @RequestParam("id")                              Long id) {
+        PaymentResponse response = new PaymentResponse();
+        try {
+            paymentService.updatePaymentModel(card , IBAN , receiver , id);
+            response.setPayment(paymentService.getPaymentModelById(id));
+            response.setSuccess(true);
+            response.setError(null);
+        }
+        catch (RuntimeException e) {
+            response.setPayment(null);
+            response.setSuccess(false);
+            response.setError(e.getMessage());
+        }
+        return response;
+    }
+
+    @DeleteMapping("/payment/delete")
+    @ResponseBody
+    @PreAuthorize("hasAuthority('access:admin:delete')")
+    public ApplicationWebResponse deletePaymentModel(@RequestParam("id") Long id) {
+        PaymentResponse response = new PaymentResponse();
+        try {
+            paymentService.deletePaymentModelById(id);
+            response.setPayment(null);
+            response.setSuccess(true);
+            response.setError(null);
+        }
+        catch (RuntimeException e) {
+            response.setPayment(null);
             response.setSuccess(false);
             response.setError(e.getMessage());
         }

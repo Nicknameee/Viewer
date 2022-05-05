@@ -55,7 +55,7 @@ function validate_card(input) {
         result.error = 'Card number can not be empty'
         return result
     }
-    if (!$(input).val().trim().match("^[0-9]{16}$"))
+    if (!$(input).val().replace(/\s/g, "").match("^[0-9]{16}$"))
     {
         result.valid = false
         result.error = 'Card number is invalid - you must input 16 numbers'
@@ -67,10 +67,27 @@ function validate_IBAN(input) {
         valid: true ,
         error: null
     }
-    if ($(input).val().length > 0 && !$(input).val().trim().match("^[a-zA-Z]{2}[0-9]{8}[0]{5}[0-9]{14}$"))
+    if ($(input).val().length > 0 && !$(input).val().replace(/\s/g, "").match("^[a-zA-Z]{2}[0-9]{8}[0]{5}[0-9]{14}$"))
     {
         result.valid = false
         result.error = 'IBAN is invalid - checkout https://privatbank.ua/iban'
+    }
+    return result;
+}
+function validate_receiver(input) {
+    let result = {
+        valid: true ,
+        error: null
+    }
+    if ($(input).val().length === 0) {
+        result.valid = false
+        result.error = 'Receiver can not be empty'
+        return result
+    }
+    if (!$(input).val().match('^[a-zA-Zа-яА-ЯіІїЇьЬєЄ\\s]{1,}$'))
+    {
+        result.valid = false
+        result.error = 'Invalid receiver - you can only input symbols'
     }
     return result;
 }

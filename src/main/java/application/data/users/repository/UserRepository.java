@@ -7,7 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 public interface UserRepository extends JpaRepository<User, Long> {
+    @Query("SELECT u FROM User u WHERE u.mail<>:mail")
+    List<User> findAllExceptCurrent(@Param("mail") String mail);
+
     @Query("SELECT u FROM User u WHERE u.mail=:mail")
     User getUserByMail(@Param("mail") String mail);
 

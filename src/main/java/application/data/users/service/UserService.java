@@ -14,6 +14,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.naming.AuthenticationException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -38,6 +39,10 @@ public class UserService {
     public List<User> getAllUsers()
     {
         return userRepository.getAllUsers();
+    }
+
+    public List<User> getAllUsersExceptCurrent() {
+        return userRepository.getAllUsersExceptCurrent();
     }
 
     public User getUserByMail(String mail) {

@@ -34,6 +34,8 @@ $(window).resize(function () {
     }
 
     if ($(window).width() < 768) {
+        $("#add-payment").text('Add $')
+        $("#payment-mod").text('List $')
         /**
          * Users management
          */
@@ -47,6 +49,8 @@ $(window).resize(function () {
         $("#user-head").addClass('row mx-0')
     }
     else {
+        $("#add-payment").text('Add payment')
+        $("#payment-mod").text('List payment')
         /**
          * Users management
          */
@@ -61,6 +65,13 @@ $(window).resize(function () {
     }
 })
 window.onload = function () {
+    let link = window.location.href
+    let url = new URL(link);
+    let sec = url.searchParams.get("sec");
+    if (sec === 'payment') {
+        $("#articles-menu").addClass('hide')
+        $("#settings-menu").removeClass('hide')
+    }
     if ($(window).width() < 1200) {
         $("#dropdown").removeClass('d-none')
         $("#home").addClass('d-none')
@@ -78,6 +89,8 @@ window.onload = function () {
     }
 
     if ($(window).width() < 768) {
+        $("#add-payment").text('Add $')
+        $("#payment-mod").text('List $')
         /**
          * Users management
          */
@@ -91,6 +104,8 @@ window.onload = function () {
         $("#user-head").addClass('row mx-0')
     }
     else {
+        $("#add-payment").text('Add payment')
+        $("#payment-mod").text('List payment')
         /**
          * Users management
          */

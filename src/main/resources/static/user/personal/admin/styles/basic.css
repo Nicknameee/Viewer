@@ -134,7 +134,7 @@ td {
 @media (min-width: 425px) {
     .cut {
         display: block;
-        width: 100px;
+        width: 150px;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -143,7 +143,7 @@ td {
 @media (max-width: 424.8px) {
     .cut {
         display: block;
-        width: 50px;
+        width: 90px;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -230,4 +230,8 @@ td {
 .video {
     width: 80%;
     height: 80%;
+}
+.z-top {
+    position: relative;
+    z-index: 10000000000 !important;
 }

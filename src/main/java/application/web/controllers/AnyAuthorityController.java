@@ -2,6 +2,7 @@ package application.web.controllers;
 
 import application.data.articles.Article;
 import application.data.articles.service.ArticleService;
+import application.data.payment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,6 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AnyAuthorityController {
     private ArticleService articleService;
 
+    private PaymentService paymentService;
+
+    @Autowired
+    public void setPaymentService(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
+
     @Autowired
     public void setArticleService(ArticleService articleService) {
         this.articleService = articleService;
@@ -23,6 +31,7 @@ public class AnyAuthorityController {
 
     @GetMapping("/home")
     public String home(Model model) {
+        model.addAttribute("payments" , paymentService.getAll());
         model.addAttribute("articles" , articleService.getAll());
         model.addAttribute("authenticated" , !SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser"));
         return "/all/home";
