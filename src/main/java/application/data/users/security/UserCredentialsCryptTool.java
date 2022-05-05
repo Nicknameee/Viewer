@@ -20,6 +20,7 @@ public class UserCredentialsCryptTool {
     public void initialize() {
         passwordEncoderTool = this.passwordEncoder;
     }
+
     public static String encodeCredentials(String password) {
         return passwordEncoderTool.encode(password);
     }

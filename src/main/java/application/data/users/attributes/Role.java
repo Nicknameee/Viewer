@@ -7,20 +7,22 @@ import java.util.stream.Collectors;
 
 public enum Role {
     ROLE_ADMIN(Set.of(
-                    Permission.CREATE_ADMIN   ,
-                    Permission.READ_ADMIN     ,
-                    Permission.UPDATE_ADMIN   ,
-                    Permission.DELETE_ADMIN)
+                        Permission.CREATE_ADMIN,
+                        Permission.READ_ADMIN,
+                        Permission.UPDATE_ADMIN,
+                        Permission.DELETE_ADMIN
+                     )
                 )
-                                        ,
+    ,
     ROLE_USER(Set.of(
-                    Permission.CREATE_USER   ,
-                    Permission.READ_USER     ,
-                    Permission.UPDATE_USER   ,
-                    Permission.DELETE_USER)
-                );
+                        Permission.CREATE_USER,
+                        Permission.READ_USER,
+                        Permission.UPDATE_USER,
+                        Permission.DELETE_USER
+                    )
+             );
 
-    Set<Permission> access;
+    private final Set<Permission> access;
 
     Role(Set<Permission> access)
     {
@@ -28,8 +30,7 @@ public enum Role {
     }
 
     public Set<SimpleGrantedAuthority> getAuthorities() {
-        return access.
-                stream().
+        return access.stream().
                 map(permission -> new SimpleGrantedAuthority(permission.getPermission())).
                 collect(Collectors.toSet());
     }

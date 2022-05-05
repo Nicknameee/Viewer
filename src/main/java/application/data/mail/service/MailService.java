@@ -120,13 +120,11 @@ public class MailService {
     }
 
     public synchronized MailMessageDataCollector generateVerificationMailMessage
-            (MailMessageDataCollector collector ,
-             UserActionType userActionType)
-            throws IOException {
+            (MailMessageDataCollector collector , UserActionType userActionType) throws IOException {
         VerificationData verificationDataRow =
                 verificationDataService.getVerificationDataByMail(collector.getRecipient());
         String verificationCode = CodeGenerator
-                .generateRandomVerificationUUIDCode().toString().toUpperCase();
+                .generateUniqueCode().toString().toUpperCase();
         if (verificationDataRow != null) {
             verificationDataRow.setActionType(userActionType);
             verificationDataRow.setCode(verificationCode);

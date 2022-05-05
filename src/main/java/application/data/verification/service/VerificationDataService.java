@@ -41,13 +41,7 @@ public class VerificationDataService {
 
     public VerificationData updateVerificationData(VerificationData verificationData) {
         return verificationDataRepository.updateVerificationData(
-                verificationData.getCode() ,
-                verificationData.getMail()
-        );
-    }
-
-    public void deleteVerificationData(VerificationData verificationData) {
-        verificationDataRepository.deleteVerificationData(verificationData);
+                verificationData.getCode() , verificationData.getMail());
     }
 
     public void deleteVerificationDataByCode(String code) {

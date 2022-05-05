@@ -27,33 +27,12 @@ public class PromoService {
         this.promoRepository = promoRepository;
     }
 
-    public List<Promo> getAllPromos() {
-        return promoRepository.getAllPromos();
-    }
-
-    public Promo getPromoById(Long id) {
-        return promoRepository.getPromoById(id);
-    }
-
     public Promo getPromoByCode(String code) {
         return promoRepository.getPromoByCode(code);
     }
 
-    public void updatePromo(Promo promo) {
-        promoRepository.updatePromo(promo);
-    }
-
-    public void deletePromo(Long id) {
-        promoRepository.deletePromo(id);
-    }
-
-    public synchronized Promo savePromo(Promo promo) {
-        return promoRepository.savePromo(promo);
-    }
-
     public Promo generateNewPromo(PromoType type) {
-        Promo promo = promoRepository.savePromo(new Promo(0L , UUID.randomUUID().toString().toUpperCase() , type));
-        return promo;
+        return promoRepository.savePromo(new Promo(0L , UUID.randomUUID().toString().toUpperCase() , type));
     }
 
     public void usePromo(String code , String mail) {

@@ -26,8 +26,7 @@ public class UserDetailsImplementationService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String mail)
-            throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
         User user = userRepositoryImplementationEntity.getUserByMail(mail);
         if (user == null) {
             throw new UsernameNotFoundException("User with that credentials was not found");

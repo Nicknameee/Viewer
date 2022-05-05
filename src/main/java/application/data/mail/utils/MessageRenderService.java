@@ -8,9 +8,9 @@ import application.data.utils.loaders.CustomPropertyDataLoader;
 import java.util.Map;
 
 public class MessageRenderService {
-    public static MailMessageDataCollector renderCollectorData( MailMessageDataCollector collector  ,
-                                                                UserActionType userActionType       ,
-                                                                String verificationCode             ) {
+    public static MailMessageDataCollector renderCollectorData(MailMessageDataCollector collector,
+                                                               UserActionType userActionType,
+                                                               String verificationCode) {
         Map<String , String> nameProperties =
                 CustomPropertySourceConverter.convertToKeyValueFormat
                         (CustomPropertyDataLoader.getResourceContent("classpath:naming/names.properties"));

@@ -3,9 +3,11 @@ package application.data.articles.service;
 import application.data.articles.Article;
 import application.data.articles.repository.ArticleRepositoryImplementation;
 import application.data.loadableResources.LoadableResource;
+import application.data.loadableResources.service.LoadableResourceService;
 import application.data.loadableResources.utils.FileProcessingUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -24,10 +26,6 @@ public class ArticleService {
         return articleRepository.getAll();
     }
 
-    public Article getArticleByName(String name) {
-        return articleRepository.getArticleByName(name);
-    }
-
     public Article getArticleById(Long id) {
         return articleRepository.getArticleById(id);
     }
@@ -37,12 +35,18 @@ public class ArticleService {
     }
 
     public Article saveArticle(Article article) {
-        article.setSecret(UUID.randomUUID().toString());
+        if (article.getSecret() == null) {
+            article.setSecret(UUID.randomUUID().toString());
+        }
         return articleRepository.saveArticle(article);
     }
 
-    public void updateArticle(Article article) {
-        articleRepository.updateArticle(article);
+    public Article updateArticle(Article article , String title , String content , MultipartFile[] files , LoadableResourceService loadableResourceService) {
+        List<LoadableResource> addedResources = loadableResourceService.processResourcesForArticle(files , article);
+        article.getResources().addAll(addedResources);
+        article.setName(title);
+        article.setText(content);
+        return saveArticle(article);
     }
 
     public void removeArticleById(Long id) {

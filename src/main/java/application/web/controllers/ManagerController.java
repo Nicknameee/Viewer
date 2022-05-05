@@ -2,7 +2,6 @@ package application.web.controllers;
 
 import application.data.articles.Article;
 import application.data.articles.service.ArticleService;
-import application.data.loadableResources.LoadableResource;
 import application.data.loadableResources.service.LoadableResourceService;
 import application.data.payment.PaymentModel;
 import application.data.payment.models.Bank;
@@ -21,8 +20,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/api/manager")
@@ -64,7 +61,7 @@ public class ManagerController {
 
     @GetMapping("/credentials/reserved")
     @ResponseBody
-    public ApplicationWebResponse checkUserExistingByUniqueCredentials(@RequestParam("mail") String mail ,
+    public ApplicationWebResponse checkUserExistingByUniqueCredentials(@RequestParam("mail")                                String mail ,
                                                                        @RequestParam(value = "username" , required = false) String username)
     {
         CredentialsUniqueCheckingResponse response = new CredentialsUniqueCheckingResponse();
@@ -73,7 +70,6 @@ public class ManagerController {
                 if (userService.getUserByMail(mail) == null && userService.getUserByUsername(username) == null) {
                     response.setSuccess(true);
                     response.setError(null);
-                    response.setIsUnique(true);
                     return response;
                 }
                 response.setSuccess(false);
@@ -86,25 +82,21 @@ public class ManagerController {
                 if (userService.getUserByMail(mail) != null && userService.getUserByUsername(username) != null) {
                     response.setError("all");
                 }
-                response.setIsUnique(false);
             }
             else {
                 if (userService.getUserByMail(mail) == null) {
                     response.setSuccess(true);
                     response.setError(null);
-                    response.setIsUnique(true);
                 }
                 else {
                     response.setSuccess(false);
                     response.setError("mail");
-                    response.setIsUnique(false);
                 }
             }
         }
         catch (RuntimeException e) {
             response.setSuccess(false);
             response.setError(e.getMessage());
-            response.setIsUnique(null);
         }
         return response;
     }
@@ -115,12 +107,11 @@ public class ManagerController {
     public ApplicationWebResponse createPromo(@RequestParam("type") PromoType type) {
         PromoResponse response = new PromoResponse();
         try {
-            response.setPromo(promoService.generateNewPromo(type));
+            promoService.generateNewPromo(type);
             response.setSuccess(true);
             response.setError(null);
         }
         catch (Exception e) {
-            response.setPromo(null);
             response.setSuccess(false);
             response.setError(e.getMessage());
         }
@@ -133,48 +124,18 @@ public class ManagerController {
     public ApplicationWebResponse usePromo(@RequestParam("code") String code) {
         PromoResponse response = new PromoResponse();
         try {
-            String mail = SecurityContextHolder.getContext().getAuthentication().getName();
-            if (userService.getUserByMail(mail) != null) {
-                Promo promo = promoService.getPromoByCode(code);
-                if (promo != null) {
-                    promoService.usePromo(code , mail);
-                    response.setPromo(promo);
-                    response.setSuccess(true);
-                    response.setError(null);
-                }
-                else {
-                    response.setPromo(null);
-                    response.setSuccess(false);
-                    response.setError("No such promo were found");
-                }
+            Promo promo = promoService.getPromoByCode(code);
+            if (promo != null) {
+                promoService.usePromo(code , SecurityContextHolder.getContext().getAuthentication().getName());
+                response.setSuccess(true);
+                response.setError(null);
             }
             else {
-                response.setPromo(null);
                 response.setSuccess(false);
-                response.setError("No registered users were found by these credentials");
+                response.setError("No such promo were found");
             }
         }
         catch (Exception e) {
-            response.setPromo(null);
-            response.setSuccess(false);
-            response.setError(e.getMessage());
-        }
-        return response;
-    }
-
-
-    @GetMapping("article/read")
-    @ResponseBody
-    @PreAuthorize("hasAnyAuthority('access:user:read' , 'access:admin:read')")
-    public ApplicationWebResponse readArticle(@RequestParam("title") String title) {
-        ArticleResponse response = new ArticleResponse();
-        try {
-            response.setArticle(articleService.getArticleByName(title));
-            response.setSuccess(true);
-            response.setError(null);
-        }
-        catch (RuntimeException e) {
-            response.setArticle(null);
             response.setSuccess(false);
             response.setError(e.getMessage());
         }
@@ -191,12 +152,11 @@ public class ManagerController {
         Article article = new Article(0L , title , content , null , null);
         try {
             article.setResources(loadableResourceService.processResourcesForArticle(files , article));
-            response.setArticle(articleService.saveArticle(article));
+            articleService.saveArticle(article);
             response.setSuccess(true);
             response.setError(null);
         }
         catch (RuntimeException e) {
-            response.setArticle(null);
             response.setSuccess(false);
             response.setError(e.getMessage());
         }
@@ -213,16 +173,11 @@ public class ManagerController {
         ArticleResponse response = new ArticleResponse();
         Article article = articleService.getArticleById(id);
         try {
-            List<LoadableResource> addedResources = loadableResourceService.processResourcesForArticle(files , article);
-            article.getResources().addAll(addedResources);
-            article.setName(title);
-            article.setText(content);
-            response.setArticle(articleService.saveArticle(article));
+            articleService.updateArticle(article , title , content , files , loadableResourceService);
             response.setSuccess(true);
             response.setError(null);
         }
         catch (RuntimeException e) {
-            response.setArticle(null);
             response.setSuccess(false);
             response.setError(e.getMessage());
         }
@@ -232,16 +187,14 @@ public class ManagerController {
     @DeleteMapping("/article/delete")
     @ResponseBody
     @PreAuthorize("hasAuthority('access:admin:delete')")
-    public ApplicationWebResponse deleteArticle(@RequestParam("id") Long id) {
+    public ApplicationWebResponse deleteArticle(@RequestParam("id") Long articleId) {
         ArticleResponse response = new ArticleResponse();
         try {
-            articleService.removeArticleById(id);
-            response.setArticle(null);
+            articleService.removeArticleById(articleId);
             response.setSuccess(true);
             response.setError(null);
         }
         catch (RuntimeException e) {
-            response.setArticle(null);
             response.setSuccess(false);
             response.setError(e.getMessage());
         }
@@ -253,11 +206,10 @@ public class ManagerController {
     @PreAuthorize("hasAuthority('access:admin:delete')")
     public ApplicationWebResponse deleteResourceFromArticle(@RequestParam("filename") String filename,
                                                             @RequestParam("id")       String articleId) {
-        ArticleResponse response = new ArticleResponse();
+        ArticleResourceResponse response = new ArticleResourceResponse();
         try {
             Article article = articleService.getArticleById(Long.valueOf(articleId));
             response.setSuccess(false);
-            response.setArticle(null);
             response.setError(null);
             if (article != null) {
                 loadableResourceService.deleteLoadableResourceByName(filename);
@@ -265,7 +217,6 @@ public class ManagerController {
             }
         }
         catch (RuntimeException e) {
-            response.setArticle(null);
             response.setSuccess(false);
             response.setError(e.getMessage());
         }
@@ -300,12 +251,11 @@ public class ManagerController {
                                                   @RequestParam("receiver")                        String receiver) {
         PaymentResponse response = new PaymentResponse();
         try {
-            response.setPayment(paymentService.savePaymentModel(new PaymentModel(0L , card , IBAN , bank , receiver)));
+            paymentService.savePaymentModel(new PaymentModel(0L , card , IBAN , bank , receiver));
             response.setSuccess(true);
             response.setError(null);
         }
         catch (RuntimeException e) {
-            response.setPayment(null);
             response.setSuccess(false);
             response.setError(e.getMessage());
         }
@@ -322,12 +272,11 @@ public class ManagerController {
         PaymentResponse response = new PaymentResponse();
         try {
             paymentService.updatePaymentModel(card , IBAN , receiver , id);
-            response.setPayment(paymentService.getPaymentModelById(id));
+            paymentService.getPaymentModelById(id);
             response.setSuccess(true);
             response.setError(null);
         }
         catch (RuntimeException e) {
-            response.setPayment(null);
             response.setSuccess(false);
             response.setError(e.getMessage());
         }
@@ -341,12 +290,10 @@ public class ManagerController {
         PaymentResponse response = new PaymentResponse();
         try {
             paymentService.deletePaymentModelById(id);
-            response.setPayment(null);
             response.setSuccess(true);
             response.setError(null);
         }
         catch (RuntimeException e) {
-            response.setPayment(null);
             response.setSuccess(false);
             response.setError(e.getMessage());
         }

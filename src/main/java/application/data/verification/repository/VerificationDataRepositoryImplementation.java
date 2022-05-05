@@ -44,10 +44,6 @@ public class VerificationDataRepositoryImplementation {
         return verificationDataRepository.getVerificationDataByMail(mail);
     }
 
-    public void deleteVerificationData(VerificationData verificationData) {
-        verificationDataRepository.deleteVerificationData(verificationData.getCode());
-    }
-
     public void deleteVerificationDataByCode(String code) {
         verificationDataRepository.deleteVerificationData(code);
     }

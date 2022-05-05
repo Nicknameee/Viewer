@@ -9,5 +9,4 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class CredentialsUniqueCheckingResponse extends ApplicationWebResponse {
-    private Boolean isUnique;
 }

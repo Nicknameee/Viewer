@@ -4,7 +4,6 @@ import application.data.articles.Article;
 import application.data.articles.service.ArticleService;
 import application.data.payment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,10 +37,10 @@ public class AnyAuthorityController {
     }
 
     @GetMapping("/article/{secret}")
-    public Object article(@PathVariable("secret") String secret , Model model) {
+    public String article(@PathVariable("secret") String secret , Model model) {
         Article article = articleService.getArticleBySecret(secret);
         if (article == null) {
-            return ResponseEntity.notFound().build();
+            return "redirect:/api/all/home?error=article_not_found";
         }
         model.addAttribute("article" , article);
         model.addAttribute("authenticated" , !SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser"));

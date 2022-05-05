@@ -17,11 +17,10 @@ public class UserSecurityConverter implements UserDetails {
     private final Set<SimpleGrantedAuthority> authorities;
     private final Boolean isActive;
 
-    public UserSecurityConverter(
-            String username,
-            String password,
-            Set<SimpleGrantedAuthority> authorities,
-            Boolean isActive) {
+    public UserSecurityConverter(String username,
+                                 String password,
+                                 Set<SimpleGrantedAuthority> authorities,
+                                 Boolean isActive) {
         this.username = username;
         this.password = password;
         this.authorities = authorities;
@@ -29,15 +28,14 @@ public class UserSecurityConverter implements UserDetails {
     }
 
     public static UserDetails convertUser(User user) {
-        return
-                new org.springframework.security.core.userdetails.User(
-                        user.getMail() , user.getPassword(),
+        return new org.springframework.security.core.userdetails.User(
+                        user.getMail() ,
+                        user.getPassword(),
                         user.getStatus().equals(Status.ENABLE),
                         user.getStatus().equals(Status.ENABLE),
                         user.getStatus().equals(Status.ENABLE),
                         user.getStatus().equals(Status.ENABLE),
-                        user.getRole().getAuthorities()
-                );
+                        user.getRole().getAuthorities());
     }
 
     @Override

@@ -19,23 +19,6 @@ public class LoadableResourceRepositoryImplementation {
         return loadableResourceRepository.findAll();
     }
 
-    public LoadableResource getLoadableResourceByFilename(String filename) {
-        return loadableResourceRepository.getLoadableResourceByFilename(filename);
-    }
-
-    public LoadableResource saveLoadableResource(LoadableResource loadableResource) {
-        return loadableResourceRepository.save(loadableResource);
-    }
-
-    public LoadableResource updateLoadableResource(LoadableResource loadableResource) {
-        loadableResourceRepository.updateLoadableResource(
-                loadableResource.getFilename()  ,
-                loadableResource.getFilename()  ,
-                loadableResource.getSize()
-        );
-        return getLoadableResourceByFilename(loadableResource.getFilename());
-    }
-
     public void deleteLoadableResourceByName(String filename) {
         loadableResourceRepository.deleteLoadableResourceByName(filename);
     }

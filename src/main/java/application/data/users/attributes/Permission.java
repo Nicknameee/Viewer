@@ -3,8 +3,7 @@ package application.data.users.attributes;
 import lombok.Getter;
 
 @Getter
-public enum Permission
-{
+public enum Permission {
     CREATE_USER     ("access:user:create")    ,
     READ_USER       ("access:user:read")      ,
     UPDATE_USER     ("access:user:update")    ,

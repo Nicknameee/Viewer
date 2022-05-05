@@ -56,12 +56,10 @@ public class MailController {
             TaskDistributorTool.execute(messageSendingTask);
             response.setSuccess(true);
             response.setError(null);
-            response.setCollector(collector);
         }
         catch (RuntimeException e) {
             response.setSuccess(false);
             response.setError(e.getMessage());
-            response.setCollector(collector);
         }
         return response;
     }

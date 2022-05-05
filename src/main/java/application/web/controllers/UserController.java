@@ -56,8 +56,7 @@ public class UserController {
     public ApplicationWebResponse register(@ModelAttribute("userModel") User user , @RequestParam("code") String code) {
         UserResponse response = new UserResponse();
         try {
-            VerificationData verificationData = verificationService
-                    .getVerificationDataByMail(user.getMail());
+            VerificationData verificationData = verificationService.getVerificationDataByMail(user.getMail());
             if (verificationData == null) {
                 response.setSuccess(false);
                 response.setError("Confirmation error , please try again");
@@ -141,10 +140,6 @@ public class UserController {
             case ROLE_USER:
                 return "/user/personal/user";
             case ROLE_ADMIN:
-                /*model.addAttribute("users" , userService.getAllUsers()
-                        .stream()
-                        .filter(u -> !u.getMail().equals(SecurityContextHolder.getContext().getAuthentication().getName()))
-                        .collect(Collectors.toList()));*/
                 model.addAttribute("users" , userService.getAllUsersExceptCurrent());
                 model.addAttribute("articles" , articleService.getAll());
                 model.addAttribute("banks" , Bank.values());

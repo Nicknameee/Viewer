@@ -19,10 +19,6 @@ public class ArticleRepositoryImplementation {
         return articleRepository.findAll();
     }
 
-    public Article getArticleByName(String name) {
-        return articleRepository.getArticleByName(name);
-    }
-
     public Article getArticleById(Long id) {
         return articleRepository.getArticleById(id);
     }
@@ -33,10 +29,6 @@ public class ArticleRepositoryImplementation {
 
     public Article saveArticle(Article article) {
         return articleRepository.save(article);
-    }
-
-    public void updateArticle(Article article) {
-        articleRepository.updateArticle(article.getName() , article.getText() , article.getId());
     }
 
     public void removeArticleById(Long id) {

@@ -8,21 +8,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
-    @Query("SELECT a FROM Article a WHERE a.name=:name")
-    Article getArticleByName(@Param("name") String name);
-
     @Query("SELECT a FROM Article  a WHERE a.id=:id")
     Article getArticleById(@Param("id") Long id);
 
     @Query("SELECT a FROM Article a WHERE a.secret=:secret")
     Article getArticleBySecret(@Param("secret") String secret);
-
-    @Modifying
-    @Transactional
-    @Query("UPDATE Article a SET a.name=:name , a.text=:text WHERE a.id=:id")
-    void updateArticle(@Param("name") String name ,
-                       @Param("text") String text ,
-                       @Param("id")   Long id);
 
     @Modifying
     @Transactional

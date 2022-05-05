@@ -27,18 +27,6 @@ public class LoadableResourceService {
         return loadableResourceRepository.getAllLoadableResources();
     }
 
-    public LoadableResource getLoadableResourceByFilename(String filename) {
-        return loadableResourceRepository.getLoadableResourceByFilename(filename);
-    }
-
-    public synchronized LoadableResource saveLoadableResource(LoadableResource loadableResource) {
-        return loadableResourceRepository.saveLoadableResource(loadableResource);
-    }
-
-    public LoadableResource updateLoadableResource(LoadableResource loadableResource) {
-        return loadableResourceRepository.updateLoadableResource(loadableResource);
-    }
-
     public List<LoadableResource> processResourcesForArticle(MultipartFile[] files , Article article) {
         List<LoadableResource> resourceList = new LinkedList<>();
         if (files != null && files.length > 0) {

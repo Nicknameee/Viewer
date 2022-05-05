@@ -10,10 +10,7 @@ import java.io.InputStreamReader;
 public class CustomPropertyDataLoader {
     private static String getResourceContent(Resource resource) {
         try {
-            String content = FileCopyUtils.
-                    copyToString(
-                            new InputStreamReader
-                                    (resource.getInputStream()));
+            String content = FileCopyUtils.copyToString(new InputStreamReader(resource.getInputStream()));
             return content.replace("\r\n", "\n");
         }
         catch (IOException e) {

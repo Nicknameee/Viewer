@@ -15,27 +15,11 @@ public class PromoRepositoryImplementation {
         this.promoRepository = promoRepository;
     }
 
-    public List<Promo> getAllPromos() {
-        return promoRepository.findAll();
-    }
-
-    public Promo getPromoById(Long id) {
-        return promoRepository.getPromoById(id);
-    }
-
     public Promo getPromoByCode(String code) {
         return promoRepository.getPromoByCode(code);
     }
 
     public Promo savePromo(Promo promo) {
         return promoRepository.save(promo);
-    }
-
-    public void updatePromo(Promo promo) {
-        promoRepository.updatePromo(promo.getCode() , promo.getType() , promo.getId());
-    }
-
-    public void deletePromo(Long id) {
-        promoRepository.deletePromo(id);
     }
 }
