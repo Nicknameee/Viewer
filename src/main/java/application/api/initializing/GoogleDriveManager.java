@@ -53,9 +53,10 @@ public class GoogleDriveManager {
 				.setDataStoreFactory(new FileDataStoreFactory(new java.io.File(driveAPIProperties.get("tokens_path"))))
 				.setAccessType(driveAPIProperties.get("access"))
 				.build();
+		Map<String , String> env = System.getenv();
 		LocalServerReceiver receiver = new LocalServerReceiver.Builder()
-				.setHost(driveAPIProperties.get("host"))
-				.setPort(Integer.parseInt(driveAPIProperties.get("port")))
+				.setHost(env.get("GDRIVE_HOST"))
+				.setPort(Integer.parseInt(env.get("GDRIVE_PORT")))
 				.build();
 		return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
 	}
