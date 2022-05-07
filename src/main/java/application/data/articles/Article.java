@@ -34,4 +34,10 @@ public class Article {
     @JsonProperty("resources")
     @OneToMany(fetch = FetchType.EAGER , mappedBy = "article" , orphanRemoval = true , cascade = CascadeType.ALL)
     private List<LoadableResource> resources;
+
+    @Column(name = "folder_name")
+    private String folderName;
+
+    @Column(name = "folder_id")
+    private String folderId;
 }

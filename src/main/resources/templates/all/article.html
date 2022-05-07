@@ -112,10 +112,14 @@
                             <div class="portfolio-hover-content">View</div>
                         </div>
                         <img th:if="${resource.getFiletype().name()} eq 'IMAGE'"
-                             class="img-fluid" th:src="@{'/uploads/' + ${resource.getFilename()}}" alt="Card" />
+                             class="img-fluid" th:src="@{'https://drive.google.com/uc?export=view&id=' + ${resource.getFileId()}}" alt="Card" />
+<!--                             class="img-fluid" th:src="@{'/uploads/' + ${resource.getFilename()}}" alt="Card" />-->
+<!--drive.google.com/uc?export=view&id=-->
                         <iframe allowfullscreen th:autoplay="false"
                                 th:if="${resource.getFiletype().name()} eq 'VIDEO'"
-                                class="video" th:src="@{'/uploads/' + ${resource.getFilename()}}" sandbox></iframe>
+                                th:src="@{'https://drive.google.com/uc?export=view&id=' + ${resource.getFileId()}}"
+                                class="video" sandbox></iframe>
+<!--                        th:src="@{'/uploads/' + ${resource.getFilename()}}"-->
                     </a>
                     <div class="portfolio-caption flex-grow-1">
                         <div class="portfolio-caption-heading text-truncate"></div>

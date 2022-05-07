@@ -114,7 +114,7 @@ function previewFile(element) {
     if (resourceType === 'IMAGE') {
         let image = document.createElement('img')
         $(image).attr('class' , 'pretty-img img-fluid')
-        $(image).attr('src' , '/uploads/' + $(element).val())
+        $(image).attr('src' , 'https://drive.google.com/uc?export=view&id=' + $(element).attr('placeholder'))
         $(overlap).append(image)
     }
     else if (resourceType === 'VIDEO') {

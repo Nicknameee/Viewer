@@ -37,4 +37,7 @@ public class LoadableResource {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "article_id")
     private Article article;
+
+    @Column(name = "file_id")
+    private String fileId;
 }

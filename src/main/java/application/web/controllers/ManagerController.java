@@ -1,7 +1,9 @@
 package application.web.controllers;
 
+import application.api.gdrive.service.GDriveAPIService;
 import application.data.articles.Article;
 import application.data.articles.service.ArticleService;
+import application.data.loadableResources.LoadableResource;
 import application.data.loadableResources.service.LoadableResourceService;
 import application.data.payment.PaymentModel;
 import application.data.payment.models.Bank;
@@ -12,6 +14,7 @@ import application.data.promo.service.PromoService;
 import application.data.users.attributes.Role;
 import application.data.users.attributes.Status;
 import application.data.users.service.UserService;
+import application.data.utils.generators.CodeGenerator;
 import application.web.responses.ApplicationWebResponse;
 import application.web.responses.manager.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +36,13 @@ public class ManagerController {
     private LoadableResourceService loadableResourceService;
 
     private PaymentService paymentService;
+
+    private GDriveAPIService driveAPIService;
+
+    @Autowired
+    public void setDriveAPIService(GDriveAPIService driveAPIService) {
+        this.driveAPIService = driveAPIService;
+    }
 
     @Autowired
     public void setPaymentService(PaymentService paymentService) {
@@ -147,11 +157,15 @@ public class ManagerController {
     @PreAuthorize("hasAuthority('access:admin:create')")
     public ApplicationWebResponse createArticle(@RequestParam("title")                              String title,
                                                 @RequestParam("content")                            String content,
-                                                @RequestParam(value = "media" , required = false)   MultipartFile[] files) {
+                                                @RequestParam(value = "media" , required = false)   MultipartFile[] files) throws Exception {
         ArticleResponse response = new ArticleResponse();
-        Article article = new Article(0L , title , content , null , null);
+        Article article = new Article(0L , title , content , null , null , null , null);
         try {
-            article.setResources(loadableResourceService.processResourcesForArticle(files , article));
+            String folderName = CodeGenerator.generateUniqueCode().toString();
+            String folderId = driveAPIService.createDirectory("dobrovolets/" + folderName);
+            article.setFolderName(folderName);
+            article.setFolderId(folderId);
+            article.setResources(loadableResourceService.processResourcesForArticle(files , article , driveAPIService));
             articleService.saveArticle(article);
             response.setSuccess(true);
             response.setError(null);
@@ -173,7 +187,7 @@ public class ManagerController {
         ArticleResponse response = new ArticleResponse();
         Article article = articleService.getArticleById(id);
         try {
-            articleService.updateArticle(article , title , content , files , loadableResourceService);
+            articleService.updateArticle(article , title , content , files , loadableResourceService , driveAPIService);
             response.setSuccess(true);
             response.setError(null);
         }
@@ -190,11 +204,10 @@ public class ManagerController {
     public ApplicationWebResponse deleteArticle(@RequestParam("id") Long articleId) {
         ArticleResponse response = new ArticleResponse();
         try {
-            articleService.removeArticleById(articleId);
+            articleService.removeArticleById(articleId , driveAPIService);
             response.setSuccess(true);
             response.setError(null);
-        }
-        catch (RuntimeException e) {
+        } catch (Exception e) {
             response.setSuccess(false);
             response.setError(e.getMessage());
         }
@@ -212,11 +225,11 @@ public class ManagerController {
             response.setSuccess(false);
             response.setError(null);
             if (article != null) {
-                loadableResourceService.deleteLoadableResourceByName(filename);
+                LoadableResource resource = article.getResources().stream().filter(file -> file.getFilename().equals(filename)).findFirst().get();
+                loadableResourceService.deleteLoadableResourceByName(filename , resource.getFileId() , driveAPIService);
                 response.setSuccess(true);
             }
-        }
-        catch (RuntimeException e) {
+        } catch (Exception e) {
             response.setSuccess(false);
             response.setError(e.getMessage());
         }
