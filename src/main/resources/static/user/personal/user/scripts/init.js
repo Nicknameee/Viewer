@@ -30,11 +30,9 @@ function hideValidate(input) {
     $(thisAlert).removeClass('input-validate');
 }
 $(document).ready(function () {
-    $("#form").submit(function (event)
-    {
+    $("#form").submit(function (event) {
         event.preventDefault();
-        if (validate_promo().bool === true)
-        {
+        if (validate_promo().bool === true) {
             $.ajax(
                 {
                     url: "/api/manager/promo/use",
