@@ -1,5 +1,7 @@
-package application.api.gdrive.initializing;
+package application.api.initializing;
 
+import application.data.utils.converters.CustomPropertySourceConverter;
+import application.data.utils.loaders.CustomPropertyDataLoader;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -20,33 +22,41 @@ import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class GoogleDriveManager {
-	private static final String APPLICATION_NAME = "GDrive";
 	private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-	private static final String TOKENS_DIRECTORY_PATH = "/gdrive/tokens";
 	private static final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE);
-	private static final String CREDENTIALS_FILE_PATH = "/gdrive/credentials.json";
 
 	public Drive getInstance() throws GeneralSecurityException, IOException {
+		Map<String , String> driveAPIProperties =
+				CustomPropertySourceConverter.convertToKeyValueFormat
+						(CustomPropertyDataLoader.getResourceContent("classpath:gdrive/drive.properties"));
 		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 		return new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
-				.setApplicationName(APPLICATION_NAME).build();
+				.setApplicationName(driveAPIProperties.get("application_name"))
+				.build();
 	}
 
 	private Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
-		InputStream in = GoogleDriveManager.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+		Map<String , String> driveAPIProperties =
+				CustomPropertySourceConverter.convertToKeyValueFormat
+						(CustomPropertyDataLoader.getResourceContent("classpath:gdrive/drive.properties"));
+		InputStream in = GoogleDriveManager.class.getResourceAsStream(driveAPIProperties.get("credentials_path"));
 		if (in == null) {
-			throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
+			throw new FileNotFoundException("Resource not found: " + driveAPIProperties.get("credentials_path"));
 		}
 		GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 		GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
 				HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-				.setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
-				.setAccessType("offline")
+				.setDataStoreFactory(new FileDataStoreFactory(new java.io.File(driveAPIProperties.get("tokens_path"))))
+				.setAccessType(driveAPIProperties.get("access"))
 				.build();
-		LocalServerReceiver receiver = new LocalServerReceiver.Builder().setHost("localhost").setPort(8083).build();
+		LocalServerReceiver receiver = new LocalServerReceiver.Builder()
+				.setHost(driveAPIProperties.get("host"))
+				.setPort(Integer.parseInt(driveAPIProperties.get("port")))
+				.build();
 		return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
 	}
 }

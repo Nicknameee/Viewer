@@ -1,9 +1,8 @@
 package application.web.controllers;
 
-import application.api.gdrive.service.GDriveAPIService;
+import application.api.service.GDriveAPIService;
 import application.data.articles.Article;
 import application.data.articles.service.ArticleService;
-import application.data.loadableResources.LoadableResource;
 import application.data.loadableResources.service.LoadableResourceService;
 import application.data.payment.PaymentModel;
 import application.data.payment.models.Bank;
@@ -14,7 +13,6 @@ import application.data.promo.service.PromoService;
 import application.data.users.attributes.Role;
 import application.data.users.attributes.Status;
 import application.data.users.service.UserService;
-import application.data.utils.generators.CodeGenerator;
 import application.web.responses.ApplicationWebResponse;
 import application.web.responses.manager.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -159,13 +157,8 @@ public class ManagerController {
                                                 @RequestParam("content")                            String content,
                                                 @RequestParam(value = "media" , required = false)   MultipartFile[] files) throws Exception {
         ArticleResponse response = new ArticleResponse();
-        Article article = new Article(0L , title , content , null , null , null , null);
         try {
-            String folderName = CodeGenerator.generateUniqueCode().toString();
-            String folderId = driveAPIService.createDirectory("dobrovolets/" + folderName);
-            article.setFolderName(folderName);
-            article.setFolderId(folderId);
-            article.setResources(loadableResourceService.processResourcesForArticle(files , article , driveAPIService));
+            Article article = articleService.presetArticle(title , content , files , driveAPIService , loadableResourceService);
             articleService.saveArticle(article);
             response.setSuccess(true);
             response.setError(null);
@@ -225,8 +218,9 @@ public class ManagerController {
             response.setSuccess(false);
             response.setError(null);
             if (article != null) {
-                LoadableResource resource = article.getResources().stream().filter(file -> file.getFilename().equals(filename)).findFirst().get();
-                loadableResourceService.deleteLoadableResourceByName(filename , resource.getFileId() , driveAPIService);
+                loadableResourceService.deleteLoadableResourceByName(filename ,
+                        article.getResources().stream().filter(file -> file.getFilename().equals(filename)).findFirst().get().getFileId() ,
+                        driveAPIService);
                 response.setSuccess(true);
             }
         } catch (Exception e) {

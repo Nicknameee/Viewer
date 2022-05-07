@@ -60,7 +60,7 @@ function processContent(element , type , action) {
 function addFile(element , type , action) {
     if (!validate_files(element)) {
         $(element).parent().addClass('valid-dec')
-        $(element).parent().attr('about' , 'Max size for each file is 10MB')
+        $(element).parent().attr('about' , 'Max size for each file is 250MB')
         if (type === 'add') {
             canSubmitAdd = false
         }
@@ -124,7 +124,7 @@ function previewFile(element) {
         $(frame).attr('sandbox' , 'allow-scripts')
         $(frame).attr('autoplay' , false)
         $(frame).attr('class' , 'video')
-        $(frame).attr('src' , '/uploads/' + $(element).val())
+        $(frame).attr('src' , 'https://drive.google.com/uc?export=view&id=' + $(element).attr('placeholder'))
         $(overlap).append(frame)
     }
     if (document.getElementById("overlap") === null) {

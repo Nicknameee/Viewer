@@ -36,7 +36,7 @@ function validate_content(input) {
 }
 function validate_files(input) {
     if (input === undefined || input.files === undefined) return true
-    const maxSize = 10 * 1024 * 1024;
+    const maxSize = 250 * 1024 * 1024;
     let files = input.files
     for (let i = 0; i < files.length; i++) {
         if (files.item(i).size > maxSize) {

@@ -1,6 +1,6 @@
-package application.api.gdrive.service;
+package application.api.service;
 
-import application.api.gdrive.interaction.FileManager;
+import application.api.interaction.FileManager;
 import com.google.api.services.drive.model.File;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

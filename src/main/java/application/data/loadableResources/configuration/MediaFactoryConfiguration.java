@@ -12,8 +12,8 @@ public class MediaFactoryConfiguration {
     @Bean
     public MultipartConfigElement multipartConfigElement(){
         MultipartConfigFactory factory = new MultipartConfigFactory();
-        factory.setMaxFileSize(DataSize.parse("10MB"));
-        factory.setMaxRequestSize(DataSize.parse("11MB"));
+        factory.setMaxFileSize(DataSize.parse("250MB"));
+        factory.setMaxRequestSize(DataSize.parse("255MB"));
         return factory.createMultipartConfig();
     }
 }

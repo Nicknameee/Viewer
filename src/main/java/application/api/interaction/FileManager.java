@@ -1,6 +1,6 @@
-package application.api.gdrive.interaction;
+package application.api.interaction;
 
-import application.api.gdrive.initializing.GoogleDriveManager;
+import application.api.initializing.GoogleDriveManager;
 import com.google.api.client.http.InputStreamContent;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
@@ -23,14 +23,6 @@ public class FileManager {
 	@Autowired
 	public void setGoogleDriveManager(GoogleDriveManager googleDriveManager) {
 		this.googleDriveManager = googleDriveManager;
-	}
-
-	public List<File> listEverything() throws IOException, GeneralSecurityException {
-		FileList result = googleDriveManager.getInstance().files().list()
-				.setPageSize(10)
-				.setFields("nextPageToken, files(id, name)")
-				.execute();
-		return result.getFiles();
 	}
 
 	public List<File> listFolderContent(String parentId) throws IOException, GeneralSecurityException {
