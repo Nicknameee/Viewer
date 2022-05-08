@@ -235,3 +235,7 @@ td {
     position: relative;
     z-index: 10000000000 !important;
 }
+.gif {
+    width: 216px;
+    height: 162px;
+}

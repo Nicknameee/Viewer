@@ -76,6 +76,7 @@ function addFile(element , type , action) {
 function dropFile(element) {
     let deletingFile = $(element).prev()
     let artId = $(element).parent().parent().children('.id-edit')
+    showGif()
     $.ajax(
         {
             url: "/api/manager/article/resource",
@@ -86,6 +87,7 @@ function dropFile(element) {
             },
             success:
                 function(response) {
+                    closeGif()
                     if (response.success) {
                         $(element).parent().parent().prev().attr('about' , 'Resource has been removed successfully')
                         setTimeout(function () {$(element).parent().parent().prev().attr('about' , ''); $(element).parent().remove()} , 3000)
@@ -98,6 +100,7 @@ function dropFile(element) {
                 },
             error:
                 function(response) {
+                    closeGif()
                     $(element).parent().parent().prev().attr('about' , 'Error occurs while deleting , see logs')
                     setTimeout(function () {$(element).parent().parent().prev().attr('about' , '')} , 3000)
                     console.log(response.error)
@@ -139,6 +142,19 @@ function previewFile(element) {
 function closePreview(element) {
     $(element).remove()
 }
+function showGif() {
+    let overlap = document.createElement('div')
+    $(overlap).attr('class' , 'light-bg')
+    $(overlap).attr('id' , 'gif-processing-box')
+    let image = document.createElement('img')
+    $(image).attr('class' , 'gif')
+    $(image).attr('src' , '/user/personal/admin/media/processing.gif')
+    $(overlap).append(image)
+    $('body').append(overlap)
+}
+function closeGif() {
+    $("#gif-processing-box").remove();
+}
 function submitAdd(element) {
     let form = $(element).parent().parent()[0]
     let formData = new FormData(form)
@@ -159,6 +175,7 @@ function submitAdd(element) {
         formData.set('media' , null)
     }
     if (canSubmitAdd) {
+        showGif()
         $.ajax(
             {
                 url: "/api/manager/article/create",
@@ -169,6 +186,7 @@ function submitAdd(element) {
                 contentType: false,
                 success:
                     function(response) {
+                        closeGif()
                         if (response.success) {
                             $(element).parent().parent().parent().children().eq(0).attr('about' , 'Article created successfully')
                             setTimeout(function () {$(element).parent().parent().parent().children().eq(0).attr('about' , ''); location.reload()} , 2000)
@@ -181,6 +199,7 @@ function submitAdd(element) {
                     },
                 error:
                     function(response) {
+                        closeGif()
                         $(element).parent().parent().parent().children().eq(0).attr('about' , 'Error occurs while creating article , see logs')
                         setTimeout(function () {$(element).parent().parent().parent().children().eq(0).attr('about' , '')} , 3000)
                         console.log(response.error)
@@ -210,6 +229,7 @@ function submitEdit(element) {
         formData.set('media' , null)
     }
     if (canSubmitEdit) {
+        showGif()
         $.ajax(
             {
                 url: "/api/manager/article/update",
@@ -220,6 +240,7 @@ function submitEdit(element) {
                 contentType: false,
                 success:
                     function(response) {
+                        closeGif()
                         if (response.success) {
                             $(element).parent().parent().parent().children().eq(0).attr('about' , 'Article updated successfully')
                             setTimeout(function () {$(element).parent().parent().parent().children().eq(0).attr('about' , ''); location.reload()} , 2000)
@@ -232,6 +253,7 @@ function submitEdit(element) {
                     },
                 error:
                     function(response) {
+                        closeGif()
                         $(element).parent().parent().parent().children().eq(0).attr('about' , 'Error occurs while updating article , see logs')
                         setTimeout(function () {$(element).parent().parent().parent().children().eq(0).attr('about' , '')} , 3000)
                         console.log(response.error)
@@ -245,6 +267,7 @@ function deleteArticle(element) {
     let confirmation = confirm("Are you sure you want to delete this article?")
     if (confirmation) {
         let artId = $(element).parent().parent().next().children().eq(0).children().eq(1).children('.id-edit').val()
+        showGif()
         $.ajax(
             {
                 url: "/api/manager/article/delete",
@@ -254,16 +277,20 @@ function deleteArticle(element) {
                 },
                 success:
                     function(response) {
+                        closeGif()
                         if (response.success) {
                             $(element).parent().parent().remove()
                             $(element).parent().parent().next().remove()
                             location.reload()
                         }
                         else {
+                            console.log(response.error)
                         }
                     },
                 error:
                     function(response) {
+                        closeGif()
+                        console.log(response.error)
                     }
             }
         )
