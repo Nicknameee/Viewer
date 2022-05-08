@@ -1,3 +1,9 @@
+$("#filterArticles").on('keyup paste' , function () {
+    filterSearch($("#filterArticles") , 'articles')
+})
+$("#filterUsers").on('keyup paste' , function () {
+    filterSearch($("#filterUsers") , 'users')
+})
 function filterSearch(element , type) {
     if (type === 'articles') {
         $("#article-data").children().each(

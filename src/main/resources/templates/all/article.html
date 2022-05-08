@@ -113,21 +113,18 @@
                         </div>
                         <img th:if="${resource.getFiletype().name()} eq 'IMAGE'"
                              class="img-fluid" th:src="@{'https://drive.google.com/uc?export=view&id=' + ${resource.getFileId()}}" alt="Card" />
-<!--                             class="img-fluid" th:src="@{'/uploads/' + ${resource.getFilename()}}" alt="Card" />-->
-<!--drive.google.com/uc?export=view&id=-->
                         <iframe allowfullscreen th:autoplay="false"
                                 th:if="${resource.getFiletype().name()} eq 'VIDEO'"
                                 th:src="@{'https://drive.google.com/uc?export=view&id=' + ${resource.getFileId()}}"
                                 class="video" sandbox></iframe>
-<!--                        th:src="@{'/uploads/' + ${resource.getFilename()}}"-->
                     </a>
                     <div class="portfolio-caption flex-grow-1">
                         <div class="portfolio-caption-heading text-truncate"></div>
                     </div>
                 </div>
             </div>
-            <div th:if="${article.getResources().size() == 0}" th:each="resource : ${article.getResources()}" class="col-lg-4 col-sm-6 mb-4 d-flex justify-content-center">
-                No attachments were added
+            <div th:if="${article.getResources().size() == 0}" class="col-lg-4 col-sm-6 mb-4 d-flex justify-content-center w-100">
+                <h4 class="section-heading text-uppercase text-light">No attachments were found</h4>
             </div>
         </div>
     </div>
