@@ -8,6 +8,7 @@ import application.data.loadableResources.service.LoadableResourceService;
 import application.data.utils.converters.CustomPropertySourceConverter;
 import application.data.utils.generators.CodeGenerator;
 import application.data.utils.loaders.CustomPropertyDataLoader;
+import application.data.utils.threads.TaskDistributorTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -63,7 +64,15 @@ public class ArticleService {
 
     public void removeArticleResources(List<LoadableResource> resources , String folderId , GDriveAPIService driveAPIService) throws Exception {
         if (resources != null && resources.size() > 0) {
-            driveAPIService.deleteFile(folderId);
+            Runnable dropResource = () -> {
+                try {
+                    driveAPIService.deleteFile(folderId);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            };
+            TaskDistributorTool.execute(dropResource);
         }
     }
 
