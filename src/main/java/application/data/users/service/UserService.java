@@ -5,6 +5,7 @@ import application.data.users.attributes.Role;
 import application.data.users.attributes.Status;
 import application.data.users.repository.UserRepositoryImplementation;
 import application.data.users.session.UserSessionService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class UserService {
-    private final Logger logger = LoggerFactory.getLogger(UserService.class);
-
     private final UserRepositoryImplementation userRepository;
 
     private final UserSessionService sessionService;
@@ -35,8 +35,7 @@ public class UserService {
         this.sessionService = sessionService;
     }
 
-    public User saveUser(User user)
-    {
+    public User saveUser(User user) {
         return userRepository.saveUser(user);
     }
 
@@ -78,6 +77,10 @@ public class UserService {
     }
 
     public void updateUserRoleAndStatus(String mail , Role role , Status status) {
+        User user = userRepository.getUserByMail(mail);
+        if (user.getStatus().equals(status) && user.getRole().equals(role)) {
+            return;
+        }
         userRepository.updateUserRole(mail , role);
         userRepository.updateUserStatus(mail , status);
         UserDetails userByMail = sessionService.findAllLoggedInUsers()
