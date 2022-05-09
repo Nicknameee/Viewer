@@ -28,10 +28,6 @@ public class LoadableResourceService {
         this.loadableResourceRepository = loadableResourceRepository;
     }
 
-    public List<LoadableResource> getAllLoadableResources() {
-        return loadableResourceRepository.getAllLoadableResources();
-    }
-
     public List<LoadableResource> processResourcesForArticle(MultipartFile[] files , Article article , GDriveAPIService driveAPIService) {
         Map<String , String> driveAPIProperties =
                 CustomPropertySourceConverter.convertToKeyValueFormat

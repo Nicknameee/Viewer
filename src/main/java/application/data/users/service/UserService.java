@@ -69,6 +69,10 @@ public class UserService {
     }
 
     public void updateUserRoleForCurrentUser(String mail , Role role) {
+        User user = userRepository.getUserByMail(mail);
+        if (user.getRole().equals(role)) {
+            return;
+        }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         List<GrantedAuthority> authorities = new LinkedList<>(new ArrayList<>(role.getAuthorities()));
         Authentication newAuthentication = new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), authorities);

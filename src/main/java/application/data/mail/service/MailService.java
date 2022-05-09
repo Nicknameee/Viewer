@@ -24,7 +24,6 @@ import java.util.Objects;
 
 @Service
 public class MailService {
-    private final Logger logger = LoggerFactory.getLogger(MailService.class);
 
     private VerificationDataService verificationDataService;
 
