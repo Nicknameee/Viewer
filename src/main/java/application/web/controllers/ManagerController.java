@@ -22,6 +22,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/api/manager")
 public class ManagerController {
@@ -302,6 +304,25 @@ public class ManagerController {
         }
         catch (RuntimeException e) {
             response.setSuccess(false);
+            response.setError(e.getMessage());
+        }
+        return response;
+    }
+
+    @GetMapping("/session/valid")
+    @ResponseBody
+    @PreAuthorize("hasAnyAuthority('access:user:read' , 'access:admin:read')")
+    public ApplicationWebResponse isSessionValid(HttpSession session) {
+        SessionValidResponse response = new SessionValidResponse();
+        try {
+            String mail = SecurityContextHolder.getContext().getAuthentication().getName();
+            response.setSuccess(true);
+            response.setValid(userService.checkSession(mail));
+            response.setError(null);
+        }
+        catch (Exception e) {
+            response.setSuccess(false);
+            response.setValid(false);
             response.setError(e.getMessage());
         }
         return response;

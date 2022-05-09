@@ -16,10 +16,22 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/api/authentication")
 public class AuthenticationController {
     @GetMapping("/user/login")
-    public String login(Model model , @RequestParam(value = "error" , required = false) String error , HttpSession session) {
-        if (error != null) {
+    public String login(Model model,
+                        HttpSession session,
+                        @RequestParam(value = "logout" , required = false)           Boolean logout,
+                        @RequestParam(value = "session_invalid" , required = false)  Boolean sessionInvalid,
+                        @RequestParam(value = "credentials_good" , required = false) Boolean credentials) {
+        if (credentials != null && !credentials) {
             session.invalidate();
             model.addAttribute("message" , "Wrong username or password");
+        }
+        if (logout != null && logout) {
+            session.invalidate();
+            model.addAttribute("message" , "You have logout successfully");
+        }
+        if (sessionInvalid != null && sessionInvalid) {
+            session.invalidate();
+            model.addAttribute("message" , "Your session expired , login again");
         }
         return "/user/authentication/login";
     }

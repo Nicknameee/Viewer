@@ -64,7 +64,14 @@ $(window).resize(function () {
         $("#user-head").removeClass('row mx-0')
     }
 })
-window.onload = function () {
+window.onload = async function () {
+    let sessionValid = await checkSessionValidity()
+    if (!sessionValid) {
+        let link = location.protocol + location.host + "/api/authentication/user/login"
+        let url = new URL(link);
+        url.searchParams.append('session_invalid' , 'true')
+        location.href = url.href
+    }
     let link = window.location.href
     let url = new URL(link);
     let sec = url.searchParams.get("sec");

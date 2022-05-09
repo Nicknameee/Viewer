@@ -6,7 +6,6 @@ $("#turn-back").click(function () {
     $("#adding-form-box").addClass('d-none')
     $("#article-management-box").removeClass('d-none')
 })
-
 function editArticle(element) {
     $(element).parent().parent().next().toggleClass('d-none')
 }
@@ -73,40 +72,49 @@ function addFile(element , type , action) {
         $(element).parent().attr('about' , '')
     }
 }
-function dropFile(element) {
+async function dropFile(element) {
     let deletingFile = $(element).prev()
     let artId = $(element).parent().parent().children('.id-edit')
-    showGif()
-    $.ajax(
-        {
-            url: "/api/manager/article/resource",
-            type: "DELETE",
-            data: {
-                filename: $(deletingFile).val(),
-                id: $(artId).val()
-            },
-            success:
-                function(response) {
-                    closeGif()
-                    if (response.success) {
-                        $(element).parent().parent().prev().attr('about' , 'Resource has been removed successfully')
-                        setTimeout(function () {$(element).parent().parent().prev().attr('about' , ''); $(element).parent().remove()} , 3000)
-                    }
-                    else {
+    let sessionValid = await checkSessionValidity()
+    if (sessionValid) {
+        showGif()
+        $.ajax(
+            {
+                url: "/api/manager/article/resource",
+                type: "DELETE",
+                data: {
+                    filename: $(deletingFile).val(),
+                    id: $(artId).val()
+                },
+                success:
+                    function(response) {
+                        closeGif()
+                        if (response.success) {
+                            $(element).parent().parent().prev().attr('about' , 'Resource has been removed successfully')
+                            setTimeout(function () {$(element).parent().parent().prev().attr('about' , ''); $(element).parent().remove()} , 3000)
+                        }
+                        else {
+                            $(element).parent().parent().prev().attr('about' , 'Error occurs while deleting , see logs')
+                            setTimeout(function () {$(element).parent().parent().prev().attr('about' , '')} , 3000)
+                            console.log(response.error)
+                        }
+                    },
+                error:
+                    function(response) {
+                        closeGif()
                         $(element).parent().parent().prev().attr('about' , 'Error occurs while deleting , see logs')
                         setTimeout(function () {$(element).parent().parent().prev().attr('about' , '')} , 3000)
                         console.log(response.error)
                     }
-                },
-            error:
-                function(response) {
-                    closeGif()
-                    $(element).parent().parent().prev().attr('about' , 'Error occurs while deleting , see logs')
-                    setTimeout(function () {$(element).parent().parent().prev().attr('about' , '')} , 3000)
-                    console.log(response.error)
-                }
-        }
-    )
+            }
+        )
+    }
+    else {
+        let link = location.protocol + location.host + "/api/authentication/user/login"
+        let url = new URL(link);
+        url.searchParams.append('session_invalid' , 'true')
+        location.href = url.href
+    }
 }
 function previewFile(element) {
     let resourceType = $(element).attr('content')
@@ -155,7 +163,7 @@ function showGif() {
 function closeGif() {
     $("#gif-processing-box").remove();
 }
-function submitAdd(element) {
+async function submitAdd(element) {
     let form = $(element).parent().parent()[0]
     let formData = new FormData(form)
     let count = 0
@@ -175,124 +183,156 @@ function submitAdd(element) {
         formData.set('media' , null)
     }
     if (canSubmitAdd) {
-        showGif()
-        $.ajax(
-            {
-                url: "/api/manager/article/create",
-                type: "POST",
-                data: formData,
-                cache: false,
-                processData: false,
-                contentType: false,
-                success:
-                    function(response) {
-                        closeGif()
-                        if (response.success) {
-                            $(element).parent().parent().parent().children().eq(0).attr('about' , 'Article created successfully')
-                            setTimeout(function () {$(element).parent().parent().parent().children().eq(0).attr('about' , ''); location.reload()} , 2000)
-                        }
-                        else {
+        let sessionValid = await checkSessionValidity()
+        if (sessionValid) {
+            showGif()
+            $.ajax(
+                {
+                    url: "/api/manager/article/create",
+                    type: "POST",
+                    data: formData,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success:
+                        function(response) {
+                            closeGif()
+                            if (response.success) {
+                                $(element).parent().parent().parent().children().eq(0).attr('about' , 'Article created successfully')
+                                setTimeout(function () {$(element).parent().parent().parent().children().eq(0).attr('about' , ''); location.reload()} , 2000)
+                            }
+                            else {
+                                $(element).parent().parent().parent().children().eq(0).attr('about' , 'Error occurs while creating article , see logs')
+                                setTimeout(function () {$(element).parent().parent().parent().children().eq(0).attr('about' , '')} , 3000)
+                                console.log(response.error)
+                            }
+                        },
+                    error:
+                        function(response) {
+                            closeGif()
                             $(element).parent().parent().parent().children().eq(0).attr('about' , 'Error occurs while creating article , see logs')
                             setTimeout(function () {$(element).parent().parent().parent().children().eq(0).attr('about' , '')} , 3000)
                             console.log(response.error)
                         }
-                    },
-                error:
-                    function(response) {
-                        closeGif()
-                        $(element).parent().parent().parent().children().eq(0).attr('about' , 'Error occurs while creating article , see logs')
-                        setTimeout(function () {$(element).parent().parent().parent().children().eq(0).attr('about' , '')} , 3000)
-                        console.log(response.error)
-                    }
-            }
-        )
+                }
+            )
+        }
+        else {
+            let link = location.protocol + location.host + "/api/authentication/user/login"
+            let url = new URL(link);
+            url.searchParams.append('session_invalid' , 'true')
+            location.href = url.href
+        }
     }
     canSubmitAdd = true
 }
-function submitEdit(element) {
+async function submitEdit(element) {
     let form = $(element).parent().parent()[0]
     let formData = new FormData(form)
     let count = 0
     $(form).children().each(function () {
         if (count === 0) {
-            processTitle($(this).children().eq(0) , 'edit' , 'submit')
+            processTitle($(this).children().eq(0), 'edit', 'submit')
         }
         if (count === 1) {
-            processContent($(this).children().eq(0) , 'edit' , 'submit')
+            processContent($(this).children().eq(0), 'edit', 'submit')
         }
         if (count === 2) {
-            addFile($(this).children().eq(0) , 'edit' , 'submit')
+            addFile($(this).children().eq(0), 'edit', 'submit')
         }
         count++;
     })
     if (formData.get('media').size === 0 && formData.get('media').name === '') {
-        formData.set('media' , null)
+        formData.set('media', null)
     }
     if (canSubmitEdit) {
-        showGif()
-        $.ajax(
-            {
-                url: "/api/manager/article/update",
-                type: "PUT",
-                data: formData,
-                cache: false,
-                processData: false,
-                contentType: false,
-                success:
-                    function(response) {
-                        closeGif()
-                        if (response.success) {
-                            $(element).parent().parent().parent().children().eq(0).attr('about' , 'Article updated successfully')
-                            setTimeout(function () {$(element).parent().parent().parent().children().eq(0).attr('about' , ''); location.reload()} , 2000)
-                        }
-                        else {
-                            $(element).parent().parent().parent().children().eq(0).attr('about' , 'Error occurs while updating article , see logs')
-                            setTimeout(function () {$(element).parent().parent().parent().children().eq(0).attr('about' , '')} , 3000)
+        let sessionValid = await checkSessionValidity()
+        if (sessionValid) {
+            showGif()
+            $.ajax(
+                {
+                    url: "/api/manager/article/update",
+                    type: "PUT",
+                    data: formData,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success:
+                        function (response) {
+                            closeGif()
+                            if (response.success) {
+                                $(element).parent().parent().parent().children().eq(0).attr('about', 'Article updated successfully')
+                                setTimeout(function () {
+                                    $(element).parent().parent().parent().children().eq(0).attr('about', '');
+                                    location.reload()
+                                }, 2000)
+                            } else {
+                                $(element).parent().parent().parent().children().eq(0).attr('about', 'Error occurs while updating article , see logs')
+                                setTimeout(function () {
+                                    $(element).parent().parent().parent().children().eq(0).attr('about', '')
+                                }, 3000)
+                                console.log(response.error)
+                            }
+                        },
+                    error:
+                        function (response) {
+                            closeGif()
+                            $(element).parent().parent().parent().children().eq(0).attr('about', 'Error occurs while updating article , see logs')
+                            setTimeout(function () {
+                                $(element).parent().parent().parent().children().eq(0).attr('about', '')
+                            }, 3000)
                             console.log(response.error)
                         }
-                    },
-                error:
-                    function(response) {
-                        closeGif()
-                        $(element).parent().parent().parent().children().eq(0).attr('about' , 'Error occurs while updating article , see logs')
-                        setTimeout(function () {$(element).parent().parent().parent().children().eq(0).attr('about' , '')} , 3000)
-                        console.log(response.error)
-                    }
-            }
-        )
+                }
+            )
+        } else {
+            let link = location.protocol + location.host + "/api/authentication/user/login"
+            let url = new URL(link);
+            url.searchParams.append('session_invalid', 'true')
+            location.href = url.href
+        }
     }
     canSubmitEdit = true
 }
-function deleteArticle(element) {
+async function deleteArticle(element) {
     let confirmation = confirm("Are you sure you want to delete this article?")
     if (confirmation) {
-        let artId = $(element).parent().parent().next().children().eq(0).children().eq(1).children('.id-edit').val()
-        showGif()
-        $.ajax(
-            {
-                url: "/api/manager/article/delete",
-                type: "DELETE",
-                data: {
-                    id: artId
-                },
-                success:
-                    function(response) {
-                        closeGif()
-                        if (response.success) {
-                            $(element).parent().parent().remove()
-                            $(element).parent().parent().next().remove()
-                            location.reload()
-                        }
-                        else {
+        let sessionValid = await checkSessionValidity()
+        if (sessionValid) {
+            let artId = $(element).parent().parent().next().children().eq(0).children().eq(1).children('.id-edit').val()
+            showGif()
+            $.ajax(
+                {
+                    url: "/api/manager/article/delete",
+                    type: "DELETE",
+                    data: {
+                        id: artId
+                    },
+                    success:
+                        function(response) {
+                            closeGif()
+                            if (response.success) {
+                                $(element).parent().parent().remove()
+                                $(element).parent().parent().next().remove()
+                                location.reload()
+                            }
+                            else {
+                                console.log(response.error)
+                            }
+                        },
+                    error:
+                        function(response) {
+                            closeGif()
                             console.log(response.error)
                         }
-                    },
-                error:
-                    function(response) {
-                        closeGif()
-                        console.log(response.error)
-                    }
-            }
-        )
+                }
+            )
+        }
+        else {
+            let link = location.protocol + location.host + "/api/authentication/user/login"
+            let url = new URL(link);
+            url.searchParams.append('session_invalid' , 'true')
+            location.href = url.href
+        }
     }
 }

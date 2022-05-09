@@ -118,7 +118,7 @@ function processDescription(element , type , action) {
     }
     return res
 }
-function confirmAdd(element) {
+async function confirmAdd(element) {
     let form = $(element).parent().parent()[0]
     let formData = new FormData(form)
     let bank= $(element).parent().parent().children('.BANK_BOX').children().find(":selected")
@@ -145,44 +145,53 @@ function confirmAdd(element) {
         formData.delete('iban')
     }
     if (canConfirmAdd) {
-        $.ajax(
-            {
-                url: "/api/manager/payment/create",
-                type: "POST",
-                data: formData,
-                cache: false,
-                processData: false,
-                contentType: false,
-                success:
-                    function(response) {
-                        if (response.success) {
-                            $("#add-payment-sec-title").attr('about' , 'Payment data were registered successfully')
-                            setTimeout(function () {
+        let sessionValid = await checkSessionValidity()
+        if (sessionValid) {
+            $.ajax(
+                {
+                    url: "/api/manager/payment/create",
+                    type: "POST",
+                    data: formData,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success:
+                        function(response) {
+                            if (response.success) {
+                                $("#add-payment-sec-title").attr('about' , 'Payment data were registered successfully')
+                                setTimeout(function () {
                                     $("#add-payment-sec-title").attr('about' , '');
                                     let link = window.location.href
                                     let url = new URL(link);
                                     url.searchParams.append('sec' , 'payment')
                                     location.href = url.href
                                 } , 2000)
-                        }
-                        else {
+                            }
+                            else {
+                                $("#add-payment-sec-title").attr('about' , 'Error occurs while adding payment model , see logs')
+                                setTimeout(function () {$("#add-payment-sec-title").attr('about' , '')} , 3000)
+                                console.log(response.error)
+                            }
+                        },
+                    error:
+                        function(response) {
                             $("#add-payment-sec-title").attr('about' , 'Error occurs while adding payment model , see logs')
                             setTimeout(function () {$("#add-payment-sec-title").attr('about' , '')} , 3000)
                             console.log(response.error)
                         }
-                    },
-                error:
-                    function(response) {
-                        $("#add-payment-sec-title").attr('about' , 'Error occurs while adding payment model , see logs')
-                        setTimeout(function () {$("#add-payment-sec-title").attr('about' , '')} , 3000)
-                        console.log(response.error)
-                    }
-            }
-        )
+                }
+            )
+        }
+        else {
+            let link = location.protocol + location.host + "/api/authentication/user/login"
+            let url = new URL(link);
+            url.searchParams.append('session_invalid' , 'true')
+            location.href = url.href
+        }
     }
     canConfirmAdd = true
 }
-function confirmEdit(element) {
+async function confirmEdit(element) {
     let form = $(element).parent().parent()[0]
     let formData = new FormData(form)
     let count = 0
@@ -205,72 +214,91 @@ function confirmEdit(element) {
         formData.delete('iban')
     }
     if (canConfirmEdit) {
-        $.ajax(
-            {
-                url: "/api/manager/payment/update",
-                type: "PUT",
-                data: formData,
-                cache: false,
-                processData: false,
-                contentType: false,
-                success:
-                    function(response) {
-                        if (response.success) {
-                            $(element).parent().parent().parent().children().eq(0).attr('about' , 'Payment data were updated successfully')
-                            setTimeout(function () {
-                                $("#add-payment-sec-title").attr('about' , '');
-                                let link = window.location.href
-                                let url = new URL(link);
-                                url.searchParams.append('sec' , 'payment')
-                                location.href = url.href
-                            } , 2000)
-                        }
-                        else {
+        let sessionValid = await checkSessionValidity()
+        if (sessionValid) {
+            $.ajax(
+                {
+                    url: "/api/manager/payment/update",
+                    type: "PUT",
+                    data: formData,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success:
+                        function(response) {
+                            if (response.success) {
+                                $(element).parent().parent().parent().children().eq(0).attr('about' , 'Payment data were updated successfully')
+                                setTimeout(function () {
+                                    $("#add-payment-sec-title").attr('about' , '');
+                                    let link = window.location.href
+                                    let url = new URL(link);
+                                    url.searchParams.append('sec' , 'payment')
+                                    location.href = url.href
+                                } , 2000)
+                            }
+                            else {
+                                $("#add-payment-sec-title").attr('about' , 'Error occurs while updating payment model , see logs')
+                                setTimeout(function () {$(element).parent().parent().parent().children().eq(0).attr('about' , '')} , 3000)
+                                console.log(response.error)
+                            }
+                        },
+                    error:
+                        function(response) {
                             $("#add-payment-sec-title").attr('about' , 'Error occurs while updating payment model , see logs')
                             setTimeout(function () {$(element).parent().parent().parent().children().eq(0).attr('about' , '')} , 3000)
                             console.log(response.error)
                         }
-                    },
-                error:
-                    function(response) {
-                        $("#add-payment-sec-title").attr('about' , 'Error occurs while updating payment model , see logs')
-                        setTimeout(function () {$(element).parent().parent().parent().children().eq(0).attr('about' , '')} , 3000)
-                        console.log(response.error)
-                    }
-            }
-        )
+                }
+            )
+        }
+        else {
+            let link = location.protocol + location.host + "/api/authentication/user/login"
+            let url = new URL(link);
+            url.searchParams.append('session_invalid' , 'true')
+            location.href = url.href
+        }
     }
     canConfirmEdit = true
 }
-function deletePayment(element) {
+async function deletePayment(element) {
     let conf = confirm("Are you sure you want to delete this payment model?")
     if (conf) {
-        $.ajax(
-            {
-                url: "/api/manager/payment/delete",
-                type: "DELETE",
-                data: {
-                    id: $(element).val()
-                },
-                success:
-                    function(response) {
-                        if (response.success) {
-                            $(element).parent().parent().next().remove()
-                            $(element).parent().parent().remove()
-                        }
-                        else {
+        let sessionValid = await checkSessionValidity()
+        if (sessionValid) {
+            $.ajax(
+                {
+                    url: "/api/manager/payment/delete",
+                    type: "DELETE",
+                    data: {
+                        id: $(element).val()
+                    },
+                    success:
+                        function(response) {
+                            if (response.success) {
+                                $(element).parent().parent().next().remove()
+                                $(element).parent().parent().remove()
+                            }
+                            else {
+                                console.log(response.error)
+                            }
+                        },
+                    error:
+                        function(response) {
                             console.log(response.error)
                         }
-                    },
-                error:
-                    function(response) {
-                        console.log(response.error)
-                    }
-            }
-        )
+                }
+            )
+        }
+        else {
+            let link = location.protocol + location.host + "/api/authentication/user/login"
+            let url = new URL(link);
+            url.searchParams.append('session_invalid' , 'true')
+            location.href = url.href
+        }
+
     }
 }
-function submitHomePageText(element) {
+async function submitHomePageText(element) {
     let form = $(element).parent().parent()[0]
     let formData = new FormData(form)
     let count = 0

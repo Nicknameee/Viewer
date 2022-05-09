@@ -14,9 +14,12 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.AbstractRememberMeServices;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -36,16 +39,19 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
     public void configure(WebSecurity web) {
         web
                 .ignoring()
-                .antMatchers("/static/**" , "/user/**" ,
-                        "/uploads/**" , "/favicon.ico" , "/error" , "/resources/**" ,
+                .antMatchers("/static/**" , "/user/**" , "/favicon.ico" , "/error" , "/resources/**" ,
                         "/js/**" , "/css/**" , "/fonts/**" , "/personal/**" , "/manager/**" ,
-                        "/all/**" , "**.png" , "**.jpeg" , "**.mp4");
+                        "/all/**");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable();
+        http
+                .sessionManagement()
+                .maximumSessions(1)
+                .sessionRegistry(sessionRegistry());
         http
                 .authorizeRequests()
                 //Access for public pages
@@ -72,7 +78,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 //URL for login page
                 .loginProcessingUrl("/api/authentication/user/login")
                 //Redirect to [] if login is failed
-                .failureUrl("/api/authentication/user/login?error")
+                .failureUrl("/api/authentication/user/login?credentials_good=false")
                 .loginPage("/api/authentication/user/login").permitAll()
                 //Redirect to [] if login is successful
                 .defaultSuccessUrl("/api/user/personal" , true)
@@ -83,9 +89,14 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 //Clearing cookie - vulnerability
-                .deleteCookies("JSESSIONID")
+                .deleteCookies("JSESSIONID" , AbstractRememberMeServices.SPRING_SECURITY_REMEMBER_ME_COOKIE_KEY)
                 //Redirect to [] if logout successful
-                .logoutSuccessUrl("/api/authentication/user/login");
+                .logoutSuccessUrl("/api/authentication/user/login?logout=true");
+    }
+
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
     }
 
     @Bean
@@ -112,9 +123,6 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
         return super.authenticationManager();
     }
 
-    /**
-     * For login/logout listeners - catching the events
-     */
     @Bean
     public HttpSessionEventPublisher httpSessionEventPublisher() {
         return new HttpSessionEventPublisher();
