@@ -1,4 +1,7 @@
 window.onload = function () {
+    scrollToTop()
+}
+function scrollToTop() {
     window.scroll(0 , 0)
 }
 window.onscroll = function () {
