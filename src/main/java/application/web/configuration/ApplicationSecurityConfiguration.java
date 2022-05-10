@@ -41,7 +41,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .ignoring()
                 .antMatchers("/static/**" , "/user/**" , "/favicon.ico" , "/error" , "/resources/**" ,
                         "/js/**" , "/css/**" , "/fonts/**" , "/personal/**" , "/manager/**" ,
-                        "/all/**");
+                        "/all/**" , "/websocket/**" , "/stomp/**");
     }
 
     @Override

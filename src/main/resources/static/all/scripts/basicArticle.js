@@ -1,6 +1,6 @@
 window.onload = function () {
     scrollToTop()
-    connectHome()
+    connectArticle()
 }
 function scrollToTop() {
     window.scroll(0 , 0)

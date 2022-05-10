@@ -15,7 +15,11 @@ import application.data.users.attributes.Status;
 import application.data.users.service.UserService;
 import application.web.responses.ApplicationWebResponse;
 import application.web.responses.manager.*;
+import application.web.responses.websocket.ChangesAlertArticleResponse;
+import application.web.responses.websocket.ChangesAlertResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -325,6 +329,26 @@ public class ManagerController {
             response.setValid(false);
             response.setError(e.getMessage());
         }
+        return response;
+    }
+
+    @MessageMapping("/home/alert")
+    @SendTo("/topic/home")
+    public ApplicationWebResponse sendAlertToHomePage() {
+        ChangesAlertResponse response = new ChangesAlertResponse();
+        response.setIsAlert(true);
+        response.setSuccess(true);
+        response.setError(null);
+        return response;
+    }
+
+    @MessageMapping("/article/alert")
+    @SendTo("/topic/article")
+    public ApplicationWebResponse sendAlertToArticlePage(String secret) {
+        ChangesAlertArticleResponse response = new ChangesAlertArticleResponse();
+        response.setSecret(secret.replaceAll("\"" , ""));
+        response.setSuccess(true);
+        response.setError(null);
         return response;
     }
 }

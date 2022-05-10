@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <title>Admin</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--SockJS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.0/sockjs.js"></script>
+    <!--StompJS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
@@ -130,6 +138,7 @@
                                             <button type="button" class="btn btn-primary w-50" onclick="submitEdit(this)">Confirm!</button>
                                         </div>
                                         <input name="id" type="text" class="id-edit" th:value="${article.getId()}" hidden>
+                                        <input type="text" class="secret" th:value="${article.getSecret()}" hidden>
                                     </form>
                                 </td>
                             </tr>
@@ -355,5 +364,6 @@
 <script src="/manager/scripts/v2/settingsManagementTools.js"></script>
 <script src="/manager/scripts/v2/changesAlert.js"></script>
 <script src="/manager/scripts/v2/filter.js"></script>
+<script src="/websocket/websocketSender.js"></script>
 </body>
 </html>

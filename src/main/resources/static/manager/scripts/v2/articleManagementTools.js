@@ -75,6 +75,7 @@ function addFile(element , type , action) {
 async function dropFile(element) {
     let deletingFile = $(element).prev()
     let artId = $(element).parent().parent().children('.id-edit')
+    let artSecret = $(element).parent().parent().children('.secret').val()
     let sessionValid = await checkSessionValidity()
     if (sessionValid) {
         showGif()
@@ -98,6 +99,7 @@ async function dropFile(element) {
                             setTimeout(function () {$(element).parent().parent().prev().attr('about' , '')} , 3000)
                             console.log(response.error)
                         }
+                        sendAlertRequestArticlePage(artSecret)
                     },
                 error:
                     function(response) {
@@ -206,6 +208,7 @@ async function submitAdd(element) {
                                 setTimeout(function () {$(element).parent().parent().parent().children().eq(0).attr('about' , '')} , 3000)
                                 console.log(response.error)
                             }
+                            sendAlertRequestHomePage()
                         },
                     error:
                         function(response) {
@@ -273,6 +276,9 @@ async function submitEdit(element) {
                                 }, 3000)
                                 console.log(response.error)
                             }
+                            let artSecret = $(element).parent().parent().children('.secret').val()
+                            sendAlertRequestArticlePage(artSecret)
+                            sendAlertRequestHomePage()
                         },
                     error:
                         function (response) {
@@ -300,6 +306,7 @@ async function deleteArticle(element) {
         let sessionValid = await checkSessionValidity()
         if (sessionValid) {
             let artId = $(element).parent().parent().next().children().eq(0).children().eq(1).children('.id-edit').val()
+            let artSecret = $(element).parent().parent().next().children().eq(0).children().eq(1).children('.secret').val()
             showGif()
             $.ajax(
                 {
@@ -319,6 +326,8 @@ async function deleteArticle(element) {
                             else {
                                 console.log(response.error)
                             }
+                            sendAlertRequestArticlePage(artSecret)
+                            sendAlertRequestHomePage()
                         },
                     error:
                         function(response) {
