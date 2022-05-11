@@ -5,6 +5,9 @@ window.onload = function () {
 function scrollToTop() {
     window.scroll(0 , 0)
 }
+function showChangesAlert() {
+    $("#changes-alert").removeClass('d-none')
+}
 window.onscroll = function () {
     if ($(window).scrollTop() > 0) {
         $("#mainNav").addClass("border-bottom")

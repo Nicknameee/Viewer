@@ -11924,3 +11924,20 @@ textarea {
   color: #888888;
   text-align: center;
 }
+@media all and (min-width: 500px) {
+  .alert-position {
+    user-select: none;
+    bottom: 15px;
+    left: 15px;
+    z-index: 100000 !important;
+  }
+}
+@media all and (max-width: 498.8px) {
+  .alert-position {
+    user-select: none;
+    bottom: 15px;
+    left: 5px;
+    z-index: 100000 !important;
+    max-width: 300px;
+  }
+}

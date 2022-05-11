@@ -10,7 +10,7 @@ function connectArticle() {
             let index = path.lastIndexOf('/')
             let secretCurrent = path.substring(index + 1)
             if (secret === secretCurrent) {
-                alert("There are incoming changes here , reload page")
+                showChangesAlert()
             }
         });
     });

@@ -7,7 +7,7 @@ function connectHome() {
         stompClient.subscribe('/topic/home', function (response) {
             let al = JSON.parse(response.body).isAlert
             if (al) {
-                alert("There are incoming changes here , reload page")
+                showChangesAlert()
             }
         });
     });
