@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Доброволець</title>
+    <!--SockJS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.0/sockjs.js"></script>
+    <!--StompJS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="/all/media/assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/all/styles/styles.css" rel="stylesheet" />
+</head>
+<body id="page-top">
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand hover-title" onclick="scrollToTop()">Доброволець</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Меню
+            <i class="fas fa-bars ms-1"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                <li class="nav-item hover-item"><a class="nav-link" href="#portfolio">Новини</a></li>
+                <li class="nav-item hover-item"><a class="nav-link" href="#about">Про нас</a></li>
+                <li class="nav-item hover-item"><a class="nav-link" href="#contact">Контакти</a></li>
+                <li th:if="${authenticated == true}" class="nav-item hover-item"><a class="nav-link" th:href="@{/api/user/personal}">Профіль</a></li>
+                <li th:if="${authenticated == false}" class="nav-item hover-item"><a class="nav-link" th:href="@{/api/authentication/user/login}">Вхід</a></li>
+                <li>
+                    <div class="dropdown">
+                        <button class="btn btn-dark dropdown-toggle" type="button" id="languageSelect" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            UA
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="languageSelect">
+                            <a class="dropdown-item" onclick="changeLanguage(this)">EN</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- Masthead-->
+<header class="masthead">
+    <div class="container-fluid h-75">
+        <div class="masthead-heading text-uppercase my-5">Приєднуйся до нас!</div>
+        <a class="btn btn-light btn-xl text-uppercase my-5 hover-btn" href="#contact">Підтримка</a>
+    </div>
+</header>
+<!-- Article Grid-->
+<section class="page-section bg-dark" id="portfolio">
+    <div class="container">
+        <div th:if="${articles.size() > 0}" class="input-group rounded w-50 mx-auto my-3">
+            <input type="text" class="form-control search" id="filterArticle" placeholder="Пошук"/>
+        </div>
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase text-light">Новини</h2>
+        </div>
+        <div class="row d-flex justify-content-center ART_PLACE">
+            <div th:if="${articles.size() > 0}" th:each="article : ${articles}" class="col-lg-4 col-sm-6 mb-4 ART_BOX">
+                <!-- Article item template-->
+                <div class="portfolio-item ART_ITEM">
+                    <a class="portfolio-link" target="_blank"
+                       th:href="@{'/api/all/article/' + ${article.getSecret()} + '?lang=' + ${lang}}">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content">Переглянути</div>
+                        </div>
+                        <img class="img-fluid" src="/all/media/assets/img/portfolio/card.png" alt="Card" />
+                    </a>
+                    <div class="portfolio-caption ARTICLE_NAME_BOX">
+                        <div th:text="${article.getName()}" class="portfolio-caption-heading text-truncate ARTICLE_NAME"></div>
+                    </div>
+                </div>
+            </div>
+            <div th:if="${articles.size() == 0}" class="col-lg-4 col-sm-6 mb-4 w-100">
+                <div class="msg-default text-light my-5 w-100 text-center"><h3 class="w-100 text-light text-center">Новин ще не має</h3></div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- About-->
+<section class="page-section" id="about">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase">Про нас</h2>
+        </div>
+        <ul class="timeline">
+            <li>
+                <div class="timeline-image">
+                    <img class="rounded-circle img-fluid" src="/all/media/assets/img/about/v1.png" alt="..." />
+                </div>
+                <div class="timeline-panel">
+                    <div class="timeline-heading">
+                        <h4 class="subheading">Доброволець</h4>
+                    </div>
+                    <div class="timeline-body">
+                        <p class="">
+                            Ми 8 років знали, що війна з московією обов'язково прийде зі сходу.
+                            Ми її не чекали і не готувались зустрічати з хлібом-сіллю... І хоч усі ми реально оцінювали невідворотність повномасштабного вторгнення русні - новину "вставай" о 5 ранку 24го числа ми зустріли дещо розгубленими.
+                            Втім, прошивка в нас надійна, тому ми вирішили залишити паніку тим, хто досі війну не бачив чи хто очєнь устал, і почали займатися справами.
+                        </p>
+                    </div>
+                </div>
+            </li>
+            <li class="timeline-inverted">
+                <div class="timeline-image">
+                    <img class="rounded-circle img-fluid" src="/all/media/assets/img/about/v2.png" alt="..." />
+                </div>
+                <div class="timeline-panel">
+                    <div class="timeline-heading">
+                        <h4 class="subheading"></h4>
+                    </div>
+                    <div class="timeline-body">
+                        <p class="">
+                            Отож....
+                            <br>
+                            Окремий батальйон оборони "Доброволець" наразі виконує свою задачу: стоїть на захисті своєї Кролевеччини і наближає Перемогу.
+                            Ми гуртуємось, ми організовуємось, ми працюємо.
+                            Війна вчить швидко розставляти пріоритети. Тому від початку повномасштабного вторгнення русні кожен з нас зробив свій вибір - битись.
+                            Нам важко. Та ми воюємо за речі, які, хоч і не мажуться на хліб, але без яких не уявляємо свого життя і не бачимо майбутнього. Це Незалежність, Воля, Гідність, Пам'ять...
+                        </p>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="timeline-image">
+                    <img class="rounded-circle img-fluid" src="/all/media/assets/img/about/v3.png" alt="..." />
+                </div>
+                <div class="timeline-panel">
+                    <div class="timeline-heading">
+                        <h4 class="subheading"></h4>
+                    </div>
+                    <div class="timeline-body">
+                        <p class="">
+                            Ми переможемо, рідненькі! Обов'язково переможемо!
+                            Бо ми разом!
+                            Ми сильні, ми вмотивовані, ми не здамося. А ще ми добровольці. А це значить, що 🇺🇦 назавжди тут ❤
+                            Так було, є і так буде!!!
+                            Читайте ці рядки, коли буде важко.
+                        </p>
+                    </div>
+                </div>
+            </li>
+            <li class="timeline-inverted">
+                <div class="timeline-image">
+                    <img class="rounded-circle img-fluid" src="/all/media/assets/img/about/v4.png" alt="..." />
+                </div>
+                <div class="timeline-panel">
+                    <div class="timeline-heading">
+                        <h4>
+                            Ми
+                            <br />
+                            Обов'язково
+                            <br />
+                            Переможемо!
+                        </h4>
+                    </div>
+                    <div class="timeline-body">
+                        <p class="">
+                            Просили передати вам від всього бату обіймашки і звісточку: мордор здохне, він сів не в той корабль 🙃
+                        </p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+<!--Payment-->
+<section class="page-section bg-dark" id="contact">
+    <div class="container my-5">
+        <div class="text-center my-2">
+            <h2 class="section-heading text-uppercase">Фінансова підтримка</h2>
+            <h2 class="section-heading text-uppercase invisible">-</h2>
+        </div>
+        <form id="contactForm" class="my-2">
+            <div class="row align-items-stretch my-2 justify-content-center">
+                <div th:if="${payments.size() > 0}" th:each="payment : ${payments}" class="col-md-6">
+                    <h3 class="w-100 text-light text-left" th:text="${payment.getBank().getNaming()}">PrivatBank</h3>
+                    <p class="w-100 text-light text-uppercase text-left" th:if="${payment.getIban() != null}">IBAN:
+                        <strong th:text="${payment.getIban()}">UA YY ZZZZZZ 00000 12345678912345</strong>
+                    </p>
+                    <p class="w-100 text-light text-uppercase text-left">Card:
+                        <strong th:text="${payment.getCard()}">1234 5678 9123 4567</strong>
+                    </p>
+                    <p class="w-100 text-light text-uppercase text-left">Receiver:
+                        <strong th:text="${payment.getReceiver()}">1234 5678 9123 4567</strong>
+                    </p>
+                </div>
+                <div th:if="${payments.size() == 0}" class="col-md-6 my-5">
+                    <h3 class="w-100 text-light text-center">Платіжні дані ще не були додані</h3>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+<!-- Footer-->
+<footer class="footer py-4">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-4 text-lg-start">Copyright &copy; Dobrovolets 2022</div>
+            <div class="col-lg-4 my-3 my-lg-0">
+                <a class="btn btn-dark btn-social mx-2"
+                   href="https://www.facebook.com/groups/306989136137441/"
+                   aria-label="Facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a class="btn btn-dark btn-social mx-2"
+                   href="https://www.instagram.com/obo.dobrovolets"
+                   aria-label="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a class="btn btn-dark btn-social mx-2"
+                   href="https://www.facebook.com/profile.php?id=100078448167470"
+                   aria-label="Facebook Personal" target="_blank"><i class="fab fa-facebook"></i></a>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a class="link-dark text-decoration-none me-3" href="">Privacy Policy</a>
+                <a class="link-dark text-decoration-none" href="">Join us</a>
+            </div>
+        </div>
+    </div>
+</footer>
+<div id="changes-alert" class="alert alert-warning position-fixed alert-position d-none" role="alert">
+    <h4 class="alert-heading">Увага!</h4>
+    <p>Для даної сторінки надійшли зміни, будь ласка <a onclick="location.reload()" class="alert-link pointer-event">оновіть сторінку</a></p>
+</div>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="/all/scripts/basic.js"></script>
+<script src="/all/scripts/filter.js"></script>
+<script src="/websocket/websocketHome.js"></script>
+<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+</body>
+</html>

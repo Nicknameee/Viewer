@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Доброволець</title>
+    <!--SockJS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.0/sockjs.js"></script>
+    <!--StompJS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="/all/media/assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/all/styles/styles.css" rel="stylesheet" />
+</head>
+<body id="page-top">
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand hover-title" onclick="scrollToTop()">Доброволець</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Меню
+            <i class="fas fa-bars ms-1"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                <li class="nav-item hover-item"><a class="nav-link" th:href="@{'/api/all/home?lang=' + ${lang}}">Головна</a></li>
+                <li class="nav-item hover-item"><a class="nav-link" href="#portfolio">Медіа</a></li>
+                <li th:if="${authenticated == true}" class="nav-item hover-item"><a class="nav-link" th:href="@{/api/user/personal}">Профіль</a></li>
+                <li th:if="${authenticated == false}" class="nav-item hover-item"><a class="nav-link" th:href="@{/api/authentication/user/login}">Вхід</a></li>
+                <li>
+                    <div class="dropdown">
+                        <button class="btn btn-dark dropdown-toggle" type="button" id="languageSelect" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            UA
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="languageSelect">
+                            <a class="dropdown-item" onclick="changeLanguage(this)">EN</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- About-->
+<section class="page-section bg-black" id="about">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase text-light">Зміст</h2>
+        </div>
+        <ul class="timeline">
+            <li>
+                <div class="timeline-panel">
+                    <div class="timeline-heading">
+                        <h4 th:text="${article.getName()}" class="subheading text-light">Назва</h4>
+                    </div>
+                    <div class="timeline-body">
+                        <p th:if="${article.getText().length() > 1000}" th:text="${article.getText().substring(0 , 1000)}" class="text-light">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit!</p>
+                        <p th:if="${article.getText().length() <= 1000}" th:text="${article.getText()}" class="text-light">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit!</p>
+                    </div>
+                </div>
+            </li>
+            <li th:if="${article.getText().length() > 1000}" class="timeline-inverted">
+                <div class="timeline-panel">
+                    <div class="timeline-body">
+                        <p th:if="${article.getText().length() > 2000}" th:text="${article.getText().substring(1000 , 2000)}" class="text-light">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit!</p>
+                        <p th:if="${article.getText().length() <= 2000}" th:text="${article.getText().substring(1000 , article.getText().length())}" class="text-light">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit!</p>
+                    </div>
+                </div>
+            </li>
+            <li th:if="${article.getText().length() > 2000}">
+                <div class="timeline-panel">
+                    <div class="timeline-body">
+                        <p th:if="${article.getText().length() > 3000}" th:text="${article.getText().substring(2000 , 3000)}" class="text-light">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit!</p>
+                        <p th:if="${article.getText().length() <= 3000}" th:text="${article.getText().substring(2000 , article.getText().length())}" class="text-light">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit!</p>
+                    </div>
+                </div>
+            </li>
+            <li th:if="${article.getText().length() > 3000}" class="timeline-inverted">
+                <div class="timeline-panel">
+                    <div class="timeline-body">
+                        <p th:if="${article.getText().length() > 4000}" th:text="${article.getText().substring(3000 , 4000)}" class="text-light">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit!</p>
+                        <p th:if="${article.getText().length() <= 4000}" th:text="${article.getText().substring(3000 , article.getText().length())}" class="text-light">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit!</p>
+                    </div>
+                </div>
+            </li>
+            <li th:if="${article.getText().length() > 4000}">
+                <div class="timeline-panel">
+                    <div class="timeline-body">
+                        <p th:text="${article.getText().substring(4000 , article.getText().length())}" class="text-light">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit!</p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+<!-- Resource Grid-->
+<section class="page-section bg-dark" id="portfolio">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase text-light">Фото та відео</h2>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div th:if="${article.getResources().size() > 0}" th:each="resource : ${article.getResources()}" class="col-lg-4 col-sm-6 mb-4 flex-grow-1">
+                <!-- Article item template-->
+                <div class="portfolio-item d-flex flex-column h-100">
+                    <a class="portfolio-link w-100" data-bs-toggle="modal" target="_blank" href="">
+                        <div th:if="${resource.getFiletype().name()} eq 'IMAGE'" class="portfolio-hover" onclick="lightshot(this)">
+                            <div class="portfolio-hover-content">Переглянути</div>
+                        </div>
+                        <img th:if="${resource.getFiletype().name()} eq 'IMAGE'"
+                             class="img-fluid" th:src="@{'https://drive.google.com/uc?export=view&id=' + ${resource.getFileId()}}" alt="Card" />
+                        <iframe allowfullscreen th:autoplay="false"
+                                th:if="${resource.getFiletype().name()} eq 'VIDEO'"
+                                th:src="@{'https://drive.google.com/uc?export=view&id=' + ${resource.getFileId()}}"
+                                class="video" sandbox></iframe>
+                    </a>
+                    <div class="portfolio-caption flex-grow-1">
+                        <div class="portfolio-caption-heading text-truncate"></div>
+                    </div>
+                </div>
+            </div>
+            <div th:if="${article.getResources().size() == 0}" class="col-lg-4 col-sm-6 mb-4 d-flex justify-content-center w-100">
+                <h4 class="section-heading text-uppercase text-light">Медіа дані відсутні</h4>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Footer-->
+<footer class="footer bg-light py-4">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-4 text-lg-start">Copyright &copy; Dobrovolets 2022</div>
+            <div class="col-lg-4 my-3 my-lg-0">
+                <a class="btn btn-dark btn-social mx-2"
+                   href="https://www.facebook.com/groups/306989136137441/"
+                   aria-label="Facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a class="btn btn-dark btn-social mx-2"
+                   href="https://www.instagram.com/obo.dobrovolets"
+                   aria-label="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a class="btn btn-dark btn-social mx-2"
+                   href="https://www.facebook.com/profile.php?id=100078448167470"
+                   aria-label="Facebook Personal" target="_blank"><i class="fab fa-facebook"></i></a>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a class="link-dark text-decoration-none me-3" href="">Privacy Policy</a>
+                <a class="link-dark text-decoration-none" href="">Join us</a>
+            </div>
+        </div>
+    </div>
+</footer>
+<div id="changes-alert" class="alert alert-warning position-fixed alert-position d-none" role="alert">
+    <h4 class="alert-heading">Увага!</h4>
+    <p>Для даної сторінки надійшли зміни, будь ласка <a onclick="location.reload()" class="alert-link pointer-event">оновіть сторінку</a></p>
+</div>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="/all/scripts/lightshot.js"></script>
+<script src="/all/scripts/basicArticle.js"></script>
+<script src="/websocket/websocketArticle.js"></script>
+<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+</body>
+</html>

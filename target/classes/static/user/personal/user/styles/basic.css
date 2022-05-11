@@ -1,0 +1,1900 @@
+@import url('https://fonts.googleapis.com/css2?family=Mate+SC&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Corben&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Mate SC', serif;
+    scroll-behavior: smooth;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+body {
+    background: black;
+}
+.overlap {
+    width: 100vw;
+    height: 100vh;
+    background: rgba(44, 44, 44, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+.background {
+    width: 100vw;
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    filter: blur(7px);
+}
+@media all and (min-width: 1920px) {
+    .background {
+        background-image: url('https://drive.google.com/uc?export=view&id=1xvdLigyqONN5J_4yYCSPSvvWJ5FDMUju');
+    }
+    .hero {
+        position: relative;
+        width: 100vw;
+        min-height: 100vh;
+        height: fit-content;
+        z-index: 2;
+        display: grid;
+        grid-template-areas: 'header header'
+                        'list workplace';
+        grid-template-rows: 11% 89%;
+        grid-template-columns: 30% 70%;
+    }
+    .hero > .header {
+        min-height: fit-content;
+        grid-area: header;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.38);
+        padding: 10px 20px;
+        row-gap: 20px;
+    }
+    .hero > .header > .group , .hero > .data > .group {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .hero > .header > .group > .username {
+        font-size: 2.2em;
+        color: white;
+        transition: all 0.3s ease-in-out;
+        position: relative;
+    }
+    .hero > .header > .group > .username:hover {
+        color: #86b7fe;
+    }
+    .hero > .header > .group > .status > i:before {
+        font-size: 15px;
+        margin-right: 10px;
+        position: relative;
+        top: 50%;
+        left: 0;
+        color: #00865d;
+        transition: all 0.3s ease-in-out;
+    }
+    .hero > .header > .group > .status > i:hover:before {
+        color: #13efaf;
+    }
+    .hero > .header > .group > .logout > i:before {
+        font-size: 15px;
+        margin-right: 10px;
+        position: relative;
+        top: 50%;
+        left: 0;
+        color: #00865d;
+        transition: all 0.3s ease-in-out;
+    }
+    .hero > .header > .group > .logout > i:hover:before {
+        color: #13efaf;
+    }
+    .hero > .header > .group > .logout {
+        width: fit-content;
+        position: relative;
+    }
+    .hero > .header > .group > .status {
+        width: fit-content;
+        position: relative;
+    }
+    .hero > .header > .group > .title {
+        position: relative;
+        font-size: 2.2em;
+        color: white;
+        transition: all 0.3s ease-in-out;
+    }
+    .hero > .header > .group > .title:hover {
+        color: #86b7fe;
+    }
+    .hero > .header > .group > .title:after {
+        bottom: -5px;
+        content: "";
+        display: block;
+        height: 3px;
+        left: 50%;
+        position: absolute;
+        background: #86b7fe;
+        transition: width 0.3s ease-in-out 0s , left 0.3s ease-in-out 0s;
+        width: 0;
+    }
+    .hero > .header > .group > .title:hover:after
+    {
+        width: 100%;
+        left: 0;
+    }
+    .hero > .data {
+        grid-area: list;
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: space-around;
+        border-right: 2px solid rgba(255, 255, 255, 0.38);
+        padding: 0 20px;
+        align-items: center;
+        row-gap: 30px;
+    }
+    .hero > .data > .group {
+        width: 80%;
+        position: relative;
+    }
+    .hero > .data > .group > .attr-name {
+        font-size: 1.8em;
+        color: white;
+        position: relative;
+        width: 50%;
+    }
+    .hero > .data > .group > .attr-value {
+        font-size: 1.8em;
+        color: #a3e3ff;
+        font-family: 'Corben', cursive;
+        width: fit-content;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    /**
+        ALERT
+     */
+    .hero > .data > .alert-validate::before {
+        content: attr(about);
+        position: absolute;
+        width: fit-content;
+        max-width: 100%;
+        height: fit-content;
+        padding: 4px 10px;
+        background-color: rgba(7, 7, 7, 0.91);
+        border-radius: 13px;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50% , 0);
+        right: 8px;
+        pointer-events: none;
+        font-size: 14px;
+
+        color: #ffffff;
+        line-height: 1.4;
+        text-align: center;
+
+        visibility: hidden;
+        opacity: 0;
+
+        -webkit-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+    }
+    .hero > .data > .alert-validate::after {
+        display: block;
+        position: absolute;
+        color: #b2b2b2;
+        font-size: 14px;
+        top: 100%;
+    }
+    .hero > .data > .alert-validate:hover:before {
+        visibility: visible;
+        opacity: 1;
+    }
+    /**
+        ONLINE
+     */
+    .hero > .header > .group > .status::before {
+        content: attr(about);
+        position: absolute;
+        width: fit-content;
+        border-radius: 13px;
+        top: 50%;
+        left: -450%;
+        transform: translate(0 , -50%);
+        pointer-events: none;
+        font-size: 18px;
+
+        color: #ffffff;
+        line-height: 1.4;
+        text-align: center;
+        letter-spacing: 2px;
+
+        visibility: hidden;
+        opacity: 0;
+
+        -webkit-transition: all 0.4s ease-in-out;
+        -o-transition: all 0.4s ease-in-out;
+        -moz-transition: all 0.4s ease-in-out;
+        transition: all 0.4s ease-in-out;
+    }
+
+    .hero > .header > .group > .status::after {
+        display: block;
+        position: absolute;
+        color: #b2b2b2;
+        font-size: 14px;
+        top: 100%;
+    }
+
+    .hero > .header > .group > .status:hover:before {
+        visibility: visible;
+        opacity: 1;
+    }
+    /**
+        LOGOUT
+     */
+    .hero > .header > .group > .logout::before {
+        content: attr(about);
+        position: absolute;
+        width: fit-content;
+        border-radius: 13px;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50% , 0);
+        pointer-events: none;
+        font-size: 18px;
+
+        color: #ffffff;
+        line-height: 1.4;
+        text-align: center;
+        letter-spacing: 2px;
+
+        visibility: hidden;
+        opacity: 0;
+
+        -webkit-transition: all 0.4s ease-in-out;
+        -o-transition: all 0.4s ease-in-out;
+        -moz-transition: all 0.4s ease-in-out;
+        transition: all 0.4s ease-in-out;
+    }
+
+    .hero > .header > .group > .logout::after {
+        display: block;
+        position: absolute;
+        color: #b2b2b2;
+        font-size: 14px;
+        top: 100%;
+    }
+
+    .hero > .header > .group > .logout:hover:before {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .content {
+        grid-area: workplace;
+        display: grid;
+        grid-template-areas: 'title'
+                                'form';
+        grid-template-rows: 20% 80%;
+        grid-template-columns: 100%;
+        padding: 30px;
+    }
+    .content > .group {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        align-items: center;
+    }
+    .content > .title-box {
+        padding: 5px 10px;
+        grid-area: title;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .content > .title-box > .title {
+        min-width: 95%;
+        width: fit-content;
+        max-width: 100%;
+        font-size: 2.25em;
+        text-align: center;
+        color: white;
+    }
+    .content > .form-box {
+        grid-area: form;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .content > .form-box > .form {
+        width: fit-content;
+        height: fit-content;
+        max-width: 100%;
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: space-around;
+        align-items: center;
+        row-gap: 30px;
+    }
+    .content > .form-box > .form > p {
+        width: fit-content;
+        font-size: 2.25em;
+        color: white;
+        text-align: center;
+    }
+    .form > input[type="text"] {
+        text-align: center;
+        width: 95%;
+        background: transparent;
+        border: none;
+        border-bottom: 3px solid white;
+        outline: none;
+        padding: 10px 15px;
+        font-size: 1.8em;
+        color: #a3e3ff;
+        box-shadow: none;
+        transition: all 0.3s ease-in-out;
+    }
+    .form > input[type="text"]:hover {
+        border-bottom: 3px solid #a3e3ff;
+        width: 97%;
+    }
+    .form > input[type="text"]:active , .form > input[type="text"]:focus {
+        width: 97%;
+        border-bottom: 3px solid #a3e3ff;
+    }
+    .form > input[type="text"]::placeholder {
+        color: white;
+        font-size: 1.8em;
+        text-align: center;
+        transition: all 0.3s ease-in-out;
+    }
+    .form > input[type="text"]:hover::placeholder {
+        color: #a3e3ff;
+    }
+    .form > input[type="text"]:active::placeholder ,
+    .form > input[type="text"]:focus::placeholder  {
+        color: transparent;
+    }
+    .form > input[type="submit"] {
+        width: fit-content;
+        min-height: 30px;
+        border-radius: 30px;
+        font-size: 2.25em;
+        color: black;
+        background: white;
+        border: transparent;
+        font-weight: bold;
+        padding: 3px 25px;
+        transition: all 0.3s ease-in-out;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .form > input[type="submit"]:hover {
+        background: #a3e3ff;
+    }
+}
+@media all and (min-width: 1440px) and (max-width: 1920px) {
+    .background {
+        background-image: url('https://drive.google.com/uc?export=view&id=1CiAGyTXj6vHTdQ0FeKovQ4DvERx3DrPQ');
+    }
+    .hero {
+        position: relative;
+        width: 100vw;
+        min-height: 100vh;
+        height: fit-content;
+        z-index: 2;
+        display: grid;
+        grid-template-areas: 'header header'
+                        'list list'
+                        'workplace workplace';
+        grid-template-rows: 13% 22% 65%;
+        grid-template-columns: 30% 70%;
+    }
+    .hero > .header {
+        min-height: fit-content;
+        grid-area: header;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.38);
+        padding: 10px 20px;
+    }
+    .hero > .header > .group , .hero > .data > .group {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .hero > .header > .group > .username {
+        font-size: 2em;
+        color: white;
+        transition: all 0.3s ease-in-out;
+        position: relative;
+    }
+    .hero > .header > .group > .username:hover {
+        color: #86b7fe;
+    }
+    .hero > .header > .group > .status > i:before {
+        font-size: 15px;
+        margin-right: 10px;
+        position: relative;
+        top: 50%;
+        left: 0;
+        color: #00865d;
+        transition: all 0.3s ease-in-out;
+    }
+    .hero > .header > .group > .status > i:hover:before {
+        color: #13efaf;
+    }
+    .hero > .header > .group > .status {
+        width: fit-content;
+        position: relative;
+    }
+    .hero > .header > .group > .logout > i:before {
+        font-size: 15px;
+        margin-right: 10px;
+        position: relative;
+        top: 50%;
+        left: 0;
+        color: #00865d;
+        transition: all 0.3s ease-in-out;
+    }
+    .hero > .header > .group > .logout > i:hover:before {
+        color: #13efaf;
+    }
+    .hero > .header > .group > .logout {
+        width: fit-content;
+        position: relative;
+    }
+    .hero > .header > .group > .title {
+        position: relative;
+        font-size: 2em;
+        color: white;
+        transition: all 0.3s ease-in-out;
+    }
+    .hero > .header > .group > .title:hover {
+        color: #86b7fe;
+    }
+    .hero > .header > .group > .title:after {
+        bottom: -5px;
+        content: "";
+        display: block;
+        height: 3px;
+        left: 50%;
+        position: absolute;
+        background: #86b7fe;
+        transition: width 0.3s ease-in-out 0s , left 0.3s ease-in-out 0s;
+        width: 0;
+    }
+    .hero > .header > .group > .title:hover:after
+    {
+        width: 100%;
+        left: 0;
+    }
+    .hero > .data {
+        grid-area: list;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-around;
+        padding: 0 20px;
+        align-items: center;
+        row-gap: 30px;
+    }
+    .hero > .data > .group {
+        min-width: fit-content;
+        width: 30%;
+        position: relative;
+        justify-content: center;
+    }
+    .hero > .data > .group > .attr-name {
+        display: none;
+        font-size: 1.5em;
+        color: white;
+        position: relative;
+        width: 50%;
+    }
+    .hero > .data > .group > .attr-value {
+        font-size: 1.9em;
+        color: #a3e3ff;
+        font-family: 'Corben', cursive;
+        width: fit-content;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    /**
+        ALERT
+     */
+    .hero > .data > .alert-validate::before {
+        content: attr(about);
+        position: absolute;
+        width: fit-content;
+        height: fit-content;
+        padding: 4px 10px;
+        max-width: 100%;
+        background-color: rgba(7, 7, 7, 0.91);
+        border-radius: 13px;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50% , 0);
+        right: 8px;
+        pointer-events: none;
+        font-size: 14px;
+
+        color: #ffffff;
+        line-height: 1.4;
+        text-align: center;
+
+        visibility: hidden;
+        opacity: 0;
+
+        -webkit-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .hero > .data > .alert-validate::after {
+        display: block;
+        position: absolute;
+        color: #b2b2b2;
+        font-size: 14px;
+        top: 100%;
+    }
+
+    .hero > .data > .alert-validate:hover:before {
+        visibility: visible;
+        opacity: 1;
+    }
+    /**
+        ONLINE
+     */
+    .hero > .header > .group > .status::before {
+        content: attr(about);
+        position: absolute;
+        width: fit-content;
+        border-radius: 13px;
+        top: 50%;
+        left: -450%;
+        transform: translate(0 , -50%);
+        pointer-events: none;
+        font-size: 18px;
+
+        color: #ffffff;
+        line-height: 1.4;
+        text-align: center;
+        letter-spacing: 2px;
+
+        visibility: hidden;
+        opacity: 0;
+
+        -webkit-transition: all 0.4s ease-in-out;
+        -o-transition: all 0.4s ease-in-out;
+        -moz-transition: all 0.4s ease-in-out;
+        transition: all 0.4s ease-in-out;
+    }
+
+    .hero > .header > .group > .status::after {
+        display: block;
+        position: absolute;
+        color: #b2b2b2;
+        font-size: 14px;
+        top: 100%;
+    }
+
+    .hero > .header > .group > .status:hover:before {
+        visibility: visible;
+        opacity: 1;
+    }
+    /**
+        LOGOUT
+     */
+    .hero > .header > .group > .logout::before {
+        content: attr(about);
+        position: absolute;
+        width: fit-content;
+        border-radius: 13px;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50% , 0);
+        pointer-events: none;
+        font-size: 18px;
+
+        color: #ffffff;
+        line-height: 1.4;
+        text-align: center;
+        letter-spacing: 2px;
+
+        visibility: hidden;
+        opacity: 0;
+
+        -webkit-transition: all 0.4s ease-in-out;
+        -o-transition: all 0.4s ease-in-out;
+        -moz-transition: all 0.4s ease-in-out;
+        transition: all 0.4s ease-in-out;
+    }
+
+    .hero > .header > .group > .logout::after {
+        display: block;
+        position: absolute;
+        color: #b2b2b2;
+        font-size: 14px;
+        top: 100%;
+    }
+
+    .hero > .header > .group > .logout:hover:before {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .content {
+        grid-area: workplace;
+        display: grid;
+        grid-template-areas: 'title'
+                                'form';
+        grid-template-rows: 20% 80%;
+        grid-template-columns: 100%;
+        padding: 30px;
+    }
+    .content > .group {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        align-items: center;
+    }
+    .content > .title-box {
+        padding: 5px 10px;
+        grid-area: title;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .content > .title-box > .title {
+        min-width: 95%;
+        width: fit-content;
+        max-width: 100%;
+        font-size: 2.3em;
+        text-align: center;
+        color: white;
+    }
+    .content > .form-box {
+        grid-area: form;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .content > .form-box > .form {
+        width: fit-content;
+        height: fit-content;
+        max-width: 100%;
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: space-around;
+        align-items: center;
+        row-gap: 30px;
+    }
+    .content > .form-box > .form > p {
+        width: fit-content;
+        font-size: 2.3em;
+        color: white;
+        text-align: center;
+    }
+    .form > input[type="text"] {
+        text-align: center;
+        width: 95%;
+        background: transparent;
+        border: none;
+        border-bottom: 3px solid white;
+        outline: none;
+        height: fit-content;
+        padding: 10px 15px;
+        font-size: 1.8em;
+        color: #a3e3ff;
+        box-shadow: none;
+        transition: all 0.3s ease-in-out;
+    }
+    .form > input[type="text"]:hover {
+        border-bottom: 3px solid #a3e3ff;
+        width: 97%;
+    }
+    .form > input[type="text"]:active , .form > input[type="text"]:focus {
+        width: 97%;
+        border-bottom: 3px solid #a3e3ff;
+    }
+    .form > input[type="text"]::placeholder {
+        color: white;
+        font-size: 1.8em;
+        text-align: center;
+        transition: all 0.3s ease-in-out;
+    }
+    .form > input[type="text"]:hover::placeholder {
+        color: #a3e3ff;
+    }
+    .form > input[type="text"]:active::placeholder ,
+    .form > input[type="text"]:focus::placeholder  {
+        color: transparent;
+    }
+    .form > input[type="submit"] {
+        width: fit-content;
+        min-height: 30px;
+        border-radius: 30px;
+        font-size: 1.8em;
+        color: black;
+        background: white;
+        border: transparent;
+        font-weight: bold;
+        padding: 3px 25px;
+        transition: all 0.3s ease-in-out;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .form > input[type="submit"]:hover {
+        background: #a3e3ff;
+    }
+}
+@media all and (min-width: 768px) and (max-width: 1440px) {
+    .background {
+        background-image: url('https://drive.google.com/uc?export=view&id=1gLtR-vwqY9rMAw-Ysi7KFKVsPmv7u7b0');
+    }
+    .hero {
+        position: relative;
+        width: 100vw;
+        min-height: 100vh;
+        height: fit-content;
+        z-index: 2;
+        display: grid;
+        grid-template-areas: 'header header'
+                        'list list'
+                        'workplace workplace';
+        grid-template-rows: 13% 20% 67%;
+        grid-template-columns: 30% 70%;
+    }
+    .hero > .header {
+        min-height: fit-content;
+        grid-area: header;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.38);
+        padding: 10px 20px;
+    }
+    .hero > .header > .group , .hero > .data > .group {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .hero > .header > .group > .username {
+        font-size: 2em;
+        color: white;
+        transition: all 0.3s ease-in-out;
+        position: relative;
+    }
+    .hero > .header > .group > .username:hover {
+        color: #86b7fe;
+    }
+    .hero > .header > .group > .status > i:before {
+        font-size: 15px;
+        margin-right: 10px;
+        position: relative;
+        top: 50%;
+        left: 0;
+        color: #00865d;
+        transition: all 0.3s ease-in-out;
+    }
+    .hero > .header > .group > .status > i:hover:before {
+        color: #13efaf;
+    }
+    .hero > .header > .group > .status {
+        width: fit-content;
+        position: relative;
+    }
+    .hero > .header > .group > .logout > i:before {
+        font-size: 15px;
+        margin-right: 10px;
+        position: relative;
+        top: 50%;
+        left: 0;
+        color: #00865d;
+        transition: all 0.3s ease-in-out;
+    }
+    .hero > .header > .group > .logout > i:hover:before {
+        color: #13efaf;
+    }
+    .hero > .header > .group > .logout {
+        width: fit-content;
+        position: relative;
+    }
+    .hero > .header > .group > .title {
+        position: relative;
+        font-size: 2em;
+        color: white;
+        transition: all 0.3s ease-in-out;
+    }
+    .hero > .header > .group > .title:hover {
+        color: #86b7fe;
+    }
+    .hero > .header > .group > .title:after {
+        bottom: -5px;
+        content: "";
+        display: block;
+        height: 3px;
+        left: 50%;
+        position: absolute;
+        background: #86b7fe;
+        transition: width 0.3s ease-in-out 0s , left 0.3s ease-in-out 0s;
+        width: 0;
+    }
+    .hero > .header > .group > .title:hover:after
+    {
+        width: 100%;
+        left: 0;
+    }
+    .hero > .data {
+        grid-area: list;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-around;
+        padding: 0 20px;
+        align-items: center;
+        row-gap: 30px;
+    }
+    .hero > .data > .group {
+        min-width: fit-content;
+        width: 30%;
+        position: relative;
+        justify-content: center;
+    }
+    .hero > .data > .group > .attr-name {
+        display: none;
+        font-size: 1.5em;
+        color: white;
+        position: relative;
+        width: 50%;
+    }
+    .hero > .data > .group > .attr-value {
+        font-size: 1.6em;
+        color: #a3e3ff;
+        font-family: 'Corben', cursive;
+        width: fit-content;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    /**
+        ALERT
+     */
+    .hero > .data > .alert-validate::before {
+        content: attr(about);
+        position: absolute;
+        width: fit-content;
+        height: fit-content;
+        padding: 4px 10px;
+        max-width: 100%;
+        background-color: rgba(7, 7, 7, 0.91);
+        border-radius: 13px;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50% , 0);
+        right: 8px;
+        pointer-events: none;
+        font-size: 14px;
+
+        color: #ffffff;
+        line-height: 1.4;
+        text-align: center;
+
+        visibility: hidden;
+        opacity: 0;
+
+        -webkit-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .hero > .data > .alert-validate::after {
+        display: block;
+        position: absolute;
+        color: #b2b2b2;
+        font-size: 14px;
+        top: 100%;
+    }
+
+    .hero > .data > .alert-validate:hover:before {
+        visibility: visible;
+        opacity: 1;
+    }
+    /**
+        ONLINE
+     */
+    .hero > .header > .group > .status::before {
+        content: attr(about);
+        position: absolute;
+        width: fit-content;
+        border-radius: 13px;
+        top: 50%;
+        left: -450%;
+        transform: translate(0 , -50%);
+        pointer-events: none;
+        font-size: 18px;
+
+        color: #ffffff;
+        line-height: 1.4;
+        text-align: center;
+        letter-spacing: 2px;
+
+        visibility: hidden;
+        opacity: 0;
+
+        -webkit-transition: all 0.4s ease-in-out;
+        -o-transition: all 0.4s ease-in-out;
+        -moz-transition: all 0.4s ease-in-out;
+        transition: all 0.4s ease-in-out;
+    }
+
+    .hero > .header > .group > .status::after {
+        display: block;
+        position: absolute;
+        color: #b2b2b2;
+        font-size: 14px;
+        top: 100%;
+    }
+
+    .hero > .header > .group > .status:hover:before {
+        visibility: visible;
+        opacity: 1;
+    }
+    /**
+        LOGOUT
+     */
+    .hero > .header > .group > .logout::before {
+        content: attr(about);
+        position: absolute;
+        width: fit-content;
+        border-radius: 13px;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50% , 0);
+        pointer-events: none;
+        font-size: 18px;
+
+        color: #ffffff;
+        line-height: 1.4;
+        text-align: center;
+        letter-spacing: 2px;
+
+        visibility: hidden;
+        opacity: 0;
+
+        -webkit-transition: all 0.4s ease-in-out;
+        -o-transition: all 0.4s ease-in-out;
+        -moz-transition: all 0.4s ease-in-out;
+        transition: all 0.4s ease-in-out;
+    }
+
+    .hero > .header > .group > .logout::after {
+        display: block;
+        position: absolute;
+        color: #b2b2b2;
+        font-size: 14px;
+        top: 100%;
+    }
+
+    .hero > .header > .group > .logout:hover:before {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .content {
+        grid-area: workplace;
+        display: grid;
+        grid-template-areas: 'title'
+                                'form';
+        grid-template-rows: 20% 80%;
+        grid-template-columns: 100%;
+        padding: 30px;
+    }
+    .content > .group {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        align-items: center;
+    }
+    .content > .title-box {
+        padding: 5px 10px;
+        grid-area: title;
+        max-width: 100%;
+        min-height: fit-content;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .content > .title-box > .title {
+        min-width: 95%;
+        min-height: fit-content;
+        width: fit-content;
+        max-width: 100%;
+        font-size: 2em;
+        text-align: center;
+        color: white;
+    }
+    .content > .form-box {
+        grid-area: form;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .content > .form-box > .form {
+        width: fit-content;
+        height: fit-content;
+        max-width: 100%;
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: space-around;
+        align-items: center;
+        row-gap: 30px;
+    }
+    .content > .form-box > .form > p {
+        width: fit-content;
+        font-size: 2em;
+        color: white;
+        text-align: center;
+    }
+    .form > input[type="text"] {
+        text-align: center;
+        width: 95%;
+        background: transparent;
+        border: none;
+        border-bottom: 3px solid white;
+        outline: none;
+        padding: 3px 15px;
+        font-size: 1.5em;
+        color: #a3e3ff;
+        box-shadow: none;
+        transition: all 0.3s ease-in-out;
+    }
+    .form > input[type="text"]:hover {
+        border-bottom: 3px solid #a3e3ff;
+        width: 97%;
+    }
+    .form > input[type="text"]:active , .form > input[type="text"]:focus {
+        width: 97%;
+        border-bottom: 3px solid #a3e3ff;
+    }
+    .form > input[type="text"]::placeholder {
+        color: white;
+        font-size: 1.5em;
+        text-align: center;
+        transition: all 0.3s ease-in-out;
+    }
+    .form > input[type="text"]:hover::placeholder {
+        color: #a3e3ff;
+    }
+    .form > input[type="text"]:active::placeholder ,
+    .form > input[type="text"]:focus::placeholder  {
+        color: transparent;
+    }
+    .form > input[type="submit"] {
+        width: fit-content;
+        min-height: 30px;
+        border-radius: 30px;
+        font-size: 1.6em;
+        color: black;
+        background: white;
+        border: transparent;
+        font-weight: bold;
+        padding: 3px 25px;
+        transition: all 0.3s ease-in-out;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .form > input[type="submit"]:hover {
+        background: #a3e3ff;
+    }
+}
+@media all and (min-width: 570px) and (max-width: 768px) {
+    .background {
+        background-image: url('https://drive.google.com/uc?export=view&id=1gLtR-vwqY9rMAw-Ysi7KFKVsPmv7u7b0');
+    }
+    .hero {
+        position: relative;
+        width: 100vw;
+        min-height: 100vh;
+        height: fit-content;
+        z-index: 2;
+        display: grid;
+        grid-template-areas: 'header header'
+                        'list list'
+                        'workplace workplace';
+        grid-template-rows: 15% 20% 65%;
+        grid-template-columns: 30% 70%;
+    }
+    .hero > .header {
+        min-height: fit-content;
+        grid-area: header;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.38);
+        padding: 10px 20px;
+    }
+    .hero > .header > .group , .hero > .data > .group {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .hero > .header > .group > .username {
+        font-size: 1.5em;
+        color: white;
+        transition: all 0.3s ease-in-out;
+        position: relative;
+    }
+    .hero > .header > .group > .username:hover {
+        color: #86b7fe;
+    }
+    .hero > .header > .group > .status > i:before {
+        font-size: 15px;
+        margin-right: 10px;
+        position: relative;
+        top: 50%;
+        left: 0;
+        color: #00865d;
+        transition: all 0.3s ease-in-out;
+    }
+    .hero > .header > .group > .status > i:hover:before {
+        color: #13efaf;
+    }
+    .hero > .header > .group > .status {
+        width: fit-content;
+    }
+    .hero > .header > .group > .logout > i:before {
+        font-size: 15px;
+        margin-right: 10px;
+        position: relative;
+        top: 50%;
+        left: 0;
+        color: #00865d;
+        transition: all 0.3s ease-in-out;
+    }
+    .hero > .header > .group > .logout > i:hover:before {
+        color: #13efaf;
+    }
+    .hero > .header > .group > .logout {
+        width: fit-content;
+        position: relative;
+    }
+    .hero > .header > .group > .title {
+        position: relative;
+        font-size: 1.5em;
+        color: white;
+        transition: all 0.3s ease-in-out;
+    }
+    .hero > .header > .group > .title:hover {
+        color: #86b7fe;
+    }
+    .hero > .header > .group > .title:after {
+        bottom: -5px;
+        content: "";
+        display: block;
+        height: 3px;
+        left: 50%;
+        position: absolute;
+        background: #86b7fe;
+        transition: width 0.3s ease-in-out 0s , left 0.3s ease-in-out 0s;
+        width: 0;
+    }
+    .hero > .header > .group > .title:hover:after
+    {
+        width: 100%;
+        left: 0;
+    }
+    .hero > .data {
+        grid-area: list;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-around;
+        padding: 0 20px;
+        align-items: center;
+    }
+    .hero > .data > .group {
+        min-width: fit-content;
+        width: 30%;
+        position: relative;
+        justify-content: center;
+    }
+    .hero > .data > .group > .attr-name {
+        display: none;
+        font-size: 1.3em;
+        color: white;
+        position: relative;
+        width: 50%;
+    }
+    .hero > .data > .group > .attr-value {
+        font-size: 1.6em;
+        color: #a3e3ff;
+        font-family: 'Corben', cursive;
+        width: fit-content;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    /**
+        ALERT
+     */
+    .hero > .data > .alert-validate::before {
+        content: attr(about);
+        position: absolute;
+        width: fit-content;
+        height: fit-content;
+        padding: 4px 10px;
+        max-width: 100%;
+        background-color: rgba(7, 7, 7, 0.91);
+        border-radius: 13px;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50% , 0);
+        right: 8px;
+        pointer-events: none;
+        font-size: 14px;
+
+        color: #ffffff;
+        line-height: 1.4;
+        text-align: center;
+
+        visibility: hidden;
+        opacity: 0;
+
+        -webkit-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .hero > .data > .alert-validate::after {
+        display: block;
+        position: absolute;
+        color: #b2b2b2;
+        font-size: 14px;
+        top: 100%;
+    }
+
+    .hero > .data > .alert-validate:hover:before {
+        visibility: visible;
+        opacity: 1;
+    }
+    /**
+        ONLINE
+     */
+    .hero > .header > .group > .status::before {
+        content: attr(about);
+        position: absolute;
+        width: fit-content;
+        border-radius: 13px;
+        top: 50%;
+        left: -330%;
+        transform: translate(0 , -50%);
+        pointer-events: none;
+        font-size: 10px;
+
+        color: #ffffff;
+        line-height: 1.4;
+        text-align: center;
+        letter-spacing: 2px;
+
+        visibility: hidden;
+        opacity: 0;
+
+        -webkit-transition: all 0.4s ease-in-out;
+        -o-transition: all 0.4s ease-in-out;
+        -moz-transition: all 0.4s ease-in-out;
+        transition: all 0.4s ease-in-out;
+    }
+
+    .hero > .header > .group > .status::after {
+        display: block;
+        position: absolute;
+        color: #b2b2b2;
+        font-size: 14px;
+        top: 100%;
+    }
+
+    .hero > .header > .group > .status:hover:before {
+        visibility: visible;
+        opacity: 1;
+    }
+    /**
+        LOGOUT
+     */
+    .hero > .header > .group > .logout::before {
+        content: attr(about);
+        position: absolute;
+        width: fit-content;
+        border-radius: 13px;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50% , 0);
+        pointer-events: none;
+        font-size: 18px;
+
+        color: #ffffff;
+        line-height: 1.4;
+        text-align: center;
+        letter-spacing: 2px;
+
+        visibility: hidden;
+        opacity: 0;
+
+        -webkit-transition: all 0.4s ease-in-out;
+        -o-transition: all 0.4s ease-in-out;
+        -moz-transition: all 0.4s ease-in-out;
+        transition: all 0.4s ease-in-out;
+    }
+
+    .hero > .header > .group > .logout::after {
+        display: block;
+        position: absolute;
+        color: #b2b2b2;
+        font-size: 14px;
+        top: 100%;
+    }
+
+    .hero > .header > .group > .logout:hover:before {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .content {
+        grid-area: workplace;
+        display: grid;
+        grid-template-areas: 'title'
+                                'form';
+        grid-template-rows: 20% 80%;
+        grid-template-columns: 100%;
+        padding: 30px;
+    }
+    .content > .group {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        align-items: center;
+    }
+    .content > .title-box {
+        padding: 5px 10px;
+        grid-area: title;
+        max-width: 100%;
+        min-height: fit-content;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .content > .title-box > .title {
+        min-width: 95%;
+        width: fit-content;
+        max-width: 100%;
+        font-size: 1.5em;
+        text-align: center;
+        color: white;
+    }
+    .content > .form-box {
+        grid-area: form;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .content > .form-box > .form {
+        width: fit-content;
+        height: fit-content;
+        max-width: 100%;
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: space-around;
+        align-items: center;
+        row-gap: 30px;
+    }
+    .content > .form-box > .form > p {
+        width: fit-content;
+        font-size: 1.5em;
+        color: white;
+        text-align: center;
+    }
+    .form > input[type="text"] {
+        text-align: center;
+        width: 95%;
+        background: transparent;
+        border: none;
+        border-bottom: 3px solid white;
+        outline: none;
+        padding: 3px 15px;
+        font-size: 1.3em;
+        color: #a3e3ff;
+        box-shadow: none;
+        transition: all 0.3s ease-in-out;
+    }
+    .form > input[type="text"]:hover {
+        border-bottom: 3px solid #a3e3ff;
+        width: 97%;
+    }
+    .form > input[type="text"]:active , .form > input[type="text"]:focus {
+        width: 97%;
+        border-bottom: 3px solid #a3e3ff;
+    }
+    .form > input[type="text"]::placeholder {
+        color: white;
+        font-size: 1.3em;
+        text-align: center;
+        transition: all 0.3s ease-in-out;
+    }
+    .form > input[type="text"]:hover::placeholder {
+        color: #a3e3ff;
+    }
+    .form > input[type="text"]:active::placeholder ,
+    .form > input[type="text"]:focus::placeholder  {
+        color: transparent;
+    }
+    .form > input[type="submit"] {
+        width: fit-content;
+        height: 30px;
+        border-radius: 30px;
+        font-size: 1.5em;
+        color: black;
+        background: white;
+        border: transparent;
+        font-weight: bold;
+        padding: 3px 25px;
+        transition: all 0.3s ease-in-out;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .form > input[type="submit"]:hover {
+        background: #a3e3ff;
+    }
+}
+@media all and (max-width: 570px) {
+    .background {
+        background-image: url('https://drive.google.com/uc?export=view&id=1gLtR-vwqY9rMAw-Ysi7KFKVsPmv7u7b0');
+    }
+    .hero {
+        position: relative;
+        width: 100vw;
+        min-height: 100vh;
+        height: fit-content;
+        z-index: 2;
+        display: grid;
+        grid-template-areas: 'header header'
+                        'list list'
+                        'workplace workplace';
+        grid-template-rows: 15% 30% 55%;
+        grid-template-columns: 30% 70%;
+        row-gap: 20px;
+    }
+    .hero > .header {
+        min-height: fit-content;
+        grid-area: header;
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: space-around;
+        align-items: center;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.38);
+        padding: 10px 20px;
+        row-gap: 20px;
+    }
+    .hero > .header > .group , .hero > .data > .group {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .hero > .header > .group > .username {
+        font-size: 1.3em;
+        color: white;
+        transition: all 0.3s ease-in-out;
+        position: relative;
+    }
+    .hero > .header > .group > .username:hover {
+        color: #86b7fe;
+    }
+    .hero > .header > .group > .status > i:before {
+        font-size: 15px;
+        margin-right: 10px;
+        position: relative;
+        top: 50%;
+        left: 0;
+        color: #00865d;
+        transition: all 0.3s ease-in-out;
+    }
+    .hero > .header > .group > .status > i:hover:before {
+        color: #13efaf;
+    }
+    .hero > .header > .group > .status {
+        width: fit-content;
+        position: relative;
+    }
+    .hero > .header > .group > .logout > i:before {
+        font-size: 15px;
+        margin-right: 10px;
+        position: relative;
+        top: 50%;
+        left: 0;
+        color: #00865d;
+        transition: all 0.3s ease-in-out;
+    }
+    .hero > .header > .group > .logout > i:hover:before {
+        color: #13efaf;
+    }
+    .hero > .header > .group > .logout {
+        width: fit-content;
+        position: relative;
+    }
+    .hero > .header > .group > .title {
+        position: relative;
+        font-size: 1.3em;
+        color: white;
+        transition: all 0.3s ease-in-out;
+    }
+    .hero > .header > .group > .title:hover {
+        color: #86b7fe;
+    }
+    .hero > .header > .group > .title:after {
+        bottom: -5px;
+        content: "";
+        display: block;
+        height: 3px;
+        left: 50%;
+        position: absolute;
+        background: #86b7fe;
+        transition: width 0.3s ease-in-out 0s , left 0.3s ease-in-out 0s;
+        width: 0;
+    }
+    .hero > .header > .group > .title:hover:after
+    {
+        width: 100%;
+        left: 0;
+    }
+    .hero > .data {
+        grid-area: list;
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: space-around;
+        padding: 15px 20px;
+        align-items: center;
+        row-gap: 35px;
+        height: fit-content;
+    }
+    .hero > .data > .group {
+        min-width: fit-content;
+        width: 30%;
+        position: relative;
+        justify-content: center;
+    }
+    .hero > .data > .group > .attr-name {
+        display: none;
+        font-size: 1.1em;
+        color: white;
+        position: relative;
+        width: 50%;
+    }
+    .hero > .data > .group > .attr-value {
+        font-size: 1.3em;
+        color: #a3e3ff;
+        font-family: 'Corben', cursive;
+        width: fit-content;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    /**
+        ALERT
+     */
+    .hero > .data > .alert-validate::before {
+        content: attr(about);
+        position: absolute;
+        min-width: 275px;
+        width: fit-content;
+        padding: 4px 10px;
+        background-color: rgba(7, 7, 7, 0.91);
+        border-radius: 13px;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50% , 0);
+        right: 8px;
+        pointer-events: none;
+        font-size: 14px;
+
+        color: #ffffff;
+        line-height: 1.4;
+        text-align: center;
+
+        visibility: hidden;
+        opacity: 0;
+
+        -webkit-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .hero > .data > .alert-validate::after {
+        display: block;
+        position: absolute;
+        color: #b2b2b2;
+        font-size: 14px;
+        top: 100%;
+    }
+
+    .hero > .data > .alert-validate:hover:before {
+        visibility: visible;
+        opacity: 1;
+    }
+    /**
+        ONLINE
+     */
+    .hero > .header > .group > .status::before {
+        content: attr(about);
+        position: absolute;
+        width: fit-content;
+        border-radius: 13px;
+        top: 50%;
+        left: -300%;
+        transform: translate(0 , -50%);
+        pointer-events: none;
+        font-size: 10px;
+
+        color: #ffffff;
+        line-height: 1.4;
+        text-align: center;
+        letter-spacing: 2px;
+
+        visibility: hidden;
+        opacity: 0;
+
+        -webkit-transition: all 0.4s ease-in-out;
+        -o-transition: all 0.4s ease-in-out;
+        -moz-transition: all 0.4s ease-in-out;
+        transition: all 0.4s ease-in-out;
+    }
+
+    .hero > .header > .group > .status::after {
+        display: block;
+        position: absolute;
+        color: #b2b2b2;
+        font-size: 14px;
+        top: 100%;
+    }
+
+    .hero > .header > .group > .status:hover:before {
+        visibility: visible;
+        opacity: 1;
+    }
+    /**
+        LOGOUT
+     */
+    .hero > .header > .group > .logout::before {
+        content: attr(about);
+        position: absolute;
+        width: fit-content;
+        border-radius: 13px;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50% , 0);
+        pointer-events: none;
+        font-size: 18px;
+
+        color: #ffffff;
+        line-height: 1.4;
+        text-align: center;
+        letter-spacing: 2px;
+
+        visibility: hidden;
+        opacity: 0;
+
+        -webkit-transition: all 0.4s ease-in-out;
+        -o-transition: all 0.4s ease-in-out;
+        -moz-transition: all 0.4s ease-in-out;
+        transition: all 0.4s ease-in-out;
+    }
+
+    .hero > .header > .group > .logout::after {
+        display: block;
+        position: absolute;
+        color: #b2b2b2;
+        font-size: 14px;
+        top: 100%;
+    }
+
+    .hero > .header > .group > .logout:hover:before {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .content {
+        grid-area: workplace;
+        display: grid;
+        grid-template-areas: 'title'
+                                'form';
+        grid-template-rows: 20% 80%;
+        grid-template-columns: 100%;
+        padding: 30px;
+    }
+    .content > .group {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        align-items: center;
+    }
+    .content > .title-box {
+        padding: 5px 10px;
+        grid-area: title;
+        max-width: 100%;
+        min-height: fit-content;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .content > .title-box > .title {
+        min-width: 95%;
+        width: fit-content;
+        max-width: 100%;
+        font-size: 1.3em;
+        text-align: center;
+        color: white;
+    }
+    .content > .form-box {
+        grid-area: form;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: fit-content;
+    }
+    .content > .form-box > .form {
+        width: fit-content;
+        height: fit-content;
+        max-width: 100%;
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: space-around;
+        align-items: center;
+        row-gap: 30px;
+    }
+    .content > .form-box > .form > p {
+        width: fit-content;
+        font-size: 1.3em;
+        color: white;
+        text-align: center;
+    }
+    .form > input[type="text"] {
+        text-align: center;
+        width: 95%;
+        background: transparent;
+        border: none;
+        border-bottom: 3px solid white;
+        outline: none;
+        padding: 3px 15px;
+        font-size: 1em;
+        color: #a3e3ff;
+        box-shadow: none;
+        transition: all 0.3s ease-in-out;
+    }
+    .form > input[type="text"]:hover {
+        border-bottom: 3px solid #a3e3ff;
+        width: 97%;
+    }
+    .form > input[type="text"]:active , .form > input[type="text"]:focus {
+        width: 97%;
+        border-bottom: 3px solid #a3e3ff;
+    }
+    .form > input[type="text"]::placeholder {
+        color: white;
+        font-size: 1em;
+        text-align: center;
+        transition: all 0.3s ease-in-out;
+    }
+    .form > input[type="text"]:hover::placeholder {
+        color: #a3e3ff;
+    }
+    .form > input[type="text"]:active::placeholder ,
+    .form > input[type="text"]:focus::placeholder  {
+        color: transparent;
+    }
+    .form > input[type="submit"] {
+        width: fit-content;
+        height: 30px;
+        border-radius: 30px;
+        font-size: 1em;
+        color: black;
+        background: white;
+        border: transparent;
+        font-weight: bold;
+        padding: 3px 25px;
+        transition: all 0.3s ease-in-out;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .form > input[type="submit"]:hover {
+        background: #a3e3ff;
+    }
+}
+/*******/
+.input-validate {
+    position: relative;
+}
+.input-validate::before {
+    content: attr(data-validate);
+    position: absolute;
+    max-width: 90%;
+    width: fit-content;
+    background-color: white;
+    border: 1px solid #c80000;
+    border-radius: 13px;
+    padding: 4px 25px 4px 10px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+    right: 8px;
+    pointer-events: none;
+
+    font-family: Poppins-Medium;
+    color: #c80000;
+    font-size: 18px;
+    line-height: 1.8;
+    text-align: left;
+
+    visibility: hidden;
+    opacity: 0;
+
+    -webkit-transition: opacity 0.4s;
+    -o-transition: opacity 0.4s;
+    -moz-transition: opacity 0.4s;
+    transition: opacity 0.4s;
+}
+
+.input-validate::after {
+    content: "\f06a";
+    font-family: FontAwesome;
+    display: block;
+    position: absolute;
+    color: #c80000;
+    font-size: 18px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+    right: 13px;
+}
+
+.input-validate:hover:before {
+    visibility: visible;
+    opacity: 1;
+}

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--SockJS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.0/sockjs.js"></script>
+    <!--StompJS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="/user/modules/css/bootstrap.css">
+    <link rel="stylesheet" href="/user/modules/css/bootstrap.rtl.css">
+    <link rel="stylesheet" href="/user/modules/css/bootstrap-grid.css">
+    <link rel="stylesheet" href="/user/modules/css/bootstrap-grid.rtl.css">
+    <link rel="stylesheet" href="/user/modules/css/bootstrap-reboot.css">
+    <link rel="stylesheet" href="/user/modules/css/bootstrap-reboot.rtl.css">
+    <link rel="stylesheet" href="/user/modules/css/bootstrap-utilities.css">
+    <link rel="stylesheet" href="/user/modules/css/bootstrap-utilities.rtl.css">
+    <!--Custom-->
+    <link rel="stylesheet" href="/user/personal/admin/styles/basic.css">
+</head>
+<body>
+<div class="container-fluid px-0">
+    <div class="row min-vh-100">
+        <div class="col-xl-3 min-vh-100 max-vh-100 z-top" id="menu">
+            <table class="table table-dark table-hover table-bordered h-100">
+                <tr id="dropdown">
+                    <td><p class="menu-points">Menu</p></td>
+                </tr>
+                <tr id="home">
+                    <td><a th:href="@{/api/all/home}" target="_blank" class="menu-link menu-points text-light text-decoration-none">Home</a></td>
+                </tr>
+                <tr id="article-management">
+                    <td><p class="menu-points">Articles</p></td>
+                </tr>
+                <tr id="user-management">
+                    <td><p class="menu-points">Users</p></td>
+                </tr>
+<!--                <tr id="promo-management">-->
+<!--                    <td><p class="menu-points">Promo</p></td>-->
+<!--                </tr>-->
+                <tr id="profile">
+                    <td><p class="menu-points">Profile</p></td>
+                </tr>
+                <tr id="settings-management">
+                    <td><p class="menu-points">Settings</p></td>
+                </tr>
+                <tr id="logout">
+                    <td><p class="menu-points">Logout</p></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-xl-9 min-vh-100 max-vh-100 overflow-scroll" id="articles-menu">
+            <div id="adding-form-box" class="d-none container h-100 d-flex align-content-center flex-column justify-content-start pt-5 pb-3">
+                <h2 class="position-relative w-100 d-flex justify-content-center h-auto status mb-3" id="add-art-sec-title">Add an article</h2>
+                <form class="d-flex flex-column align-content-center justify-content-around">
+                    <div class="col-auto my-3 input-group valid">
+                        <input name="title" type="text" class="form-control" placeholder="Title of article" required onchange="processTitle(this , 'add' , 'change')">
+                    </div>
+                    <div class="col-auto my-3 input-group valid">
+                        <textarea name="content" class="form-control resize" maxlength="5000" rows="7"
+                                  placeholder="Text of article" required onchange="processContent(this , 'add' , 'change')"></textarea>
+                    </div>
+                    <div class="mb-5 col-auto my-3 input-group valid">
+                        <input name="media" class="form-control" type="file" multiple onchange="addFile(this , 'add' , 'change')">
+                    </div>
+                    <div class="col-auto d-flex justify-content-center">
+                        <button type="button" class="btn btn-primary mb-5 w-50" onclick="submitAdd(this)">Add article!</button>
+                    </div>
+                    <div class="col-auto d-flex justify-content-center">
+                        <button id="turn-back" type="button" class="btn btn-danger w-50">Back</button>
+                    </div>
+                </form>
+            </div>
+            <div id="article-management-box" class="container h-100 d-flex align-content-center flex-column justify-content-start">
+                <table class="table table-striped table-responsive mt-3" id="article-table">
+                    <thead class="thead-dark align-content-center position-sticky top-0 z-index bg-secondary">
+                    <tr>
+                        <th class="w-auto" scope="col">
+                            <div class="input-group">
+                                <button id="add-article-btn" class="btn btn-primary">Add</button>
+                            </div>
+                        </th>
+                        <th class="w-auto" id="title-col" scope="col">
+                            <p class="w-100 text-center text-uppercase text-dark">Articles</p>
+                        </th>
+                        <th class="w-25" colspan="2" scope="col">
+                            <div class="input-group">
+                                <input type="text" class="form-control text-dark" id="filterArticles" placeholder="Search">
+                            </div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody th:if="${articles.size() > 0}" id="article-data" class="bg-dark">
+                        <tag th:each="article : ${articles}">
+                            <tr>
+                                <td><p class="d-flex align-content-center text-light cut" about="data-row" th:text="${article.getName()}"></p></td>
+                                <td class="w-75">
+                                    <button onclick="editArticle(this)" class="btn btn-primary">Edit</button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary" onclick="deleteArticle(this)">Delete</button>
+                                </td>
+                            </tr>
+                            <tr class="d-none">
+                                <td class="w-100" colspan="3">
+                                    <h2 class="position-relative w-100 status"></h2>
+                                    <form class="d-flex flex-column align-content-center justify-content-around py-3 px-2 mb-3 w-100 responsive">
+                                        <div class="col-auto my-3 input-group valid">
+                                            <input name="title" type="text" class="form-control" th:value="${article.getName()}"
+                                                   placeholder="Title of article" required onchange="processTitle(this , 'edit' , 'change')">
+                                        </div>
+                                        <div class="col-auto my-3 input-group valid">
+                                            <textarea name="content" class="form-control resize" maxlength="5000" rows="7" th:text="${article.getText()}"
+                                                      placeholder="Text of article" required onchange="processContent(this , 'edit' , 'change')"></textarea>
+                                        </div>
+                                        <div class="mb-5 col-auto my-3 input-group valid">
+                                            <input name="media" class="form-control" type="file" multiple onchange="addFile(this , 'edit' , 'change')">
+                                        </div>
+                                        <div th:if="${article.getResources().size() > 0}" th:each="resource : ${article.getResources()}" class="input-group my-1 w-75">
+                                            <input type="text" class="form-control text-dark"
+                                                   th:value="${resource.getFilename()}" th:placeholder="${resource.getFileId()}" th:content="${resource.getFiletype().name()}"
+                                                   aria-describedby="basic-addon2" readonly onclick="previewFile(this)">
+                                            <span class="input-group-text" onclick="dropFile(this)">✖</span>
+                                        </div>
+                                        <div class="col-auto d-flex justify-content-center my-3">
+                                            <button type="button" class="btn btn-primary w-50" onclick="submitEdit(this)">Confirm!</button>
+                                        </div>
+                                        <input name="id" type="text" class="id-edit" th:value="${article.getId()}" hidden>
+                                        <input type="text" class="secret" th:value="${article.getSecret()}" hidden>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tag>
+                    </tbody>
+                    <tbody th:if="${articles.size() == 0}" class="bg-dark">
+                        <tr>
+                            <td colspan="3"><p class="d-flex align-content-center text-light cut" about="data-row">NULL</p></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-xl-9 min-vh-100 max-vh-100 overflow-scroll hide" id="users-menu">
+            <div class="container h-100 d-flex align-content-center flex-column justify-content-start">
+                <table class="table table-responsive my-3" id="user-table">
+                    <thead class="thead-dark position-sticky top-0 z-index bg-secondary">
+                    <tr id="user-head">
+                        <th id="username-col"   scope="col">Username</th>
+                        <th id="mail-col"       scope="col">Mail</th>
+                        <th id="role-col"       scope="col">Role</th>
+                        <th id="status-col"     scope="col">Status</th>
+                        <th id="online-col"     scope="col">In/Out</th>
+                        <th id="confirm-col"    scope="col">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search" id="filterUsers">
+                            </div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody th:if="${users.size() > 0}" id="user-data" class="bg-dark">
+                        <tr th:each="user : ${users}">
+                            <td class="colspan USER_TD" onclick="showData(this)">
+                                <p class="d-flex align-content-center text-light cut-v colspan USERNAME" about="data-row" th:text="${user.getUsername()}"></p></td>
+                            <td class="hide-768 text-light colspan MAIL" th:text="${user.getMail()}">mail@gmail.com</td>
+                            <td class="hide-768 text-light colspan ROLE_TD">
+                                <div class="btn-group ROLE_BOX">
+                                    <button type="button" class="btn btn-light ROLE" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${user.getRole()}">
+                                        ROLE_USER
+                                    </button>
+                                    <div class="dropdown-menu text-center">
+                                        <button onclick="change(this)" about="UUID" class="dropdown-item" type="button">ROLE_USER</button>
+                                        <button onclick="change(this)" about="UUID" class="dropdown-item" type="button">ROLE_ADMIN</button>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="hide-768 text-light colspan STATUS_TD">
+                                <div class="btn-group STATUS_BOX">
+                                    <button type="button" class="btn btn-light STATUS" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${user.getStatus()}">
+                                        ENABLE
+                                    </button>
+                                    <div class="dropdown-menu text-center">
+                                        <button onclick="change(this)" about="UUID" class="dropdown-item" type="button">ENABLE</button>
+                                        <button onclick="change(this)" about="UUID" class="dropdown-item" type="button">DISABLE</button>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="hide-768 text-light colspan" th:if="${user.getLoginTime().after(user.getLogoutTime())}">IN</td>
+                            <td class="hide-768 text-light colspan" th:if="${user.getLoginTime().before(user.getLogoutTime())}">OUT</td>
+                            <td class="hide-768 colspan"><button class="btn btn-primary disabled" onclick="userEditConfirm(this)">Confirm!</button></td>
+                        </tr>
+                    </tbody>
+                    <tbody th:if="${users.size() == 0}" class="bg-dark" id="user-data">
+                        <tr>
+                            <td class="colspan" onclick="showData(this)"><p class="d-flex align-content-center text-light cut-v colspan" about="data-row">NULL</p></td>
+                            <td class="hide-768 text-light colspan">NULL</td>
+                            <td class="hide-768 text-light colspan">NULL</td>
+                            <td class="hide-768 text-light colspan">NULL</td>
+                            <td class="hide-768 text-light colspan">NULL</td>
+                            <td class="hide-768 text-light colspan">NULL</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-xl-9 min-vh-100 max-vh-100 overflow-scroll hide" id="profile-menu">
+            <div class="container h-100 d-flex align-content-center flex-column justify-content-center">
+                <h2 class="w-100 d-flex justify-content-center h-auto mt-5">Personal data</h2>
+                <div class="d-flex w-100 h-100 align-content-center justify-content-around mt-5">
+                    <ul class="list-group w-50 mx-1">
+                        <li class="list-group-item text-center">Username</li>
+                        <li class="list-group-item text-center">Mail</li>
+                        <li class="list-group-item text-center">Role</li>
+                        <li class="list-group-item text-center">Status</li>
+                    </ul>
+                    <ul class="list-group w-50 mx-1">
+                        <li class="list-group-item text-center" th:text="${user.getUsername()}">TEXT</li>
+                        <li class="list-group-item text-center" th:text="${user.getMail()}">TEXT</li>
+                        <li class="list-group-item text-center" th:text="${user.getRole()}">TEXT</li>
+                        <li class="list-group-item text-center" th:text="${user.getStatus()}">TEXT</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-9 min-vh-100 max-vh-100 overflow-scroll hide" id="settings-menu">
+            <div id="payment-management-box" class="container h-100 d-flex align-content-center justify-content-around">
+                <table class="table table-striped table-dark table-responsive mt-3 mx-1" id="settings-table">
+                    <thead class="thead-dark align-content-center position-sticky top-0">
+                        <tr>
+                            <th class="text-center" scope="col">
+                                <button class="btn btn-primary" id="add-payment">Add payment</button>
+                            </th>
+                            <th class="text-center" scope="col">
+                                <button class="btn btn-primary" id="payment-mod">Payment list</button>
+                            </th>
+                            <th class="text-center" scope="col">
+                                <button class="btn btn-primary disabled" id="home-mod">Description</button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="payment-body">
+                        <tag th:if="${payments.size() > 0}" th:each="payment : ${payments}">
+                            <tr>
+                                <td><p class="d-flex align-content-center text-light cut" about="data-row" th:text="${payment.getBank().getNaming()}">BANK</p></td>
+                                <td class="w-50">
+                                    <button onclick="editPayment(this)" class="btn btn-primary">Edit</button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary" th:value="${payment.getId()}" onclick="deletePayment(this)">Delete</button>
+                                </td>
+                            </tr>
+                            <tr class="d-none">
+                                <td class="w-100" colspan="3">
+                                    <h2 class="position-relative w-100 status"></h2>
+                                    <form class="d-flex flex-column align-content-center justify-content-around mt-3" content="multipart/form-data">
+                                        <div class="col-auto my-3 input-group valid">
+                                            <input name="bank" type="text" class="form-control"
+                                                   th:value="${payment.getBank().getNaming()}" readonly>
+                                        </div>
+                                        <div class="col-auto my-3 input-group valid">
+                                            <input name="card" type="text" class="form-control" th:value="${payment.getCard()}"
+                                                   placeholder="Card" onchange="processCard(this , 'edit' , 'change')" required>
+                                        </div>
+                                        <div class="col-auto my-3 input-group valid">
+                                            <input name="iban" type="text" class="form-control" th:value="${payment.getIban()}"
+                                                   onchange="processIBAN(this , 'edit' , 'change')" placeholder="IBAN">
+                                        </div>
+                                        <div class="col-auto my-3 input-group valid">
+                                            <input name="receiver" type="text" class="form-control" th:value="${payment.getReceiver()}"
+                                                   onchange="processReceiver(this , 'edit' , 'change')" placeholder="Receiver">
+                                        </div>
+                                        <div class="col-auto d-flex justify-content-center mt-5">
+                                            <button type="button" class="btn btn-primary mb-5 w-50" onclick="confirmEdit(this)">Confirm!</button>
+                                        </div>
+                                        <input name="id" type="text" th:value="${payment.getId()}" hidden>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tag>
+                        <tag th:if="${payments.size() == 0}">
+                            <tr>
+                                <td>NULL</td>
+                                <td class="w-50">NULL</td>
+                                <td>NULL</td>
+                            </tr>
+                        </tag>
+                    </tbody>
+                    <tbody id="adding-payment-body" class="d-none">
+                        <tr>
+                            <td colspan="3">
+                                <h2 class="position-relative w-100 status" id="add-payment-sec-title"></h2>
+                                <form class="d-flex flex-column align-content-center justify-content-around mt-3" content="multipart/form-data">
+                                    <div class="col-auto my-3 input-group valid BANK_BOX">
+                                        <select class="form-select" onchange="processBank(this , 'change')">
+                                            <option selected disabled>Choose bank</option>
+                                            <option th:each="bank : ${banks}" th:value="${bank.name()}" th:text="${bank.getNaming()}"></option>
+                                        </select>
+                                    </div>
+                                    <div class="col-auto my-3 input-group valid">
+                                        <input name="card" type="text" class="form-control"
+                                               placeholder="Card" onchange="processCard(this , 'add' , 'change')" required>
+                                    </div>
+                                    <div class="col-auto my-3 input-group valid">
+                                        <input name="iban" type="text" class="form-control"
+                                               placeholder="IBAN" onchange="processIBAN(this , 'add' , 'change')">
+                                    </div>
+                                    <div class="col-auto my-3 input-group valid">
+                                        <input name="receiver" type="text" class="form-control"
+                                               onchange="processReceiver(this , 'edit' , 'change')" placeholder="Receiver">
+                                    </div>
+                                    <div class="col-auto d-flex justify-content-center mt-5">
+                                        <button type="button" class="btn btn-primary mb-5 w-50" onclick="confirmAdd(this)">Confirm!</button>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody id="history-body" class="d-none">
+                        <tr>
+                            <td colspan="3">
+                                <h2 class="position-relative w-100 status"></h2>
+                                <form class="d-flex flex-column align-content-center justify-content-around mt-3">
+                                    <div class="col-auto my-3 input-group valid">
+                                                <textarea name="content" class="form-control resize" maxlength="10000" rows="20"
+                                                          placeholder="Home page text" onchange="processDescription(this , 'edit' , 'change')" required></textarea>
+                                    </div>
+                                    <div class="col-auto d-flex justify-content-center">
+                                        <button type="button" class="btn btn-primary mb-5 w-50" onclick="submitHomePageText(this)">Confirm!</button>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--WebSocket message alert-->
+<h2 class="bg-light alert-text d-none" id="alert-message">Please reload the page , there are changes incoming</h2>
+<button type="button" class="btn btn-danger alert d-none" id="alert-changes" about="Incoming changes , please reload page">!</button>
+<!--Bootstrap-->
+<script src="/user/modules/js/bootstrap.bundle.js"></script>
+<script src="/user/modules/js/bootstrap.esm.js"></script>
+<script src="/user/modules/js/bootstrap.js"></script>
+<script src="/user/personal/admin/scripts/logout.js"></script>
+<script src="/user/personal/admin/scripts/session.js"></script>
+<script src="/manager/scripts/v2/validation.js"></script>
+<script src="/manager/scripts/v2/switcher.js"></script>
+<script src="/manager/scripts/v2/onresize-onload.js"></script>
+<script src="/manager/scripts/v2/userManagementTools.js"></script>
+<script src="/manager/scripts/v2/articleManagementTools.js"></script>
+<script src="/manager/scripts/v2/settingsManagementTools.js"></script>
+<script src="/manager/scripts/v2/changesAlert.js"></script>
+<script src="/manager/scripts/v2/filter.js"></script>
+<script src="/websocket/websocketSender.js"></script>
+</body>
+</html>
