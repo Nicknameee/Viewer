@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Dobrovolets</title>
+    <title>Доброволець</title>
     <!--SockJS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.0/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.0/sockjs.js"></script>
@@ -30,24 +30,24 @@
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
     <div class="container">
-        <a class="navbar-brand hover-title" onclick="scrollToTop()">Dobrovolets</a>
+        <a class="navbar-brand hover-title" onclick="scrollToTop()">Доброволець</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            Menu
+            Меню
             <i class="fas fa-bars ms-1"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                <li class="nav-item hover-item"><a class="nav-link" th:href="@{'/api/all/home?lang=' + ${lang}}">Home</a></li>
-                <li class="nav-item hover-item"><a class="nav-link" href="#portfolio">Media</a></li>
-                <li th:if="${authenticated == true}" class="nav-item hover-item"><a class="nav-link" th:href="@{/api/user/personal}">Profile</a></li>
-                <li th:if="${authenticated == false}" class="nav-item hover-item"><a class="nav-link" th:href="@{/api/authentication/user/login}">Login</a></li>
+                <li class="nav-item hover-item"><a class="nav-link" th:href="@{'/api/all/home?lang=' + ${lang}}">Головна</a></li>
+                <li class="nav-item hover-item"><a class="nav-link" href="#portfolio">Медіа</a></li>
+                <li th:if="${authenticated == true}" class="nav-item hover-item"><a class="nav-link" th:href="@{/api/user/personal}">Профіль</a></li>
+                <li th:if="${authenticated == false}" class="nav-item hover-item"><a class="nav-link" th:href="@{/api/authentication/user/login}">Вхід</a></li>
                 <li>
                     <div class="dropdown">
                         <button class="btn btn-dark dropdown-toggle" type="button" id="languageSelect" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            EN
+                            UA
                         </button>
                         <div class="dropdown-menu" aria-labelledby="languageSelect">
-                            <a class="dropdown-item" onclick="changeLanguage(this)">UA</a>
+                            <a class="dropdown-item" onclick="changeLanguage(this)">EN</a>
                         </div>
                     </div>
                 </li>
@@ -59,13 +59,13 @@
 <section class="page-section bg-black" id="about">
     <div class="container">
         <div class="text-center">
-            <h2 class="section-heading text-uppercase text-light">Content</h2>
+            <h2 class="section-heading text-uppercase text-light">Зміст</h2>
         </div>
         <ul class="timeline">
             <li>
                 <div class="timeline-panel">
                     <div class="timeline-heading">
-                        <h4 th:text="${article.getName()}" class="subheading text-light">History</h4>
+                        <h4 th:text="${article.getName()}" class="subheading text-light">Назва</h4>
                     </div>
                     <div class="timeline-body">
                         <p th:if="${article.getText().length() > 1000}" th:text="${article.getText().substring(0 , 1000)}" class="text-light">
@@ -120,7 +120,7 @@
 <section class="page-section bg-dark" id="portfolio">
     <div class="container">
         <div class="text-center">
-            <h2 class="section-heading text-uppercase text-light">Media</h2>
+            <h2 class="section-heading text-uppercase text-light">Фото та відео</h2>
         </div>
         <div class="row d-flex justify-content-center">
             <div th:if="${article.getResources().size() > 0}" th:each="resource : ${article.getResources()}" class="col-lg-4 col-sm-6 mb-4 flex-grow-1">
@@ -128,7 +128,7 @@
                 <div class="portfolio-item d-flex flex-column h-100">
                     <a class="portfolio-link w-100" data-bs-toggle="modal" target="_blank" href="">
                         <div th:if="${resource.getFiletype().name()} eq 'IMAGE'" class="portfolio-hover" onclick="lightshot(this)">
-                            <div class="portfolio-hover-content">View</div>
+                            <div class="portfolio-hover-content">Переглянути</div>
                         </div>
                         <img th:if="${resource.getFiletype().name()} eq 'IMAGE'"
                              class="img-fluid" th:src="@{'https://drive.google.com/uc?export=view&id=' + ${resource.getFileId()}}" alt="Card" />
@@ -143,7 +143,7 @@
                 </div>
             </div>
             <div th:if="${article.getResources().size() == 0}" class="col-lg-4 col-sm-6 mb-4 d-flex justify-content-center w-100">
-                <h4 class="section-heading text-uppercase text-light">No attachments were found</h4>
+                <h4 class="section-heading text-uppercase text-light">Медіа дані відсутні</h4>
             </div>
         </div>
     </div>
@@ -172,8 +172,8 @@
     </div>
 </footer>
 <div id="changes-alert" class="alert alert-warning position-fixed alert-position d-none" role="alert">
-    <h4 class="alert-heading">Warning!</h4>
-    <p>There are incoming changes , please <a onclick="location.reload()" class="alert-link pointer-event">reload the page</a></p>
+    <h4 class="alert-heading">Увага!</h4>
+    <p>Для даної сторінки надійшли зміни, будь ласка <a onclick="location.reload()" class="alert-link pointer-event">оновіть сторінку</a></p>
 </div>
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

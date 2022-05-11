@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/api/all")
@@ -29,21 +30,36 @@ public class AnyAuthorityController {
     }
 
     @GetMapping("/home")
-    public String home(Model model) {
+    public String home(Model model , @RequestParam(value = "lang" , required = false) String language) {
         model.addAttribute("payments" , paymentService.getAll());
         model.addAttribute("articles" , articleService.getAll());
         model.addAttribute("authenticated" , !SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser"));
-        return "/all/home";
+        if (language == null || language.isEmpty() || language.equals("EN")) {
+            model.addAttribute("lang" , "EN");
+            return "/all/home";
+        }
+        model.addAttribute("lang" , "UA");
+        return "/all/homeUA";
     }
 
     @GetMapping("/article/{secret}")
-    public String article(@PathVariable("secret") String secret , Model model) {
+    public String article(@PathVariable("secret")                          String secret,
+                          @RequestParam(value = "lang" , required = false) String language,
+                          Model model) {
         Article article = articleService.getArticleBySecret(secret);
         if (article == null) {
-            return "redirect:/api/all/home?error=article_not_found";
+            if (language == null || language.isEmpty() || language.equals("EN")) {
+                return "redirect:/api/all/home?lang=EN";
+            }
+            return "redirect:/api/all/home";
         }
         model.addAttribute("article" , article);
         model.addAttribute("authenticated" , !SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser"));
-        return "/all/article";
+        if (language == null || language.isEmpty() || language.equals("EN")) {
+            model.addAttribute("lang" , "EN");
+            return "/all/article";
+        }
+        model.addAttribute("lang" , "UA");
+        return "/all/articleUA";
     }
 }

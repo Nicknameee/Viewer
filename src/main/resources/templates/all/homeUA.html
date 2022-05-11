@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Dobrovolets</title>
+    <title>Доброволець</title>
     <!--SockJS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.0/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.0/sockjs.js"></script>
@@ -29,25 +29,25 @@
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
     <div class="container">
-        <a class="navbar-brand hover-title" onclick="scrollToTop()">Dobrovolets</a>
+        <a class="navbar-brand hover-title" onclick="scrollToTop()">Доброволець</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            Menu
+            Меню
             <i class="fas fa-bars ms-1"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                <li class="nav-item hover-item"><a class="nav-link" href="#portfolio">Articles</a></li>
-                <li class="nav-item hover-item"><a class="nav-link" href="#about">About</a></li>
-                <li class="nav-item hover-item"><a class="nav-link" href="#contact">Contact</a></li>
-                <li th:if="${authenticated == true}" class="nav-item hover-item"><a class="nav-link" th:href="@{/api/user/personal}">Profile</a></li>
-                <li th:if="${authenticated == false}" class="nav-item hover-item"><a class="nav-link" th:href="@{/api/authentication/user/login}">Login</a></li>
+                <li class="nav-item hover-item"><a class="nav-link" href="#portfolio">Новини</a></li>
+                <li class="nav-item hover-item"><a class="nav-link" href="#about">Про нас</a></li>
+                <li class="nav-item hover-item"><a class="nav-link" href="#contact">Контакти</a></li>
+                <li th:if="${authenticated == true}" class="nav-item hover-item"><a class="nav-link" th:href="@{/api/user/personal}">Профіль</a></li>
+                <li th:if="${authenticated == false}" class="nav-item hover-item"><a class="nav-link" th:href="@{/api/authentication/user/login}">Вхід</a></li>
                 <li>
                     <div class="dropdown">
                         <button class="btn btn-dark dropdown-toggle" type="button" id="languageSelect" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            EN
+                            UA
                         </button>
                         <div class="dropdown-menu" aria-labelledby="languageSelect">
-                            <a class="dropdown-item" onclick="changeLanguage(this)">UA</a>
+                            <a class="dropdown-item" onclick="changeLanguage(this)">EN</a>
                         </div>
                     </div>
                 </li>
@@ -58,18 +58,18 @@
 <!-- Masthead-->
 <header class="masthead">
     <div class="container-fluid h-75">
-        <div class="masthead-heading text-uppercase my-5">Join us!</div>
-        <a class="btn btn-light btn-xl text-uppercase my-5 hover-btn" href="#contact">Support</a>
+        <div class="masthead-heading text-uppercase my-5">Приєднуйся до нас!</div>
+        <a class="btn btn-light btn-xl text-uppercase my-5 hover-btn" href="#contact">Підтримка</a>
     </div>
 </header>
 <!-- Article Grid-->
 <section class="page-section bg-dark" id="portfolio">
     <div class="container">
         <div th:if="${articles.size() > 0}" class="input-group rounded w-50 mx-auto my-3">
-            <input type="text" class="form-control search" id="filterArticle" placeholder="Search"/>
+            <input type="text" class="form-control search" id="filterArticle" placeholder="Пошук"/>
         </div>
         <div class="text-center">
-            <h2 class="section-heading text-uppercase text-light">Articles</h2>
+            <h2 class="section-heading text-uppercase text-light">Новини</h2>
         </div>
         <div class="row d-flex justify-content-center ART_PLACE">
             <div th:if="${articles.size() > 0}" th:each="article : ${articles}" class="col-lg-4 col-sm-6 mb-4 ART_BOX">
@@ -78,7 +78,7 @@
                     <a class="portfolio-link" target="_blank"
                        th:href="@{'/api/all/article/' + ${article.getSecret()} + '?lang=' + ${lang}}">
                         <div class="portfolio-hover">
-                            <div class="portfolio-hover-content">View</div>
+                            <div class="portfolio-hover-content">Переглянути</div>
                         </div>
                         <img class="img-fluid" src="/all/media/assets/img/portfolio/card.png" alt="Card" />
                     </a>
@@ -88,7 +88,7 @@
                 </div>
             </div>
             <div th:if="${articles.size() == 0}" class="col-lg-4 col-sm-6 mb-4 w-100">
-                <div class="msg-default text-light my-5 w-100 text-center"><h3 class="w-100 text-light text-center">No articles were added yet</h3></div>
+                <div class="msg-default text-light my-5 w-100 text-center"><h3 class="w-100 text-light text-center">Новин ще не має</h3></div>
             </div>
         </div>
     </div>
@@ -97,7 +97,7 @@
 <section class="page-section" id="about">
     <div class="container">
         <div class="text-center">
-            <h2 class="section-heading text-uppercase">About</h2>
+            <h2 class="section-heading text-uppercase">Про нас</h2>
         </div>
         <ul class="timeline">
             <li>
@@ -106,7 +106,7 @@
                 </div>
                 <div class="timeline-panel">
                     <div class="timeline-heading">
-                        <h4 class="subheading">DOBROVOLETS</h4>
+                        <h4 class="subheading">Доброволець</h4>
                     </div>
                     <div class="timeline-body">
                         <p class="">
@@ -184,7 +184,7 @@
 <section class="page-section bg-dark" id="contact">
     <div class="container my-5">
         <div class="text-center my-2">
-            <h2 class="section-heading text-uppercase">Payment Support</h2>
+            <h2 class="section-heading text-uppercase">Фінансова підтримка</h2>
             <h2 class="section-heading text-uppercase invisible">-</h2>
         </div>
         <form id="contactForm" class="my-2">
@@ -202,7 +202,7 @@
                     </p>
                 </div>
                 <div th:if="${payments.size() == 0}" class="col-md-6 my-5">
-                    <h3 class="w-100 text-light text-center">We have not added payment data yet</h3>
+                    <h3 class="w-100 text-light text-center">Платіжні дані ще не були додані</h3>
                 </div>
             </div>
         </form>
@@ -232,8 +232,8 @@
     </div>
 </footer>
 <div id="changes-alert" class="alert alert-warning position-fixed alert-position d-none" role="alert">
-    <h4 class="alert-heading">Warning!</h4>
-    <p>There are incoming changes , please <a onclick="location.reload()" class="alert-link pointer-event">reload the page</a></p>
+    <h4 class="alert-heading">Увага!</h4>
+    <p>Для даної сторінки надійшли зміни, будь ласка <a onclick="location.reload()" class="alert-link pointer-event">оновіть сторінку</a></p>
 </div>
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

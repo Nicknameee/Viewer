@@ -1,3 +1,14 @@
+function changeLanguage(element) {
+    let link = location.protocol + location.host + location.pathname
+    let url = new URL(link);
+    if ($(element).text() === 'EN') {
+        url.searchParams.append('lang' , 'EN')
+    }
+    if ($(element).text() === 'UA') {
+        url.searchParams.append('lang' , 'UA')
+    }
+    location.href = url.href
+}
 window.onload = function () {
     scrollToTop()
     connectHome()
