@@ -30,7 +30,6 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/api/manager")
-@CrossOrigin(origins = "*")
 public class ManagerController {
     private UserService userService;
 

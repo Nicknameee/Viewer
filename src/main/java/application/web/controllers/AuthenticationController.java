@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/api/authentication")
-@CrossOrigin(origins = "*")
 public class AuthenticationController {
     @GetMapping("/user/login")
     public String login(Model model,

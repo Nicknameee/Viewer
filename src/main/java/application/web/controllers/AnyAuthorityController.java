@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/api/all")
-@CrossOrigin(origins = "*")
 public class AnyAuthorityController {
     private ArticleService articleService;
 
