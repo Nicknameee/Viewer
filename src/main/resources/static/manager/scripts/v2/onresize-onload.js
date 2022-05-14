@@ -80,6 +80,10 @@ window.onload = async function () {
         $("#articles-menu").addClass('hide')
         $("#settings-menu").removeClass('hide')
     }
+    if (sec === 'promo') {
+        $("#articles-menu").addClass('hide')
+        $("#promo-menu").removeClass('hide')
+    }
     if ($(window).width() < 1200) {
         $("#dropdown").removeClass('d-none')
         $("#home").addClass('d-none')

@@ -200,6 +200,7 @@ async function submitAdd(element) {
                         function(response) {
                             closeGif()
                             if (response.success) {
+                                sendAlertRequestHomePage()
                                 $(element).parent().parent().parent().children().eq(0).attr('about' , 'Article created successfully')
                                 setTimeout(function () {$(element).parent().parent().parent().children().eq(0).attr('about' , ''); location.reload()} , 2000)
                             }
@@ -208,7 +209,6 @@ async function submitAdd(element) {
                                 setTimeout(function () {$(element).parent().parent().parent().children().eq(0).attr('about' , '')} , 3000)
                                 console.log(response.error)
                             }
-                            sendAlertRequestHomePage()
                         },
                     error:
                         function(response) {
@@ -264,6 +264,9 @@ async function submitEdit(element) {
                         function (response) {
                             closeGif()
                             if (response.success) {
+                                let artSecret = $(element).parent().parent().children('.secret').val()
+                                sendAlertRequestArticlePage(artSecret)
+                                sendAlertRequestHomePage()
                                 $(element).parent().parent().parent().children().eq(0).attr('about', 'Article updated successfully')
                                 setTimeout(function () {
                                     $(element).parent().parent().parent().children().eq(0).attr('about', '');
@@ -276,9 +279,6 @@ async function submitEdit(element) {
                                 }, 3000)
                                 console.log(response.error)
                             }
-                            let artSecret = $(element).parent().parent().children('.secret').val()
-                            sendAlertRequestArticlePage(artSecret)
-                            sendAlertRequestHomePage()
                         },
                     error:
                         function (response) {
@@ -319,6 +319,8 @@ async function deleteArticle(element) {
                         function(response) {
                             closeGif()
                             if (response.success) {
+                                sendAlertRequestArticlePage(artSecret)
+                                sendAlertRequestHomePage()
                                 $(element).parent().parent().remove()
                                 $(element).parent().parent().next().remove()
                                 location.reload()
@@ -326,8 +328,6 @@ async function deleteArticle(element) {
                             else {
                                 console.log(response.error)
                             }
-                            sendAlertRequestArticlePage(artSecret)
-                            sendAlertRequestHomePage()
                         },
                     error:
                         function(response) {

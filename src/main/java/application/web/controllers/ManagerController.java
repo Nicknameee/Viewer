@@ -22,6 +22,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -156,9 +157,26 @@ public class ManagerController {
         return response;
     }
 
+    @DeleteMapping("/promo/delete")
+    @ResponseBody
+    @PreAuthorize("hasAuthority('access:admin:delete')")
+    public ApplicationWebResponse deletePromo(@RequestParam("id") Long promoId) {
+        PromoResponse response = new PromoResponse();
+        try {
+            promoService.deletePromo(promoId);
+            response.setSuccess(true);
+            response.setError(null);
+        }
+        catch (Exception e) {
+            response.setSuccess(false);
+            response.setError(e.getMessage());
+        }
+        return response;
+    }
+
     @PostMapping("/article/create")
     @ResponseBody
-    @PreAuthorize("hasAuthority('access:admin:create')")
+    @PreAuthorize("hasAnyAuthority('access:admin:create' , 'access:moderator:create')")
     public ApplicationWebResponse createArticle(@RequestParam("title")                              String title,
                                                 @RequestParam("content")                            String content,
                                                 @RequestParam(value = "media" , required = false)   MultipartFile[] files) throws Exception {
@@ -178,7 +196,7 @@ public class ManagerController {
 
     @PutMapping("/article/update")
     @ResponseBody
-    @PreAuthorize("hasAuthority('access:admin:update')")
+    @PreAuthorize("hasAnyAuthority('access:admin:update' , 'access:moderator:update')")
     public ApplicationWebResponse updateArticle(@RequestParam("title")                              String title,
                                                 @RequestParam("content")                            String content,
                                                 @RequestParam(value = "media" , required = false)   MultipartFile[] files,
@@ -199,7 +217,7 @@ public class ManagerController {
 
     @DeleteMapping("/article/delete")
     @ResponseBody
-    @PreAuthorize("hasAuthority('access:admin:delete')")
+    @PreAuthorize("hasAnyAuthority('access:admin:delete' , 'access:moderator:delete')")
     public ApplicationWebResponse deleteArticle(@RequestParam("id") Long articleId) {
         ArticleResponse response = new ArticleResponse();
         try {
@@ -215,7 +233,7 @@ public class ManagerController {
 
     @DeleteMapping("/article/resource")
     @ResponseBody
-    @PreAuthorize("hasAuthority('access:admin:delete')")
+    @PreAuthorize("hasAnyAuthority('access:admin:delete' , 'access:moderator:delete')")
     public ApplicationWebResponse deleteResourceFromArticle(@RequestParam("filename") String filename,
                                                             @RequestParam("id")       String articleId) {
         ArticleResourceResponse response = new ArticleResourceResponse();
@@ -225,7 +243,8 @@ public class ManagerController {
             response.setError(null);
             if (article != null) {
                 loadableResourceService.deleteLoadableResourceByName(filename ,
-                        article.getResources().stream().filter(file -> file.getFilename().equals(filename)).findFirst().get().getFileId() ,
+                        article.getResources().stream()
+                                .filter(file -> file.getFilename().equals(filename)).findFirst().get().getFileId() ,
                         driveAPIService);
                 response.setSuccess(true);
             }
@@ -257,7 +276,7 @@ public class ManagerController {
 
     @PostMapping("/payment/create")
     @ResponseBody
-    @PreAuthorize("hasAuthority('access:admin:create')")
+    @PreAuthorize("hasAnyAuthority('access:admin:create' , 'access:moderator:create')")
     public ApplicationWebResponse addPaymentModel(@RequestParam("card")                            String card,
                                                   @RequestParam(value = "iban" , required = false) String IBAN,
                                                   @RequestParam("bank")                            Bank bank,
@@ -277,7 +296,7 @@ public class ManagerController {
 
     @PutMapping("/payment/update")
     @ResponseBody
-    @PreAuthorize("hasAuthority('access:admin:update')")
+    @PreAuthorize("hasAnyAuthority('access:admin:update' , 'access:moderator:update')")
     public ApplicationWebResponse updatePaymentModel(@RequestParam("card")                            String card,
                                                      @RequestParam(value = "iban" , required = false) String IBAN,
                                                      @RequestParam("receiver")                        String receiver,
@@ -298,7 +317,7 @@ public class ManagerController {
 
     @DeleteMapping("/payment/delete")
     @ResponseBody
-    @PreAuthorize("hasAuthority('access:admin:delete')")
+    @PreAuthorize("hasAnyAuthority('access:admin:delete' , 'access:moderator:delete')")
     public ApplicationWebResponse deletePaymentModel(@RequestParam("id") Long id) {
         PaymentResponse response = new PaymentResponse();
         try {
@@ -315,8 +334,8 @@ public class ManagerController {
 
     @GetMapping("/session/valid")
     @ResponseBody
-    @PreAuthorize("hasAnyAuthority('access:user:read' , 'access:admin:read')")
-    public ApplicationWebResponse isSessionValid(HttpSession session) {
+    @PreAuthorize("hasAnyAuthority('access:user:read' , 'access:moderator:read' , 'access:admin:read')")
+    public ApplicationWebResponse isSessionValid() {
         SessionValidResponse response = new SessionValidResponse();
         try {
             String mail = SecurityContextHolder.getContext().getAuthentication().getName();

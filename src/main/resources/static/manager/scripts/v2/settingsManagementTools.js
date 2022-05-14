@@ -158,6 +158,7 @@ async function confirmAdd(element) {
                     success:
                         function(response) {
                             if (response.success) {
+                                sendAlertRequestHomePage()
                                 $("#add-payment-sec-title").attr('about' , 'Payment data were registered successfully')
                                 setTimeout(function () {
                                     $("#add-payment-sec-title").attr('about' , '');
@@ -227,6 +228,7 @@ async function confirmEdit(element) {
                     success:
                         function(response) {
                             if (response.success) {
+                                sendAlertRequestHomePage()
                                 $(element).parent().parent().parent().children().eq(0).attr('about' , 'Payment data were updated successfully')
                                 setTimeout(function () {
                                     $("#add-payment-sec-title").attr('about' , '');
@@ -275,8 +277,14 @@ async function deletePayment(element) {
                     success:
                         function(response) {
                             if (response.success) {
-                                $(element).parent().parent().next().remove()
-                                $(element).parent().parent().remove()
+                                sendAlertRequestHomePage()
+                                setTimeout(function () {
+                                    $("#add-payment-sec-title").attr('about' , '');
+                                    let link = window.location.href
+                                    let url = new URL(link);
+                                    url.searchParams.append('sec' , 'payment')
+                                    location.href = url.href
+                                } , 2000)
                             }
                             else {
                                 console.log(response.error)
@@ -297,20 +305,4 @@ async function deletePayment(element) {
         }
 
     }
-}
-async function submitHomePageText(element) {
-    let form = $(element).parent().parent()[0]
-    let formData = new FormData(form)
-    let count = 0
-    $(form).children().each(function () {
-        if (count === 0) {
-            processDescription($(this).children().eq(0) , 'add' , 'submit')
-        }
-        count++
-    })
-    if (canConfirmDescription) {
-        $(element).parent().parent().parent().children().eq(0).attr('about' , 'RESPONSE_STATUS')
-        setTimeout(function () {$(element).parent().parent().parent().children().eq(0).attr('about' , '')} , 3000)
-    }
-    canConfirmDescription = true
 }
