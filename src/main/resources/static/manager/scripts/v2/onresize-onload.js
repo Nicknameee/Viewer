@@ -66,6 +66,7 @@ $(window).resize(function () {
 })
 window.onload = async function () {
     connectToSocket()
+    connectAdmin()
     let sessionValid = await checkSessionValidity()
     if (!sessionValid) {
         let link = location.protocol + location.host + "/api/authentication/user/login"

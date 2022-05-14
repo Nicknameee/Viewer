@@ -158,6 +158,7 @@ async function confirmAdd(element) {
                     success:
                         function(response) {
                             if (response.success) {
+                                sendAlertRequestAdminPage("Payment adding for bank '" + formData.get('bank') + "' with card number '" + formData.get('card') + "'")
                                 sendAlertRequestHomePage()
                                 $("#add-payment-sec-title").attr('about' , 'Payment data were registered successfully')
                                 setTimeout(function () {
@@ -228,6 +229,7 @@ async function confirmEdit(element) {
                     success:
                         function(response) {
                             if (response.success) {
+                                sendAlertRequestAdminPage("Payment editing for bank '" + formData.get('bank') + "'")
                                 sendAlertRequestHomePage()
                                 $(element).parent().parent().parent().children().eq(0).attr('about' , 'Payment data were updated successfully')
                                 setTimeout(function () {
@@ -277,6 +279,7 @@ async function deletePayment(element) {
                     success:
                         function(response) {
                             if (response.success) {
+                                sendAlertRequestAdminPage("Payment deleting with ID '" + $(element).val() + "'")
                                 sendAlertRequestHomePage()
                                 setTimeout(function () {
                                     $("#add-payment-sec-title").attr('about' , '');

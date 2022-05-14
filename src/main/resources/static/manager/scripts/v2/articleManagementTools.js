@@ -91,6 +91,7 @@ async function dropFile(element) {
                     function(response) {
                         closeGif()
                         if (response.success) {
+                            sendAlertRequestAdminPage("Removing a resource with name '" + $(deletingFile).val() + "' from article with ID '" + artId + "'")
                             $(element).parent().parent().prev().attr('about' , 'Resource has been removed successfully')
                             setTimeout(function () {$(element).parent().parent().prev().attr('about' , ''); $(element).parent().remove()} , 3000)
                         }
@@ -200,6 +201,7 @@ async function submitAdd(element) {
                         function(response) {
                             closeGif()
                             if (response.success) {
+                                sendAlertRequestAdminPage("Adding an article with name '" + formData.get("title") + "'")
                                 sendAlertRequestHomePage()
                                 $(element).parent().parent().parent().children().eq(0).attr('about' , 'Article created successfully')
                                 setTimeout(function () {$(element).parent().parent().parent().children().eq(0).attr('about' , ''); location.reload()} , 2000)
@@ -264,6 +266,7 @@ async function submitEdit(element) {
                         function (response) {
                             closeGif()
                             if (response.success) {
+                                sendAlertRequestAdminPage("Editing an article with name '" + formData.get("title") + "'")
                                 let artSecret = $(element).parent().parent().children('.secret').val()
                                 sendAlertRequestArticlePage(artSecret)
                                 sendAlertRequestHomePage()
@@ -319,6 +322,7 @@ async function deleteArticle(element) {
                         function(response) {
                             closeGif()
                             if (response.success) {
+                                sendAlertRequestAdminPage("Deleting an article with ID '" + artId + "'")
                                 sendAlertRequestArticlePage(artSecret)
                                 sendAlertRequestHomePage()
                                 $(element).parent().parent().remove()

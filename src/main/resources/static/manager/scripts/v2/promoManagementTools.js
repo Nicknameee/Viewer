@@ -45,6 +45,7 @@ async function confirmAddPromo(element) {
                 success:
                     function (response) {
                         if (response.success) {
+                            sendAlertRequestAdminPage("Adding a promo with type '" + formData.get('type') + "'")
                             $("#add-promo-sec-title").attr('about' , 'Promo has been added successfully')
                             setTimeout(function () {
                                 $("#add-promo-sec-title").attr('about' , '')
@@ -91,6 +92,7 @@ async function deletePromo(element) {
                 success:
                     function (response) {
                         if (response.success) {
+                            sendAlertRequestAdminPage("Deleting a promo with ID '" + $(element).val() + "'")
                             $(element).parent().parent().next().remove()
                             $(element).parent().parent().remove()
                             let link = window.location.href

@@ -282,7 +282,7 @@
                     </ul>
                     <ul class="list-group w-100 mx-1">
                         <li class="list-group-item text-center" th:text="${user.getUsername()}">TEXT</li>
-                        <li class="list-group-item text-center" th:text="${user.getMail()}">TEXT</li>
+                        <li class="list-group-item text-center" th:text="${user.getMail()}" id="email">TEXT</li>
                         <li class="list-group-item text-center" th:text="${user.getRole()}">TEXT</li>
                         <li class="list-group-item text-center" th:text="${user.getStatus()}">TEXT</li>
                     </ul>
@@ -392,7 +392,7 @@
                                                           placeholder="Home page text" onchange="processDescription(this , 'edit' , 'change')" required></textarea>
                                     </div>
                                     <div class="col-auto d-flex justify-content-center">
-                                        <button type="button" class="btn btn-primary mb-5 w-50" onclick="submitHomePageText(this)">Confirm!</button>
+                                        <button type="button" class="btn btn-primary mb-5 w-50">Confirm!</button>
                                     </div>
                                 </form>
                             </td>
@@ -404,6 +404,11 @@
     </div>
 </div>
 <!--WebSocket message alert-->
+<div id="changes-alert" class="alert alert-warning position-fixed alert-position d-none" role="alert">
+    <h4 class="alert-heading">Warning!</h4>
+    <p>There are incoming changes , please <a onclick="location.reload()" class="alert-link pointer-event">reload the page</a></p>
+    <p>User  <strong>"<span id="emailAlert"></span>"  </strong>  `caused a: <strong><span id="actionAlert"></span></strong></p>
+</div>
 <!--Bootstrap-->
 <script src="/user/modules/js/bootstrap.bundle.js"></script>
 <script src="/user/modules/js/bootstrap.esm.js"></script>
@@ -411,6 +416,7 @@
 <script src="/user/personal/admin/scripts/logout.js"></script>
 <script src="/user/personal/admin/scripts/session.js"></script>
 <script src="/websocket/websocketSender.js"></script>
+<script src="/websocket/websocketAdmin.js"></script>
 <script src="/manager/scripts/v2/validation.js"></script>
 <script th:if="${user.getRole().name()} == 'ROLE_ADMIN'" src="/manager/scripts/v2/switcher.js"></script>
 <script th:if="${user.getRole().name()} == 'ROLE_MODERATOR'" src="/manager/scripts/v2/moderatorSwitcher.js"></script>
@@ -420,5 +426,6 @@
 <script th:if="${user.getRole().name()} == 'ROLE_ADMIN'" src="/manager/scripts/v2/promoManagementTools.js"></script>
 <script src="/manager/scripts/v2/settingsManagementTools.js"></script>
 <script src="/manager/scripts/v2/filter.js"></script>
+<script src="/manager/scripts/v2/basicAdmin.js"></script>
 </body>
 </html>
