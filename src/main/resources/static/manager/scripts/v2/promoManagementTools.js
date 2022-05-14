@@ -49,10 +49,10 @@ async function confirmAddPromo(element) {
                             $("#add-promo-sec-title").attr('about' , 'Promo has been added successfully')
                             setTimeout(function () {
                                 $("#add-promo-sec-title").attr('about' , '')
-                                let link = window.location.href
+                                let link = window.location.protocol + window.location.host + window.location.pathname;
                                 let url = new URL(link);
-                                url.searchParams.append('sec' , 'promo')
-                                location.href = url.href
+                                url.searchParams.append('sec' , 'promo');
+                                location.href = url.href;
                             } , 1250)
                         }
                         else {
@@ -95,10 +95,10 @@ async function deletePromo(element) {
                             sendAlertRequestAdminPage("Deleting a promo with ID '" + $(element).val() + "'")
                             $(element).parent().parent().next().remove()
                             $(element).parent().parent().remove()
-                            let link = window.location.href
+                            let link = window.location.protocol + window.location.host + window.location.pathname;
                             let url = new URL(link);
-                            url.searchParams.append('sec' , 'promo')
-                            location.href = url.href
+                            url.searchParams.append('sec' , 'promo');
+                            location.href = url.href;
                         }
                         else {
                             console.log(response.error)

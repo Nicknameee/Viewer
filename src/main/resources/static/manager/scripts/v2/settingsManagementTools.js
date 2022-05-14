@@ -163,10 +163,10 @@ async function confirmAdd(element) {
                                 $("#add-payment-sec-title").attr('about' , 'Payment data were registered successfully')
                                 setTimeout(function () {
                                     $("#add-payment-sec-title").attr('about' , '');
-                                    let link = window.location.href
+                                    let link = window.location.protocol + window.location.host + window.location.pathname;
                                     let url = new URL(link);
-                                    url.searchParams.append('sec' , 'payment')
-                                    location.href = url.href
+                                    url.searchParams.append('sec' , 'payment');
+                                    location.href = url.href;
                                 } , 2000)
                             }
                             else {
@@ -234,10 +234,10 @@ async function confirmEdit(element) {
                                 $(element).parent().parent().parent().children().eq(0).attr('about' , 'Payment data were updated successfully')
                                 setTimeout(function () {
                                     $("#add-payment-sec-title").attr('about' , '');
-                                    let link = window.location.href
+                                    let link = window.location.protocol + window.location.host + window.location.pathname;
                                     let url = new URL(link);
-                                    url.searchParams.append('sec' , 'payment')
-                                    location.href = url.href
+                                    url.searchParams.append('sec' , 'payment');
+                                    location.href = url.href;
                                 } , 2000)
                             }
                             else {
@@ -283,10 +283,10 @@ async function deletePayment(element) {
                                 sendAlertRequestHomePage()
                                 setTimeout(function () {
                                     $("#add-payment-sec-title").attr('about' , '');
-                                    let link = window.location.href
+                                    let link = window.location.protocol + window.location.host + window.location.pathname;
                                     let url = new URL(link);
-                                    url.searchParams.append('sec' , 'payment')
-                                    location.href = url.href
+                                    url.searchParams.append('sec' , 'payment');
+                                    location.href = url.href;
                                 } , 2000)
                             }
                             else {

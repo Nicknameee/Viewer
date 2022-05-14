@@ -91,6 +91,7 @@ async function dropFile(element) {
                     function(response) {
                         closeGif()
                         if (response.success) {
+                            sendAlertRequestArticlePage(artSecret)
                             sendAlertRequestAdminPage("Removing a resource with name '" + $(deletingFile).val() + "' from article with ID '" + artId + "'")
                             $(element).parent().parent().prev().attr('about' , 'Resource has been removed successfully')
                             setTimeout(function () {$(element).parent().parent().prev().attr('about' , ''); $(element).parent().remove()} , 3000)
@@ -100,7 +101,6 @@ async function dropFile(element) {
                             setTimeout(function () {$(element).parent().parent().prev().attr('about' , '')} , 3000)
                             console.log(response.error)
                         }
-                        sendAlertRequestArticlePage(artSecret)
                     },
                 error:
                     function(response) {
