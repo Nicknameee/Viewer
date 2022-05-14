@@ -54,6 +54,9 @@ async function userEditConfirm(element) {
                     success:
                         function(response) {
                             if (response.success) {
+                                sendAlertRequestAdminPage("User '" + $(mail).text()
+                                    + "' was changed , ROLE: '" + $(role).text() + "' and STATUS '"
+                                    + $(status).text() + "'")
                                 $(element).addClass('disabled')
                             }
                         },

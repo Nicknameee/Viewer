@@ -27,6 +27,10 @@ public class PromoService {
         this.promoRepository = promoRepository;
     }
 
+    public List<Promo> findAll() {
+        return promoRepository.findAll();
+    }
+
     public Promo getPromoByCode(String code) {
         return promoRepository.getPromoByCode(code);
     }
@@ -41,9 +45,16 @@ public class PromoService {
             case CHANGE_ROLE_TO_USER:
                 userService.updateUserRoleForCurrentUser(mail , Role.ROLE_USER);
                 break;
+            case CHANGE_ROLE_TO_MODERATOR:
+                userService.updateUserRoleForCurrentUser(mail , Role.ROLE_MODERATOR);
+                break;
             case CHANGE_ROLE_TO_ADMIN:
                 userService.updateUserRoleForCurrentUser(mail , Role.ROLE_ADMIN);
                 break;
         }
+    }
+
+    public void deletePromo(Long id) {
+        promoRepository.deletePromo(id);
     }
 }

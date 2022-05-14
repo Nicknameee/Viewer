@@ -7,18 +7,26 @@ import java.util.stream.Collectors;
 
 public enum Role {
     ROLE_ADMIN(Set.of(
-                        Permission.CREATE_ADMIN,
-                        Permission.READ_ADMIN,
-                        Permission.UPDATE_ADMIN,
-                        Permission.DELETE_ADMIN
+                            Permission.CREATE_ADMIN,
+                            Permission.READ_ADMIN,
+                            Permission.UPDATE_ADMIN,
+                            Permission.DELETE_ADMIN
                      )
                 )
     ,
+    ROLE_MODERATOR(Set.of(
+                            Permission.CREATE_MODERATOR,
+                            Permission.READ_MODERATOR,
+                            Permission.UPDATE_MODERATOR,
+                            Permission.DELETE_MODERATOR
+                         )
+                  )
+    ,
     ROLE_USER(Set.of(
-                        Permission.CREATE_USER,
-                        Permission.READ_USER,
-                        Permission.UPDATE_USER,
-                        Permission.DELETE_USER
+                            Permission.CREATE_USER,
+                            Permission.READ_USER,
+                            Permission.UPDATE_USER,
+                            Permission.DELETE_USER
                     )
              );
 

@@ -170,45 +170,6 @@ td {
 .z-index {
     z-index: 1000000 !important;
 }
-.alert {
-    position: fixed;
-    left: 25px;
-    bottom: 25px;
-    width: 40px;
-    height: 40px;
-    font-size: 1em;
-    font-weight: bolder;
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.alert-text {
-    width: 35%;
-    position: fixed;
-    left: 15px;
-    bottom: 75px;
-    background-color: white;
-    border: 1px solid #c80000;
-    border-radius: 13px;
-    padding: 4px 25px 4px 10px;
-    -webkit-transform: translateY(-50%);
-    -moz-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    -o-transform: translateY(-50%);
-    transform: translateY(-50%);
-
-    color: #c80000;
-    font-size: 16px;
-    line-height: 1.4;
-    text-align: left;
-
-    -webkit-transition: opacity 0.4s;
-    -o-transition: opacity 0.4s;
-    -moz-transition: opacity 0.4s;
-    transition: opacity 0.4s;
-}
 .light-bg {
     z-index: 10000000000 !important;
 
@@ -238,4 +199,21 @@ td {
 .gif {
     width: 216px;
     height: 162px;
+}
+@media all and (min-width: 500px) {
+    .alert-position {
+        user-select: none;
+        bottom: 15px;
+        left: 15px;
+        z-index: 10000000000 !important;
+    }
+}
+@media all and (max-width: 498.8px) {
+    .alert-position {
+        user-select: none;
+        bottom: 15px;
+        left: 5px;
+        z-index: 10000000000 !important;
+        max-width: 300px;
+    }
 }

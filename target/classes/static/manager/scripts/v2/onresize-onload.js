@@ -65,7 +65,6 @@ $(window).resize(function () {
     }
 })
 window.onload = async function () {
-    connectToSocket()
     let sessionValid = await checkSessionValidity()
     if (!sessionValid) {
         let link = location.protocol + location.host + "/api/authentication/user/login"
@@ -73,12 +72,18 @@ window.onload = async function () {
         url.searchParams.append('session_invalid' , 'true')
         location.href = url.href
     }
+    connectToSocket()
+    connectAdmin()
     let link = window.location.href
     let url = new URL(link);
     let sec = url.searchParams.get("sec");
     if (sec === 'payment') {
         $("#articles-menu").addClass('hide')
         $("#settings-menu").removeClass('hide')
+    }
+    if (sec === 'promo') {
+        $("#articles-menu").addClass('hide')
+        $("#promo-menu").removeClass('hide')
     }
     if ($(window).width() < 1200) {
         $("#dropdown").removeClass('d-none')

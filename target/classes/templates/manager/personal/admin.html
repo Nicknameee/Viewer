@@ -44,12 +44,12 @@
                 <tr id="article-management">
                     <td><p class="menu-points">Articles</p></td>
                 </tr>
-                <tr id="user-management">
+                <tr th:if="${user.getRole().name()} == 'ROLE_ADMIN'" id="user-management">
                     <td><p class="menu-points">Users</p></td>
                 </tr>
-<!--                <tr id="promo-management">-->
-<!--                    <td><p class="menu-points">Promo</p></td>-->
-<!--                </tr>-->
+                <tr th:if="${user.getRole().name()} == 'ROLE_ADMIN'" id="promo-management">
+                    <td><p class="menu-points">Promo</p></td>
+                </tr>
                 <tr id="profile">
                     <td><p class="menu-points">Profile</p></td>
                 </tr>
@@ -152,7 +152,7 @@
                 </table>
             </div>
         </div>
-        <div class="col-xl-9 min-vh-100 max-vh-100 overflow-scroll hide" id="users-menu">
+        <div class="col-xl-9 min-vh-100 max-vh-100 overflow-scroll hide" id="users-menu" th:if="${user.getRole().name()} == 'ROLE_ADMIN'">
             <div class="container h-100 d-flex align-content-center flex-column justify-content-start">
                 <table class="table table-responsive my-3" id="user-table">
                     <thead class="thead-dark position-sticky top-0 z-index bg-secondary">
@@ -180,8 +180,8 @@
                                         ROLE_USER
                                     </button>
                                     <div class="dropdown-menu text-center">
-                                        <button onclick="change(this)" about="UUID" class="dropdown-item" type="button">ROLE_USER</button>
-                                        <button onclick="change(this)" about="UUID" class="dropdown-item" type="button">ROLE_ADMIN</button>
+                                        <button th:each="role : ${roles}" th:text="${role.name()}"
+                                                onclick="change(this)" about="UUID" class="dropdown-item" type="button">ROLE_USER</button>
                                     </div>
                                 </div>
                             </td>
@@ -214,19 +214,75 @@
                 </table>
             </div>
         </div>
+        <div class="col-xl-9 min-vh-100 max-vh-100 overflow-scroll hide" id="promo-menu" th:if="${user.getRole().name()} == 'ROLE_ADMIN'">
+            <div id="promo-management-box" class="container h-100 d-flex align-content-center justify-content-around">
+                <table class="table table-striped table-dark table-responsive mt-3 mx-1" id="promo-table">
+                    <thead class="thead-dark align-content-center position-sticky top-0">
+                    <tr>
+                        <th class="text-center" scope="col">
+                            <button class="btn btn-primary" id="add-promo">Add promo</button>
+                        </th>
+                        <th class="text-center" scope="col" colspan="2">
+                            <button class="btn btn-primary" id="promo-mod">Promo list</button>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody id="promo-body">
+                    <tag th:if="${promoList.size() > 0}" th:each="promo : ${promoList}">
+                        <tr>
+                            <td>
+                                <p class="d-flex align-content-center text-light" about="data-row" th:text="${promo.getCode()}">PROMO</p>
+                            </td>
+                            <td>
+                                <p class="d-flex align-content-center text-light" about="data-row" th:text="${promo.getType().getDescription()}">ACTION</p>
+                            </td>
+                            <td>
+                                <button class="btn btn-primary" th:value="${promo.getId()}" onclick="deletePromo(this)">Delete</button>
+                            </td>
+                        </tr>
+                    </tag>
+                    <tag th:if="${promoList.size() == 0}">
+                        <tr>
+                            <td>NULL</td>
+                            <td>NULL</td>
+                            <td>NULL</td>
+                        </tr>
+                    </tag>
+                    </tbody>
+                    <tbody id="adding-promo-body" class="d-none">
+                    <tr>
+                        <td colspan="3">
+                            <h2 class="position-relative w-100 status" id="add-promo-sec-title"></h2>
+                            <form class="d-flex flex-column align-content-center justify-content-around mt-3">
+                                <div class="col-auto my-3 input-group valid PROMO_BOX">
+                                    <select class="form-select" onchange="processType(this , 'change')">
+                                        <option selected disabled>Choose type</option>
+                                        <option th:each="type : ${promoTypes}" th:value="${type.name()}" th:text="${type.getDescription()}">Type</option>
+                                    </select>
+                                </div>
+                                <div class="col-auto d-flex justify-content-center mt-5">
+                                    <button type="button" class="btn btn-primary mb-5 w-50" onclick="confirmAddPromo(this)">Generate!</button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <div class="col-xl-9 min-vh-100 max-vh-100 overflow-scroll hide" id="profile-menu">
             <div class="container h-100 d-flex align-content-center flex-column justify-content-center">
                 <h2 class="w-100 d-flex justify-content-center h-auto mt-5">Personal data</h2>
                 <div class="d-flex w-100 h-100 align-content-center justify-content-around mt-5">
-                    <ul class="list-group w-50 mx-1">
+                    <ul class="list-group w-100 mx-1">
                         <li class="list-group-item text-center">Username</li>
                         <li class="list-group-item text-center">Mail</li>
                         <li class="list-group-item text-center">Role</li>
                         <li class="list-group-item text-center">Status</li>
                     </ul>
-                    <ul class="list-group w-50 mx-1">
+                    <ul class="list-group w-100 mx-1">
                         <li class="list-group-item text-center" th:text="${user.getUsername()}">TEXT</li>
-                        <li class="list-group-item text-center" th:text="${user.getMail()}">TEXT</li>
+                        <li class="list-group-item text-center" th:text="${user.getMail()}" id="email">TEXT</li>
                         <li class="list-group-item text-center" th:text="${user.getRole()}">TEXT</li>
                         <li class="list-group-item text-center" th:text="${user.getStatus()}">TEXT</li>
                     </ul>
@@ -336,7 +392,7 @@
                                                           placeholder="Home page text" onchange="processDescription(this , 'edit' , 'change')" required></textarea>
                                     </div>
                                     <div class="col-auto d-flex justify-content-center">
-                                        <button type="button" class="btn btn-primary mb-5 w-50" onclick="submitHomePageText(this)">Confirm!</button>
+                                        <button type="button" class="btn btn-primary mb-5 w-50">Confirm!</button>
                                     </div>
                                 </form>
                             </td>
@@ -348,22 +404,28 @@
     </div>
 </div>
 <!--WebSocket message alert-->
-<h2 class="bg-light alert-text d-none" id="alert-message">Please reload the page , there are changes incoming</h2>
-<button type="button" class="btn btn-danger alert d-none" id="alert-changes" about="Incoming changes , please reload page">!</button>
+<div id="changes-alert" class="alert alert-warning position-fixed alert-position d-none" role="alert">
+    <h4 class="alert-heading">Warning!</h4>
+    <p>There are incoming changes , please <a onclick="location.reload()" class="alert-link pointer-event">reload the page</a></p>
+    <p>User  <strong>"<span id="emailAlert"></span>"  </strong>  `caused a: <strong><span id="actionAlert"></span></strong></p>
+</div>
 <!--Bootstrap-->
 <script src="/user/modules/js/bootstrap.bundle.js"></script>
 <script src="/user/modules/js/bootstrap.esm.js"></script>
 <script src="/user/modules/js/bootstrap.js"></script>
 <script src="/user/personal/admin/scripts/logout.js"></script>
 <script src="/user/personal/admin/scripts/session.js"></script>
-<script src="/manager/scripts/v2/validation.js"></script>
-<script src="/manager/scripts/v2/switcher.js"></script>
-<script src="/manager/scripts/v2/onresize-onload.js"></script>
-<script src="/manager/scripts/v2/userManagementTools.js"></script>
-<script src="/manager/scripts/v2/articleManagementTools.js"></script>
-<script src="/manager/scripts/v2/settingsManagementTools.js"></script>
-<script src="/manager/scripts/v2/changesAlert.js"></script>
-<script src="/manager/scripts/v2/filter.js"></script>
 <script src="/websocket/websocketSender.js"></script>
+<script src="/websocket/websocketAdmin.js"></script>
+<script src="/manager/scripts/v2/validation.js"></script>
+<script th:if="${user.getRole().name()} == 'ROLE_ADMIN'" src="/manager/scripts/v2/switcher.js"></script>
+<script th:if="${user.getRole().name()} == 'ROLE_MODERATOR'" src="/manager/scripts/v2/moderatorSwitcher.js"></script>
+<script src="/manager/scripts/v2/onresize-onload.js"></script>
+<script th:if="${user.getRole().name()} == 'ROLE_ADMIN'" src="/manager/scripts/v2/userManagementTools.js"></script>
+<script src="/manager/scripts/v2/articleManagementTools.js"></script>
+<script th:if="${user.getRole().name()} == 'ROLE_ADMIN'" src="/manager/scripts/v2/promoManagementTools.js"></script>
+<script src="/manager/scripts/v2/settingsManagementTools.js"></script>
+<script src="/manager/scripts/v2/filter.js"></script>
+<script src="/manager/scripts/v2/basicAdmin.js"></script>
 </body>
 </html>

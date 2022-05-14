@@ -3,7 +3,10 @@ package application.web.controllers;
 import application.data.articles.service.ArticleService;
 import application.data.payment.models.Bank;
 import application.data.payment.service.PaymentService;
+import application.data.promo.models.PromoType;
+import application.data.promo.service.PromoService;
 import application.data.users.User;
+import application.data.users.attributes.Role;
 import application.data.users.service.UserService;
 import application.data.verification.VerificationData;
 import application.data.verification.service.VerificationDataService;
@@ -30,6 +33,13 @@ public class UserController {
     private ArticleService articleService;
 
     private PaymentService paymentService;
+
+    private PromoService promoService;
+
+    @Autowired
+    public void setPromoService(PromoService promoService) {
+        this.promoService = promoService;
+    }
 
     @Autowired
     public void setPaymentService(PaymentService paymentService) {
@@ -132,18 +142,22 @@ public class UserController {
     }
 
     @GetMapping("/personal")
-    @PreAuthorize("hasAnyAuthority('access:user:read' , 'access:admin:read')")
+    @PreAuthorize("hasAnyAuthority('access:user:read' , 'access:moderator:read' , 'access:admin:read')")
     public String personalPage(Model model) {
         User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
         model.addAttribute("user" , user);
         switch (user.getRole()) {
             case ROLE_USER:
                 return "/user/personal/user";
+            case ROLE_MODERATOR:
             case ROLE_ADMIN:
                 model.addAttribute("users" , userService.getAllUsersExceptCurrent());
                 model.addAttribute("articles" , articleService.getAll());
                 model.addAttribute("banks" , Bank.values());
                 model.addAttribute("payments" , paymentService.getAll());
+                model.addAttribute("promoList" , promoService.findAll());
+                model.addAttribute("promoTypes" , PromoType.values());
+                model.addAttribute("roles" , Role.values());
                 return "/manager/personal/admin";
         }
         return "/user/authentication/login";
