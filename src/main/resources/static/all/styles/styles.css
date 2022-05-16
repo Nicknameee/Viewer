@@ -11941,3 +11941,6 @@ textarea {
     max-width: 300px;
   }
 }
+.dropdown-menu {
+  min-width: 100% !important;
+}
