@@ -3,6 +3,8 @@ package application.web.controllers;
 import application.data.articles.Article;
 import application.data.articles.service.ArticleService;
 import application.data.payment.service.PaymentService;
+import application.data.users.User;
+import application.data.users.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,13 @@ public class AnyAuthorityController {
 
     private PaymentService paymentService;
 
+    private UserService userService;
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
     @Autowired
     public void setPaymentService(PaymentService paymentService) {
         this.paymentService = paymentService;
@@ -28,6 +37,10 @@ public class AnyAuthorityController {
 
     @GetMapping("/home")
     public String home(Model model , @RequestParam(value = "lang" , required = false) String language) {
+        User user = userService.checkAuthentication();
+        if (user != null) {
+            language = user.getLanguage().name();
+        }
         model.addAttribute("payments" , paymentService.getAll());
         model.addAttribute("articles" , articleService.getAll());
         model.addAttribute("authenticated" , !SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser"));
@@ -43,6 +56,10 @@ public class AnyAuthorityController {
     public String article(@PathVariable("secret")                          String secret,
                           @RequestParam(value = "lang" , required = false) String language,
                           Model model) {
+        User user = userService.checkAuthentication();
+        if (user != null) {
+            language = user.getLanguage().name();
+        }
         Article article = articleService.getArticleBySecret(secret);
         if (article == null) {
             if (language == null || language.isEmpty() || language.equals("EN")) {

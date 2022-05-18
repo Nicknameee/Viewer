@@ -7,6 +7,7 @@ import application.data.promo.models.PromoType;
 import application.data.promo.service.PromoService;
 import application.data.users.User;
 import application.data.users.attributes.Role;
+import application.data.users.models.Language;
 import application.data.users.service.UserService;
 import application.data.verification.VerificationData;
 import application.data.verification.service.VerificationDataService;
@@ -158,8 +159,32 @@ public class UserController {
                 model.addAttribute("promoList" , promoService.findAll());
                 model.addAttribute("promoTypes" , PromoType.values());
                 model.addAttribute("roles" , Role.values());
-                return "/manager/personal/admin";
+                model.addAttribute("languages" , Language.values());
+                switch (user.getLanguage().name()) {
+                    case "UA":
+                        return "/manager/personal/adminUA";
+                    case "EN":
+                        return "/manager/personal/adminEN";
+                }
         }
         return "/user/authentication/login";
+    }
+
+    @PutMapping("/update/language")
+    @ResponseBody
+    @PreAuthorize("hasAnyAuthority('access:user:read' , 'access:moderator:read' , 'access:admin:read')")
+    public ApplicationWebResponse updateLanguage(@RequestParam("mail")     String mail,
+                                                 @RequestParam("language") Language language) {
+        UserResponse response = new UserResponse();
+        try {
+            userService.updateUserLanguage(mail , language);
+            response.setSuccess(true);
+            response.setError(null);
+        }
+        catch (RuntimeException e) {
+            response.setSuccess(false);
+            response.setError(e.getMessage());
+        }
+        return response;
     }
 }

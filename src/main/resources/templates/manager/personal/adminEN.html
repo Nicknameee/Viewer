@@ -279,12 +279,31 @@
                         <li class="list-group-item text-center">Mail</li>
                         <li class="list-group-item text-center">Role</li>
                         <li class="list-group-item text-center">Status</li>
+                        <li class="list-group-item text-center">
+                            <div class="dropdown">
+                                <button class="btn" type="button">
+                                    Language
+                                </button>
+                            </div>
+                        </li>
                     </ul>
                     <ul class="list-group w-100 mx-1">
                         <li class="list-group-item text-center" th:text="${user.getUsername()}">TEXT</li>
                         <li class="list-group-item text-center" th:text="${user.getMail()}" id="email">TEXT</li>
                         <li class="list-group-item text-center" th:text="${user.getRole()}">TEXT</li>
                         <li class="list-group-item text-center" th:text="${user.getStatus()}">TEXT</li>
+                        <li class="list-group-item text-center">
+                            <div class="dropdown">
+                                <button class="btn btn-outline-dark dropdown-toggle w-75" type="button" id="languageSelect"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${user.getLanguage().name()}">
+                                    EN
+                                </button>
+                                <div class="dropdown-menu w-75" aria-labelledby="languageSelect">
+                                    <a th:each="language : ${languages}" th:if="${language.name() != user.getLanguage().name()}" th:text="${language.name()}"
+                                       class="dropdown-item text-center" onclick="changeLanguage(this)">UA</a>
+                                </div>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>

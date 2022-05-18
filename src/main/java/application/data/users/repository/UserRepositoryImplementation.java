@@ -3,6 +3,7 @@ package application.data.users.repository;
 import application.data.users.User;
 import application.data.users.attributes.Role;
 import application.data.users.attributes.Status;
+import application.data.users.models.Language;
 import application.data.users.security.UserCredentialsCryptTool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,6 +68,10 @@ public class UserRepositoryImplementation {
 
     public void updateUserStatus(String mail, Status status) {
         userRepository.updateUserStatus(status.name() , mail);
+    }
+
+    public void updateUserLanguage(String mail , Language language) {
+        userRepository.updateUserLanguage(language.name() , mail);
     }
 
     public void deleteUser(User user) {
