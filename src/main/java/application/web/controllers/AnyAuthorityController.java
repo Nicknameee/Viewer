@@ -40,9 +40,11 @@ public class AnyAuthorityController {
 
     @GetMapping("/home")
     public String home(Model model , @RequestParam(value = "lang" , required = false) String language) {
-        User user = userService.checkAuthentication();
-        if (user != null) {
-            language = user.getLanguage().name();
+        if (language == null || language.isEmpty()) {
+            User user = userService.checkAuthentication();
+            if (user != null) {
+                language = user.getLanguage().name();
+            }
         }
         model.addAttribute("payments" , paymentService.getAll());
         model.addAttribute("articles" , articleService.getAll());
@@ -59,9 +61,11 @@ public class AnyAuthorityController {
     public String article(@PathVariable("secret")                          String secret,
                           @RequestParam(value = "lang" , required = false) String language,
                           Model model) {
-        User user = userService.checkAuthentication();
-        if (user != null) {
-            language = user.getLanguage().name();
+        if (language == null || language.isEmpty()) {
+            User user = userService.checkAuthentication();
+            if (user != null) {
+                language = user.getLanguage().name();
+            }
         }
         Article article = articleService.getArticleBySecret(secret);
         if (article == null) {
