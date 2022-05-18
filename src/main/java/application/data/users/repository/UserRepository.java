@@ -47,6 +47,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Modifying
     @Transactional
+    @Query("UPDATE User u SET u.language=:language WHERE u.mail=:mail")
+    void updateUserLanguage(@Param("language") String language , @Param("mail") String mail);
+
+    @Modifying
+    @Transactional
     @Query("DELETE FROM User u WHERE u.mail=:mail")
     void deleteUser(@Param("mail") String mail);
 }

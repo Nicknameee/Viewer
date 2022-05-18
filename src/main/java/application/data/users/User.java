@@ -2,6 +2,7 @@ package application.data.users;
 
 import application.data.users.attributes.Role;
 import application.data.users.attributes.Status;
+import application.data.users.models.Language;
 import lombok.Data;
 import lombok.ToString;
 
@@ -42,4 +43,8 @@ public class User {
     @Column(name = "status" , nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status = Status.ENABLE;
+
+    @Column(name = "language" , nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Language language = Language.EN;
 }

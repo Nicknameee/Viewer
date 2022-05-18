@@ -15,13 +15,13 @@ function changeLanguage(element) {
                     location.pathname = '/api/user/personal'
                 }
                 else {
-                    alert("Error occurs while language changing")
+                    alert("Виникла помилка під час зміни мови")
                     console.log(response.error)
                 }
             },
         error:
             function (response) {
-                alert("Error occurs while language changing")
+                alert("Виникла помилка під час зміни мови")
                 console.log(response.error)
             }
     })

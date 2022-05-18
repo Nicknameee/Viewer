@@ -3,11 +3,10 @@ package application.data.users.service;
 import application.data.users.User;
 import application.data.users.attributes.Role;
 import application.data.users.attributes.Status;
+import application.data.users.models.Language;
 import application.data.users.repository.UserRepositoryImplementation;
 import application.data.users.session.UserSessionService;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -101,6 +100,10 @@ public class UserService {
         }
     }
 
+    public void updateUserLanguage(String mail , Language language) {
+        userRepository.updateUserLanguage(mail , language);
+    }
+
     public void deleteUser(User user) {
         userRepository.deleteUser(user);
     }
@@ -111,5 +114,13 @@ public class UserService {
                 .filter(user -> user.getUsername().equals(mail))
                 .findAny().orElse(null);
         return userDetails != null;
+    }
+
+    public User checkAuthentication() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            return getUserByMail(authentication.getName());
+        }
+        return null;
     }
 }
