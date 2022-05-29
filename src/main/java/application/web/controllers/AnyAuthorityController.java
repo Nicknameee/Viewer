@@ -48,6 +48,7 @@ public class AnyAuthorityController {
         }
         model.addAttribute("payments" , paymentService.getAll());
         model.addAttribute("articles" , articleService.getAll());
+        model.addAttribute("tags" , articleService.getDistinctTags());
         model.addAttribute("authenticated" , !SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser"));
         if (language == null || language.isEmpty() || language.equals("EN")) {
             model.addAttribute("lang" , "EN");

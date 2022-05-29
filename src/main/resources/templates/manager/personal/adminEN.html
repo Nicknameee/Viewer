@@ -75,6 +75,13 @@
                     <div class="mb-5 col-auto my-3 input-group valid">
                         <input name="media" class="form-control" type="file" multiple onchange="addFile(this , 'add' , 'change')">
                     </div>
+                    <div class="input-group mb-4 w-75 valid">
+                        <input type="text" class="form-control text-dark"
+                               aria-describedby="basic-addon2" placeholder="Tag" onchange="processTag(this , 'change')">
+                        <span class="input-group-text" onclick="addTag(this)">➕</span>
+                    </div>
+                    <div class="input-group my-1 w-100 TAG_BOX">
+                    </div>
                     <div class="col-auto d-flex justify-content-center">
                         <button type="button" class="btn btn-primary mb-5 w-50" onclick="submitAdd(this)">Add article!</button>
                     </div>
@@ -133,6 +140,17 @@
                                                    th:value="${resource.getFilename()}" th:placeholder="${resource.getFileId()}" th:content="${resource.getFiletype().name()}"
                                                    aria-describedby="basic-addon2" readonly onclick="previewFile(this)">
                                             <span class="input-group-text" onclick="dropFile(this)">✖</span>
+                                        </div>
+                                        <div class="input-group my-1 mb-4 w-75 valid">
+                                            <input type="text" class="form-control text-dark"
+                                                   aria-describedby="basic-addon2" placeholder="Tag" onchange="processTag(this , 'change')">
+                                            <span class="input-group-text" onclick="addTag(this)">➕</span>
+                                        </div>
+                                        <div class="input-group my-1 w-100 TAG_BOX">
+                                            <div class="input-group w-auto mx-1 my-1 TAG_WRAP" th:each="tag : ${article.getTags()}">
+                                                <input name="tags" type="text" class="form-control text-dark TAG_VALUE" th:value="${tag.getTag()}" aria-describedby="basic-addon2" readonly>
+                                                <span class="input-group-text" onclick="dropTag(this)">✖</span>
+                                            </div>
                                         </div>
                                         <div class="col-auto d-flex justify-content-center my-3">
                                             <button type="button" class="btn btn-primary w-50" onclick="submitEdit(this)">Confirm!</button>
@@ -446,5 +464,6 @@
 <script src="/manager/scripts/v2/settingsManagementTools.js"></script>
 <script src="/manager/scripts/v2/filter.js"></script>
 <script src="/manager/scripts/v2/basicAdmin.js"></script>
+<script src="/manager/scripts/v2/tagManagementTools.js"></script>
 </body>
 </html>

@@ -12,6 +12,7 @@ function changeLanguage(element) {
 window.onload = function () {
     scrollToTop()
     connectHome()
+    setTags()
 }
 function scrollToTop() {
     window.scroll(0 , 0)
