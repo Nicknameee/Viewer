@@ -183,10 +183,11 @@ public class ManagerController {
     @PreAuthorize("hasAnyAuthority('access:admin:create' , 'access:moderator:create')")
     public ApplicationWebResponse createArticle(@RequestParam("title")                              String title,
                                                 @RequestParam("content")                            String content,
-                                                @RequestParam(value = "media" , required = false)   MultipartFile[] files) throws Exception {
+                                                @RequestParam(value = "media" , required = false)   MultipartFile[] files,
+                                                @RequestParam(value = "tags" , required = false)    String[] tags) throws Exception {
         ArticleResponse response = new ArticleResponse();
         try {
-            Article article = articleService.presetArticle(title , content , files , driveAPIService , loadableResourceService);
+            Article article = articleService.presetArticle(title , content , files , tags , driveAPIService , loadableResourceService);
             articleService.saveArticle(article);
             response.setSuccess(true);
             response.setError(null);
@@ -204,11 +205,12 @@ public class ManagerController {
     public ApplicationWebResponse updateArticle(@RequestParam("title")                              String title,
                                                 @RequestParam("content")                            String content,
                                                 @RequestParam(value = "media" , required = false)   MultipartFile[] files,
+                                                @RequestParam(value = "tags" , required = false)    String[] tags,
                                                 @RequestParam("id")                                 Long id) {
         ArticleResponse response = new ArticleResponse();
         Article article = articleService.getArticleById(id);
         try {
-            articleService.updateArticle(article , title , content , files , loadableResourceService , driveAPIService);
+            articleService.updateArticle(article , title , content , files , tags , loadableResourceService , driveAPIService);
             response.setSuccess(true);
             response.setError(null);
         }

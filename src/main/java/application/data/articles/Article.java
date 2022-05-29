@@ -1,5 +1,6 @@
 package application.data.articles;
 
+import application.data.articles.attributes.Tag;
 import application.data.loadableResources.LoadableResource;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -36,6 +37,11 @@ public class Article {
     @JsonProperty("resources")
     @OneToMany(fetch = FetchType.EAGER , mappedBy = "article" , orphanRemoval = true , cascade = CascadeType.ALL)
     private List<LoadableResource> resources;
+
+    @JsonIgnoreProperties("article")
+    @JsonProperty("tags")
+    @OneToMany(fetch = FetchType.LAZY , mappedBy = "article" , cascade = CascadeType.ALL)
+    private List<Tag> tags;
 
     @Column(name = "folder_name")
     private String folderName;
