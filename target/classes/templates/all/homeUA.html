@@ -24,6 +24,9 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="/all/styles/styles.css" rel="stylesheet" />
+    <!--Select2 library-->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 </head>
 <body id="page-top">
 <!-- Navigation-->
@@ -68,6 +71,10 @@
         <div th:if="${articles.size() > 0}" class="input-group rounded w-50 mx-auto my-3">
             <input type="text" class="form-control search" id="filterArticle" placeholder="Пошук"/>
         </div>
+        <div class="input-group rounded w-50 mx-auto my-3">
+            <input class="prompt" type="text" id="filterTag" placeholder="Теги">
+            <button class="btn btn-light mx-auto mt-3 w-50" onclick="runTags()">Фільтрувати</button>
+        </div>
         <div class="text-center">
             <h2 class="section-heading text-uppercase text-light">Новини</h2>
         </div>
@@ -84,6 +91,7 @@
                     </a>
                     <div class="portfolio-caption ARTICLE_NAME_BOX">
                         <div th:text="${article.getName()}" class="portfolio-caption-heading text-truncate ARTICLE_NAME"></div>
+                        <p class="ARTICLE_TAG d-none" th:each="tag : ${article.getTags()}" th:text="${tag.getTag()}"></p>
                     </div>
                 </div>
             </div>
@@ -231,6 +239,9 @@
         </div>
     </div>
 </footer>
+<div id="tag-values"  class="d-none">
+    <p th:each="tag : ${tags}" th:text="${tag}" class="value"></p>
+</div>
 <div id="changes-alert" class="alert alert-warning position-fixed alert-position d-none" role="alert">
     <h4 class="alert-heading">Увага!</h4>
     <p>Для даної сторінки надійшли зміни, будь ласка <a onclick="location.reload()" class="alert-link pointer-event">оновіть сторінку</a></p>
@@ -240,6 +251,7 @@
 <!-- Core theme JS-->
 <script src="/all/scripts/basic.js"></script>
 <script src="/all/scripts/filter.js"></script>
+<script src="/all/scripts/tagFilterToolsUA.js"></script>
 <script src="/websocket/websocketHome.js"></script>
 <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
