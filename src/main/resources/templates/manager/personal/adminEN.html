@@ -85,6 +85,7 @@
                                 <input type="text" class="form-control text-dark"
                                        aria-describedby="basic-addon2" th:value="${tag}" readonly onchange="processTag(this , 'change')">
                                 <span class="input-group-text" onclick="addTagFromExisting(this)">➕</span>
+                                <span class="input-group-text" style="font-size: 1.7em" onclick="deleteTag(this)">&#11199;</span>
                             </div>
                             <div class="input-group w-100 valid" th:if="${tags.size() == 0}">
                                 <input type="text" class="form-control text-dark" value="No tags" readonly>
@@ -167,6 +168,7 @@
                                                     <input type="text" class="form-control text-dark"
                                                            aria-describedby="basic-addon2" th:value="${tag}" readonly onchange="processTag(this , 'change')">
                                                     <span class="input-group-text" onclick="addTagFromExisting(this)">➕</span>
+                                                    <span class="input-group-text" style="font-size: 1.7em" onclick="deleteTag(this)">&#11199;</span>
                                                 </div>
                                                 <div class="input-group w-100 valid" th:if="${tags.size() == 0}">
                                                     <input type="text" class="form-control text-dark" value="No tags" readonly>

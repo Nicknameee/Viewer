@@ -237,6 +237,22 @@ public class ManagerController {
         return response;
     }
 
+    @DeleteMapping("/tag/delete")
+    @ResponseBody
+    @PreAuthorize("hasAnyAuthority('access:admin:delete' , 'access:moderator:delete')")
+    public ApplicationWebResponse deleteTag(@RequestParam("content") String name) {
+        ArticleResponse response = new ArticleResponse();
+        try {
+            articleService.removeTagByName(name);
+            response.setSuccess(true);
+            response.setError(null);
+        } catch (Exception e) {
+            response.setSuccess(false);
+            response.setError(e.getMessage());
+        }
+        return response;
+    }
+
     @DeleteMapping("/article/resource")
     @ResponseBody
     @PreAuthorize("hasAnyAuthority('access:admin:delete' , 'access:moderator:delete')")
