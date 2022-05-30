@@ -18,4 +18,9 @@ public interface TagRepository extends JpaRepository<Tag , Long> {
     @Transactional
     @Query("DELETE FROM Tag t WHERE t.article=:article")
     void deleteTags(@Param("article") Article article);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Tag t WHERE t.tag=:name")
+    void deleteTagByName(@Param("name") String name);
 }

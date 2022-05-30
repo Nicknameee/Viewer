@@ -21,4 +21,8 @@ public class TagRepositoryImplementation {
     public void deleteTags(Article article) {
         tagRepository.deleteTags(article);
     }
+
+    public void deleteTagByName(String name) {
+        tagRepository.deleteTagByName(name);
+    }
 }

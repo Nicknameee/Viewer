@@ -57,3 +57,41 @@ function addTagFromExisting(element) {
 function dropTag(element) {
     $(element).parent().remove()
 }
+function deleteTag(element) {
+    let stub = "<div class=\"input-group w-100 valid\">\n" +
+        "            <input type=\"text\" class=\"form-control text-dark\" value=\"No tags\" readonly>\n" +
+        "       </div>"
+    let stubElement = $.parseHTML(stub)
+    let tagList = $(element).parent().parent()
+    let tag = $(element).prev().prev().val()
+    $.ajax({
+        url: '/api/manager/tag/delete',
+        type: 'DELETE',
+        data: {
+            content: tag
+        },
+        success:
+            function (response) {
+                if (response.success) {
+                    $(element).parent().remove()
+                    if ($(tagList).children().length === 0) {
+                        $(tagList).append(stubElement)
+                    }
+                    $(document.getElementsByClassName('TAG_WRAP')).each(
+                        function () {
+                            if ($(this).children('.TAG_VALUE').val() === tag) {
+                                $(this).remove()
+                            }
+                        }
+                    )
+                }
+                else {
+                    console.log(response.error)
+                }
+            },
+        error:
+            function (response) {
+                console.log(response.error)
+            }
+    })
+}

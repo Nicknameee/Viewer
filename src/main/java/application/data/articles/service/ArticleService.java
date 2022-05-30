@@ -124,4 +124,8 @@ public class ArticleService {
         }
         return tagList;
     }
+
+    public void removeTagByName(String name) {
+        tagRepository.deleteTagByName(name);
+    }
 }
