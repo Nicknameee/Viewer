@@ -160,6 +160,7 @@ public class UserController {
                 model.addAttribute("promoTypes" , PromoType.values());
                 model.addAttribute("roles" , Role.values());
                 model.addAttribute("languages" , Language.values());
+                model.addAttribute("tags" , articleService.getDistinctTags());
                 switch (user.getLanguage().name()) {
                     case "UA":
                         return "/manager/personal/adminUA";

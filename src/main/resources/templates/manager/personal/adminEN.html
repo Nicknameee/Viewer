@@ -75,6 +75,19 @@
                     <div class="mb-5 col-auto my-3 input-group valid">
                         <input name="media" class="form-control" type="file" multiple onchange="addFile(this , 'add' , 'change')">
                     </div>
+                    <div class="dropdown col-auto my-3 input-group valid">
+                        <button class="btn btn-dark dropdown-toggle w-50" type="button" id="dropdownMenuTags"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Tags
+                        </button>
+                        <div class="dropdown-menu w-50 bg-light" aria-labelledby="dropdownMenuTags">
+                            <div class="input-group w-100 valid" th:each="tag : ${tags}">
+                                <input type="text" class="form-control text-dark"
+                                       aria-describedby="basic-addon2" th:value="${tag}" readonly onchange="processTag(this , 'change')">
+                                <span class="input-group-text" onclick="addTagFromExisting(this)">➕</span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="input-group mb-4 w-75 valid">
                         <input type="text" class="form-control text-dark"
                                aria-describedby="basic-addon2" placeholder="Tag" onchange="processTag(this , 'change')">
@@ -140,6 +153,19 @@
                                                    th:value="${resource.getFilename()}" th:placeholder="${resource.getFileId()}" th:content="${resource.getFiletype().name()}"
                                                    aria-describedby="basic-addon2" readonly onclick="previewFile(this)">
                                             <span class="input-group-text" onclick="dropFile(this)">✖</span>
+                                        </div>
+                                        <div class="dropdown col-auto my-3 input-group valid">
+                                            <button class="btn btn-light dropdown-toggle w-50" type="button" id="dropdownMenuTagsEdit"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Tags
+                                            </button>
+                                            <div class="dropdown-menu w-50 bg-light" aria-labelledby="dropdownMenuTagsEdit">
+                                                <div class="input-group w-100 valid" th:each="tag : ${tags}">
+                                                    <input type="text" class="form-control text-dark"
+                                                           aria-describedby="basic-addon2" th:value="${tag}" readonly onchange="processTag(this , 'change')">
+                                                    <span class="input-group-text" onclick="addTagFromExisting(this)">➕</span>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="input-group my-1 mb-4 w-75 valid">
                                             <input type="text" class="form-control text-dark"
