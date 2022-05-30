@@ -81,10 +81,13 @@
                             Tags
                         </button>
                         <div class="dropdown-menu w-50 bg-light" aria-labelledby="dropdownMenuTags">
-                            <div class="input-group w-100 valid" th:each="tag : ${tags}">
+                            <div class="input-group w-100 valid" th:if="${tags.size() > 0}" th:each="tag : ${tags}">
                                 <input type="text" class="form-control text-dark"
                                        aria-describedby="basic-addon2" th:value="${tag}" readonly onchange="processTag(this , 'change')">
                                 <span class="input-group-text" onclick="addTagFromExisting(this)">➕</span>
+                            </div>
+                            <div class="input-group w-100 valid" th:if="${tags.size() == 0}">
+                                <input type="text" class="form-control text-dark" value="No tags" readonly>
                             </div>
                         </div>
                     </div>
@@ -160,10 +163,13 @@
                                                 Tags
                                             </button>
                                             <div class="dropdown-menu w-50 bg-light" aria-labelledby="dropdownMenuTagsEdit">
-                                                <div class="input-group w-100 valid" th:each="tag : ${tags}">
+                                                <div class="input-group w-100 valid" th:if="${tags.size() > 0}" th:each="tag : ${tags}">
                                                     <input type="text" class="form-control text-dark"
                                                            aria-describedby="basic-addon2" th:value="${tag}" readonly onchange="processTag(this , 'change')">
                                                     <span class="input-group-text" onclick="addTagFromExisting(this)">➕</span>
+                                                </div>
+                                                <div class="input-group w-100 valid" th:if="${tags.size() == 0}">
+                                                    <input type="text" class="form-control text-dark" value="No tags" readonly>
                                                 </div>
                                             </div>
                                         </div>
