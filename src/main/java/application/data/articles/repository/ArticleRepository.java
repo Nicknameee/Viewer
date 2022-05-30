@@ -7,7 +7,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 public interface ArticleRepository extends JpaRepository<Article, Long> {
+    @Query("SELECT a FROM Article a ORDER BY a.id DESC")
+    List<Article> getAllArticles();
     @Query("SELECT a FROM Article  a WHERE a.id=:id")
     Article getArticleById(@Param("id") Long id);
 

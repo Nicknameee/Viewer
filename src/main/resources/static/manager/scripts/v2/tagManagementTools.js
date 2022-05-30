@@ -40,6 +40,20 @@ function addTag(element) {
         $(element).prev().val('')
     }
 }
+function addTagFromExisting(element) {
+    let tagStructure =
+        "<div class=\"input-group w-auto mx-1 my-1 TAG_WRAP\">" +
+        "<input name=\"tag\" type=\"text\" class=\"form-control text-dark TAG_VALUE\" value=\"{{VALUE}}\" aria-describedby=\"basic-addon2\" readonly>" +
+        "<span class=\"input-group-text\" onclick=\"dropTag(this)\">✖</span></div>"
+    if (processTag($(element).prev() , 'add')) {
+        let tagValue = $(element).prev().val()
+        let tagList = $(element).parent().parent().parent().next().next()
+        let tagElement = $.parseHTML(
+            tagStructure.replaceAll('{{VALUE}}' , tagValue)
+        )
+        $(tagList).append(tagElement)
+    }
+}
 function dropTag(element) {
     $(element).parent().remove()
 }

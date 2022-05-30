@@ -16,7 +16,7 @@ public class ArticleRepositoryImplementation {
     }
 
     public List<Article> getAll() {
-        return articleRepository.findAll();
+        return articleRepository.getAllArticles();
     }
 
     public Article getArticleById(Long id) {
