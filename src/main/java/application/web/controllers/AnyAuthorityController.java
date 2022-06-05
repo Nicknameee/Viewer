@@ -36,7 +36,8 @@ public class AnyAuthorityController {
     }
 
     @GetMapping("/home")
-    public String home(Model model , @RequestParam(value = "lang" , required = false) String language) {
+    public String home(Model model,
+                       @RequestParam(value = "lang" , required = false) String language) {
         if (language == null || language.isEmpty()) {
             User user = userService.checkAuthentication();
             if (user != null) {
@@ -47,7 +48,8 @@ public class AnyAuthorityController {
         model.addAttribute("articles" , articleService.getAll());
         model.addAttribute("tags" , articleService.getDistinctTags());
         model.addAttribute("authenticated" , !SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser"));
-        if (language == null || language.isEmpty() || language.equals("EN")) {
+        boolean isEnglish = language == null || language.isEmpty() || language.equals("EN");
+        if (isEnglish) {
             model.addAttribute("lang" , "EN");
             return "/all/home";
         }
@@ -66,15 +68,16 @@ public class AnyAuthorityController {
             }
         }
         Article article = articleService.getArticleBySecret(secret);
+        boolean isEnglish = language == null || language.isEmpty() || language.equals("EN");
         if (article == null) {
-            if (language == null || language.isEmpty() || language.equals("EN")) {
+            if (isEnglish) {
                 return "redirect:/api/all/home?lang=EN";
             }
             return "redirect:/api/all/home";
         }
         model.addAttribute("article" , article);
         model.addAttribute("authenticated" , !SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser"));
-        if (language == null || language.isEmpty() || language.equals("EN")) {
+        if (isEnglish) {
             model.addAttribute("lang" , "EN");
             return "/all/article";
         }

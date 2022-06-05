@@ -7,8 +7,6 @@ import application.data.users.models.UserActionType;
 import application.data.utils.threads.TaskDistributorTool;
 import application.web.responses.ApplicationWebResponse;
 import application.web.responses.mail.MailMessageSendingResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +18,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/mail")
 public class MailController {
-    Logger logger = LoggerFactory.getLogger(MailController.class);
-
     private MailService mailService;
 
     @Autowired
@@ -31,11 +27,11 @@ public class MailController {
 
     @PostMapping("/verification")
     public ApplicationWebResponse verify
-            (@RequestParam("recipient")                                        String recipient                    ,
-             @RequestParam(value = "subject" , required = false)               String subject                      ,
-             @RequestParam(value = "text" , required = false)                  String text                         ,
-             @RequestParam(value = "resources" , required = false)             List<Resource> resources            ,
-             @RequestParam("mailType")                                         MailType mailType                   ,
+            (@RequestParam("recipient")                                        String recipient,
+             @RequestParam(value = "subject" , required = false)               String subject,
+             @RequestParam(value = "text" , required = false)                  String text,
+             @RequestParam(value = "resources" , required = false)             List<Resource> resources,
+             @RequestParam("mailType")                                         MailType mailType,
              @RequestParam("userActionType")                                   UserActionType userActionType) {
         MailMessageSendingResponse response = new MailMessageSendingResponse();
         MailMessageDataCollector collector = new MailMessageDataCollector(recipient , subject , text , resources);

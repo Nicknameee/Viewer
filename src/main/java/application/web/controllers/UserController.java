@@ -13,8 +13,6 @@ import application.data.verification.VerificationData;
 import application.data.verification.service.VerificationDataService;
 import application.web.responses.ApplicationWebResponse;
 import application.web.responses.user.UserResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,8 +23,6 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/api/user")
 public class UserController {
-    private final Logger logger = LoggerFactory.getLogger(UserController.class);
-
     private UserService userService;
 
     private VerificationDataService verificationService;
