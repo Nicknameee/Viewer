@@ -9,6 +9,16 @@ function changeLanguage(element) {
     }
     location.href = url.href
 }
+$(window).resize(function () {
+    if ($(window).width() > 991) {
+        $('#navbarResponsive').removeClass().addClass('collapse show navbar-collapse')
+        $('#menu-toggle-button').attr('aria-expanded' , false)
+    }
+    else {
+        $('#navbarResponsive').removeClass().addClass('collapsing navbar-collapse')
+        $('#menu-toggle-button').attr('aria-expanded' , true)
+    }
+})
 window.onload = function () {
     scrollToTop()
     connectHome()
