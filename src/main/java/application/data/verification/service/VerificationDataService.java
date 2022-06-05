@@ -2,8 +2,6 @@ package application.data.verification.service;
 
 import application.data.verification.VerificationData;
 import application.data.verification.repository.VerificationDataRepositoryImplementation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +9,6 @@ import java.util.List;
 
 @Service
 public class VerificationDataService {
-    private final Logger logger = LoggerFactory.getLogger(VerificationDataService.class);
-
     private final VerificationDataRepositoryImplementation verificationDataRepository;
 
     @Autowired

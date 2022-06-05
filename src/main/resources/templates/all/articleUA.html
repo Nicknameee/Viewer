@@ -65,51 +65,45 @@
             <li>
                 <div class="timeline-panel">
                     <div class="timeline-heading">
-                        <h4 th:text="${article.getName()}" class="subheading text-light">Назва</h4>
+                        <h4 th:text="${article.getName()}" class="subheading text-light text-center"></h4>
                     </div>
                     <div class="timeline-body">
-                        <p th:if="${article.getText().length() > 1000}" th:text="${article.getText().substring(0 , 1000)}" class="text-light">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit!</p>
-                        <p th:if="${article.getText().length() <= 1000}" th:text="${article.getText()}" class="text-light">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit!</p>
+                        <pre th:if="${article.getText().length() > 1000}" th:text="${article.getText().substring(0 , 1000)}" class="text-light text-center text-justify"></pre>
+                        <pre th:if="${article.getText().length() <= 1000}" th:text="${article.getText()}" class="text-light text-center text-justify"></pre>
                     </div>
                 </div>
             </li>
             <li th:if="${article.getText().length() > 1000}" class="timeline-inverted">
                 <div class="timeline-panel">
                     <div class="timeline-body">
-                        <p th:if="${article.getText().length() > 2000}" th:text="${article.getText().substring(1000 , 2000)}" class="text-light">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit!</p>
-                        <p th:if="${article.getText().length() <= 2000}" th:text="${article.getText().substring(1000 , article.getText().length())}" class="text-light">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit!</p>
+                        <pre th:if="${article.getText().length() > 2000}" th:text="${article.getText().substring(1000 , 2000)}" class="text-light text-center text-justify"></pre>
+                        <pre th:if="${article.getText().length() <= 2000}"
+                           th:text="${article.getText().substring(1000 , article.getText().length())}" class="text-light text-center text-justify"></pre>
                     </div>
                 </div>
             </li>
             <li th:if="${article.getText().length() > 2000}">
                 <div class="timeline-panel">
                     <div class="timeline-body">
-                        <p th:if="${article.getText().length() > 3000}" th:text="${article.getText().substring(2000 , 3000)}" class="text-light">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit!</p>
-                        <p th:if="${article.getText().length() <= 3000}" th:text="${article.getText().substring(2000 , article.getText().length())}" class="text-light">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit!</p>
+                        <pre th:if="${article.getText().length() > 3000}" th:text="${article.getText().substring(2000 , 3000)}" class="text-light text-center text-justify"></pre>
+                        <pre th:if="${article.getText().length() <= 3000}"
+                           th:text="${article.getText().substring(2000 , article.getText().length())}" class="text-light text-center text-justify"></pre>
                     </div>
                 </div>
             </li>
             <li th:if="${article.getText().length() > 3000}" class="timeline-inverted">
                 <div class="timeline-panel">
                     <div class="timeline-body">
-                        <p th:if="${article.getText().length() > 4000}" th:text="${article.getText().substring(3000 , 4000)}" class="text-light">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit!</p>
-                        <p th:if="${article.getText().length() <= 4000}" th:text="${article.getText().substring(3000 , article.getText().length())}" class="text-light">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit!</p>
+                        <pre th:if="${article.getText().length() > 4000}" th:text="${article.getText().substring(3000 , 4000)}" class="text-light text-center text-justify"></pre>
+                        <pre th:if="${article.getText().length() <= 4000}"
+                           th:text="${article.getText().substring(3000 , article.getText().length())}" class="text-light text-center text-justify"></pre>
                     </div>
                 </div>
             </li>
             <li th:if="${article.getText().length() > 4000}">
                 <div class="timeline-panel">
                     <div class="timeline-body">
-                        <p th:text="${article.getText().substring(4000 , article.getText().length())}" class="text-light">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit!</p>
+                        <pre th:text="${article.getText().substring(4000 , article.getText().length())}" class="text-light text-center text-justify"></pre>
                     </div>
                 </div>
             </li>
