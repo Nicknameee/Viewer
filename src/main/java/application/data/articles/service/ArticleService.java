@@ -61,9 +61,6 @@ public class ArticleService {
 
     public Article updateArticle(Article article , String title , String content , MultipartFile[] files , String[] tags ,
                                  LoadableResourceService loadableResourceService , GDriveAPIService driveAPIService) {
-        article.getResources().addAll(loadableResourceService.processResourcesForArticle(files , article , driveAPIService));
-        article.setName(title);
-        article.setText(content);
         if (article.getTags() != null && article.getTags().size() > 0) {
             article.getTags().clear();
             tagRepository.deleteTags(article);
@@ -71,6 +68,9 @@ public class ArticleService {
         if (tags != null && tags.length > 0) {
             article.setTags(processTagsForArticle(tags , article));
         }
+        article.getResources().addAll(loadableResourceService.processResourcesForArticle(files , article , driveAPIService));
+        article.setName(title);
+        article.setText(content);
         return saveArticle(article);
     }
 

@@ -11949,8 +11949,15 @@ pre {
   white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
   white-space: -o-pre-wrap;    /* Opera 7 */
   word-wrap: break-word;       /* Internet Explorer 5.5+ */
-  line-height: 1.75;
+  line-height: 2;
   margin-top: 0;
   margin-bottom: 1rem;
   font-size: 1.1em;
+}
+.text_box {
+  width: 90%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: start;
 }
