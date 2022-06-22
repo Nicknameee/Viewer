@@ -70,13 +70,15 @@ window.addEventListener('DOMContentLoaded', event => {
     }
 });
 function menuToggle() {
-    let aria = $('#menu-toggle-button').attr('aria-expanded')
-    if (aria === 'true') {
-        $('#navbarResponsive').removeClass().addClass('collapsing navbar-collapse')
-        $('#menu-toggle-button').attr('aria-expanded' , false)
-    }
-    else {
-        $('#navbarResponsive').removeClass().addClass('collapse show navbar-collapse')
-        $('#menu-toggle-button').attr('aria-expanded' , true)
+    if ($(window).width() <= 991) {
+        let aria = $('#menu-toggle-button').attr('aria-expanded')
+        if (aria === 'true') {
+            $('#navbarResponsive').removeClass().addClass('collapsing navbar-collapse')
+            $('#menu-toggle-button').attr('aria-expanded' , false)
+        }
+        else {
+            $('#navbarResponsive').removeClass().addClass('collapse show navbar-collapse')
+            $('#menu-toggle-button').attr('aria-expanded' , true)
+        }
     }
 }
